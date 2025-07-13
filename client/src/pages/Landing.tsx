@@ -97,7 +97,7 @@ export default function Landing() {
                 <Button 
                   size="lg" 
                   variant="outline"
-                  className="border-white text-white hover:bg-white hover:text-blue-600"
+                  className="border-white hover:bg-white hover:text-blue-600 bg-[#000000] text-[#ffffff]"
                 >
                   <BookOpen className="h-5 w-5 mr-2" />
                   {t('hero.explore')}
