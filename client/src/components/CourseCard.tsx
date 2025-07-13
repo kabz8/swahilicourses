@@ -1,4 +1,5 @@
 import { Star, Clock, BookOpen, ArrowRight } from 'lucide-react';
+import courseImage from '@assets/27054_1752419386434.jpg';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -37,13 +38,13 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
     advanced: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
   };
 
-  const defaultImage = 'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=250';
+  const defaultImage = courseImage;
 
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
       <div className="relative">
         <img 
-          src={course.imageUrl || defaultImage}
+          src={defaultImage}
           alt={course.title}
           className="w-full h-48 object-cover"
         />
