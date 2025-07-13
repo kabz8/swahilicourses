@@ -30,8 +30,8 @@ export default function AdminDashboard() {
   const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('overview');
 
-  // Check if user is super admin
-  if (user?.role !== 'super_admin') {
+  // Check if user is admin or super admin
+  if (user?.role !== 'admin' && user?.role !== 'super_admin') {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">

@@ -257,6 +257,41 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/admin/recent-activity", requireAdmin, async (req, res) => {
+    try {
+      // Return empty array for now - can be enhanced later
+      res.json([]);
+    } catch (error) {
+      console.error("Error fetching recent activity:", error);
+      res.status(500).json({ error: "Failed to fetch recent activity" });
+    }
+  });
+
+  app.get("/api/admin/progress", requireAdmin, async (req, res) => {
+    try {
+      // Return empty array for now - can be enhanced later
+      res.json([]);
+    } catch (error) {
+      console.error("Error fetching progress:", error);
+      res.status(500).json({ error: "Failed to fetch progress" });
+    }
+  });
+
+  app.get("/api/admin/progress-stats", requireAdmin, async (req, res) => {
+    try {
+      // Return basic stats for now
+      res.json({
+        totalEnrollments: 0,
+        completedLessons: 0,
+        averageProgress: 0,
+        activeUsers: 0,
+      });
+    } catch (error) {
+      console.error("Error fetching progress stats:", error);
+      res.status(500).json({ error: "Failed to fetch progress stats" });
+    }
+  });
+
   app.get("/api/admin/users", requireAdmin, async (req, res) => {
     try {
       const users = await storage.getAllUsers();
