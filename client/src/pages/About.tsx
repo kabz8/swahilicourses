@@ -148,62 +148,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Values Section */}
-      <section className="py-16 bg-white dark:bg-gray-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Our Values
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🎯</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Excellence
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                We strive for the highest quality in our courses and teaching methods.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🌍</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Cultural Authenticity
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                We celebrate and preserve the rich cultural heritage of East Africa.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-purple-100 dark:bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🤝</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Community
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                We build bridges between learners and native speakers worldwide.
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-orange-100 dark:bg-orange-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">📚</span>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                Accessibility
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400">
-                We make quality Kiswahili education accessible to everyone.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+
     </div>
   );
 }
