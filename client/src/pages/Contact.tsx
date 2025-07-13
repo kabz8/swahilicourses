@@ -183,9 +183,7 @@ export default function Contact() {
                     </h3>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
-                    123 Language Learning Center<br />
-                    Nairobi, Kenya<br />
-                    P.O. Box 12345-00100
+                    Online
                   </p>
                 </CardContent>
               </Card>
