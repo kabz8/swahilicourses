@@ -59,12 +59,14 @@ export function Layout({ children }: LayoutProps) {
             </nav>
 
             {/* Controls */}
-            <div className="flex items-center space-x-4">
-              <LanguageToggle />
-              <ThemeToggle />
+            <div className="flex items-center space-x-2 md:space-x-4">
+              <div className="hidden sm:flex items-center space-x-2">
+                <LanguageToggle />
+                <ThemeToggle />
+              </div>
               
               {isAuthenticated ? (
-                <div className="flex items-center space-x-4">
+                <div className="hidden md:flex items-center space-x-4">
                   <span className="text-sm text-gray-700 dark:text-gray-300">
                     {user?.firstName || user?.email}
                   </span>
@@ -119,22 +121,89 @@ export function Layout({ children }: LayoutProps) {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-            <div className="px-4 py-3 space-y-3">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  href={item.href}
-                  className={`block py-2 text-base font-medium transition-colors ${
-                    location === item.href
-                      ? 'text-blue-600 dark:text-blue-400'
-                      : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
-                  }`}
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {item.name}
-                </Link>
-              ))}
+          <div className="md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg">
+            <div className="px-4 py-6 space-y-6">
+              {/* Mobile Navigation Links */}
+              <div className="space-y-4">
+                {navigation.map((item) => (
+                  <Link
+                    key={item.name}
+                    href={item.href}
+                    className={`block py-3 px-4 rounded-lg text-base font-medium transition-all duration-200 ${
+                      location === item.href
+                        ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20'
+                        : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-700'
+                    }`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {item.name}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Mobile Controls */}
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Settings</span>
+                  <div className="flex items-center space-x-2">
+                    <LanguageToggle />
+                    <ThemeToggle />
+                  </div>
+                </div>
+
+                {/* Mobile Auth Controls */}
+                {isAuthenticated ? (
+                  <div className="space-y-3">
+                    <div className="flex items-center space-x-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                      <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                        <span className="text-white text-sm font-medium">
+                          {user?.firstName?.[0] || user?.email?.[0] || 'U'}
+                        </span>
+                      </div>
+                      <span className="text-sm text-gray-700 dark:text-gray-300">
+                        {user?.firstName || user?.email}
+                      </span>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm"
+                      className="w-full"
+                      onClick={async () => {
+                        try {
+                          await apiRequest('POST', '/api/logout');
+                          window.location.href = '/';
+                        } catch (error) {
+                          console.error('Logout failed:', error);
+                        }
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <Link href="/auth" className="block">
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="w-full"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {t('signIn')}
+                      </Button>
+                    </Link>
+                    <Link href="/auth" className="block">
+                      <Button 
+                        size="sm"
+                        className="w-full bg-blue-600 hover:bg-blue-700"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {t('signUp')}
+                      </Button>
+                    </Link>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}

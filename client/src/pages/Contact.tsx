@@ -51,13 +51,13 @@ export default function Contact() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <section className="bg-white dark:bg-gray-800 py-16">
+      <section className="bg-white dark:bg-gray-800 py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
               {t('contact.title')}
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               {t('contactDescription')}
             </p>
           </div>
@@ -65,9 +65,9 @@ export default function Contact() {
       </section>
 
       {/* Contact Form and Info */}
-      <section className="py-16">
+      <section className="py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <Card className="bg-white dark:bg-gray-800">

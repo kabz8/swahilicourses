@@ -96,41 +96,40 @@ export default function Courses() {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Header */}
-        <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+        <div className="text-center mb-8 sm:mb-12 animate-fade-in">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
             {t('courses.title')}
           </h1>
-          <p className="text-xl text-gray-600 dark:text-gray-400">
+          <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
             {t('courses.subtitle')}
           </p>
         </div>
 
         {/* Search and Filters */}
-        <div className="mb-8 space-y-4">
-          <div className="flex flex-col md:flex-row gap-4">
-            <div className="relative flex-1">
+        <div className="mb-6 sm:mb-8 space-y-4">
+          <div className="flex flex-col gap-4">
+            <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
                 placeholder={t('searchCourses')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
+                className="pl-10 h-12 text-base"
               />
             </div>
-
           </div>
 
           {/* Level Filter */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 sm:gap-3">
             {levels.map((level) => (
               <Button
                 key={level.value}
                 variant={selectedLevel === level.value ? 'default' : 'outline'}
                 size="sm"
                 onClick={() => setSelectedLevel(level.value)}
-                className={selectedLevel === level.value ? 'bg-blue-600 hover:bg-blue-700' : ''}
+                className={`transition-all duration-200 px-3 py-2 text-sm font-medium min-h-[40px] touch-manipulation ${selectedLevel === level.value ? 'bg-blue-600 hover:bg-blue-700' : ''}`}
               >
                 {level.label}
               </Button>
@@ -154,7 +153,7 @@ export default function Courses() {
             </CardContent>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
             {filteredCourses.map((course, index) => {
               const enrollment = enrollments.find(e => e.course.id === course.id);
               return (

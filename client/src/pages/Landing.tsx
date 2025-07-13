@@ -78,35 +78,35 @@ export default function Landing() {
       {/* Hero Section */}
       <section className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white overflow-hidden">
         <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.03\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')" }}></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium mb-6">
-                <Sparkles className="h-4 w-4" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+            <div className="animate-fade-in text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm font-medium mb-4 sm:mb-6">
+                <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
                 {t('newLearningExperience')}
               </div>
-              <h1 className="text-4xl md:text-6xl font-bold mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
                 {t('hero.title')}
               </h1>
-              <p className="text-xl mb-8 text-blue-100">
+              <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-blue-100 leading-relaxed">
                 {t('hero.subtitle')}
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
                 <Button 
                   size="lg"
                   onClick={() => window.location.href = '/register'}
-                  className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg hover-lift"
+                  className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg hover-lift px-6 py-4 text-base font-semibold rounded-xl min-h-[48px]"
                 >
-                  <Play className="h-5 w-5 mr-2" />
+                  <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   {t('hero.start')}
                 </Button>
                 <Button 
                   size="lg" 
                   variant="outline"
                   onClick={() => window.location.href = '/courses'}
-                  className="border-white hover:bg-white hover:text-blue-600 bg-black/20 text-white backdrop-blur-sm hover-lift"
+                  className="w-full sm:w-auto border-white hover:bg-white hover:text-blue-600 bg-black/20 text-white backdrop-blur-sm hover-lift px-6 py-4 text-base font-semibold rounded-xl min-h-[48px]"
                 >
-                  <BookOpen className="h-5 w-5 mr-2" />
+                  <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
                   {t('hero.explore')}
                 </Button>
               </div>
@@ -128,13 +128,13 @@ export default function Landing() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-white dark:bg-gray-800">
+      <section className="py-12 sm:py-16 bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center p-6 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600 hover-lift animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="text-4xl font-bold text-gradient mb-2">{stat.value}</div>
-                <div className="text-gray-600 dark:text-gray-400">{stat.label}</div>
+              <div key={index} className="text-center p-4 sm:p-6 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600 hover-lift animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gradient mb-1 sm:mb-2">{stat.value}</div>
+                <div className="text-sm sm:text-base text-gray-600 dark:text-gray-400">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -142,25 +142,25 @@ export default function Landing() {
       </section>
 
       {/* Features Section */}
-      <section className="py-16 bg-gray-50 dark:bg-gray-900">
+      <section className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
               {t('whyChooseTitle')}
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400">
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               {t('whyChooseSubtitle')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {features.map((feature, index) => (
               <Card key={index} className="bg-white dark:bg-gray-800 shadow-sm hover-lift animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg flex items-center justify-center mb-4">
-                    <feature.icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                <CardContent className="p-4 sm:p-6">
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg flex items-center justify-center mb-3 sm:mb-4">
+                    <feature.icon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600 dark:text-blue-400" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-2 text-gray-900 dark:text-white">
                     {feature.title}
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>

@@ -50,43 +50,43 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
         <img 
           src={defaultImage}
           alt={course.title}
-          className="w-full h-48 object-cover"
+          className="w-full h-40 sm:h-48 object-cover"
         />
-        <div className="absolute top-4 left-4">
-          <Badge className={`${levelColors[course.level] || levelColors.beginner} backdrop-blur-sm`}>
+        <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
+          <Badge className={`${levelColors[course.level] || levelColors.beginner} backdrop-blur-sm text-xs sm:text-sm px-2 py-1`}>
             {t(`courses.${course.level}`)}
           </Badge>
         </div>
-        <div className="absolute top-4 right-4">
-          <div className="w-8 h-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full flex items-center justify-center">
-            <ArrowRight className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+        <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
+          <div className="w-7 h-7 sm:w-8 sm:h-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full flex items-center justify-center">
+            <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600 dark:text-gray-400" />
           </div>
         </div>
       </div>
       
-      <CardHeader className="pb-3" onClick={handleCardClick}>
-        <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
+      <CardHeader className="pb-2 sm:pb-3 px-4 sm:px-6" onClick={handleCardClick}>
+        <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-2">
           <div className="flex items-center gap-1">
-            <BookOpen className="h-4 w-4" />
+            <BookOpen className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>{course.lessonCount} lessons</span>
           </div>
           <div className="flex items-center gap-1">
-            <Clock className="h-4 w-4" />
+            <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
             <span>{course.duration} min</span>
           </div>
         </div>
         
-        <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white mb-2 leading-tight">
           {course.title}
         </h3>
         
-        <p className="text-gray-600 dark:text-gray-300 text-sm">
+        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-2">
           {course.description}
         </p>
       </CardHeader>
       
-      <CardContent className="pt-0">
-        <div className="flex items-center justify-between mb-4">
+      <CardContent className="pt-0 px-4 sm:px-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
               <Star className="h-4 w-4 text-yellow-400 fill-current" />
@@ -98,7 +98,7 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
           </div>
           
           {enrollment ? (
-            <Button onClick={onContinue} className="bg-blue-600 hover:bg-blue-700">
+            <Button onClick={onContinue} className="bg-blue-600 hover:bg-blue-700 w-full sm:w-auto min-h-[44px] touch-manipulation">
               {t('dashboard.continue')} <ArrowRight className="h-4 w-4 ml-1" />
             </Button>
           ) : (
@@ -108,7 +108,7 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
                 isAuthenticated ? onEnroll() : navigate('/register');
               }} 
               variant="outline" 
-              className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+              className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white w-full sm:w-auto min-h-[44px] touch-manipulation"
             >
               {t('courses.enroll')} <ArrowRight className="h-4 w-4 ml-1" />
             </Button>

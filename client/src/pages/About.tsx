@@ -17,13 +17,13 @@ export default function About() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Hero Section */}
-      <section className="bg-white dark:bg-gray-800 py-16">
+      <section className="bg-white dark:bg-gray-800 py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <div className="text-center mb-8 sm:mb-12">
+            <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-3 sm:mb-4">
               {t('about.title')}
             </h1>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               {t('aboutDescription')}
             </p>
           </div>
@@ -31,33 +31,33 @@ export default function About() {
       </section>
 
       {/* Mission Section */}
-      <section className="py-16">
+      <section className="py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6">
                 {t('ourMission')}
               </h2>
-              <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+              <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
                 {t('missionDescription1')}
               </p>
-              <p className="text-lg text-gray-600 dark:text-gray-400 mb-6">
+              <p className="text-base sm:text-lg text-gray-600 dark:text-gray-400 mb-4 sm:mb-6">
                 {t('missionDescription2')}
               </p>
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-center">
-                    <CheckCircle className="h-5 w-5 text-emerald-600 mr-3" />
-                    <span className="text-gray-700 dark:text-gray-300">{feature}</span>
+                    <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600 mr-2 sm:mr-3 flex-shrink-0" />
+                    <span className="text-sm sm:text-base text-gray-700 dark:text-gray-300">{feature}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div>
+            <div className="order-1 lg:order-2">
               <img
                 src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600"
                 alt="East African cultural diversity and community"
-                className="rounded-xl shadow-lg"
+                className="rounded-xl shadow-lg w-full h-48 sm:h-64 lg:h-auto object-cover"
               />
             </div>
           </div>
