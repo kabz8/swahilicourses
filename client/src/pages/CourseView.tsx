@@ -12,6 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { apiRequest } from '@/lib/queryClient';
 import { isUnauthorizedError } from '@/lib/authUtils';
+import courseImage from '@assets/27054_1752419386434.jpg';
 
 export default function CourseView() {
   const { id } = useParams<{ id: string }>();
@@ -24,24 +25,17 @@ export default function CourseView() {
 
   const courseId = parseInt(id || '0');
 
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (!authLoading && !isAuthenticated) {
-      toast({
-        title: 'Unauthorized',
-        description: 'You are logged out. Logging in again...',
-        variant: 'destructive',
-      });
-      setTimeout(() => {
-        window.location.href = '/api/login';
-      }, 500);
-      return;
-    }
-  }, [isAuthenticated, authLoading, toast]);
+  // Allow unauthenticated users to view course details
 
   const { data: course, isLoading: courseLoading } = useQuery({
     queryKey: ['/api/courses', courseId],
     enabled: !!courseId,
+    retry: false,
+  });
+
+  const { data: enrollment } = useQuery({
+    queryKey: ['/api/enrollments', courseId],
+    enabled: isAuthenticated && !!courseId,
     retry: false,
   });
 
@@ -51,41 +45,33 @@ export default function CourseView() {
     retry: false,
   });
 
-  const { data: enrollments = [] } = useQuery({
-    queryKey: ['/api/enrollments'],
-    enabled: isAuthenticated,
-    retry: false,
-  });
-
-  const enrollmentMutation = useMutation({
-    mutationFn: async (courseId: number) => {
-      await apiRequest('POST', '/api/enrollments', { courseId });
+  const enrollMutation = useMutation({
+    mutationFn: async () => {
+      const response = await apiRequest('POST', '/api/enrollments', {
+        courseId: courseId,
+      });
+      return response.json();
     },
     onSuccess: () => {
       toast({
-        title: 'Success!',
-        description: 'You have been enrolled in the course.',
+        title: t('enrollSuccess'),
+        description: t('welcomeToHujambo'),
       });
       queryClient.invalidateQueries({ queryKey: ['/api/enrollments'] });
     },
     onError: (error) => {
-      if (isUnauthorizedError(error)) {
-        toast({
-          title: 'Unauthorized',
-          description: 'You are logged out. Logging in again...',
-          variant: 'destructive',
-        });
-        setTimeout(() => {
-          window.location.href = '/api/login';
-        }, 500);
-        return;
-      }
       toast({
-        title: 'Error',
-        description: 'Failed to enroll in course. Please try again.',
+        title: t('enrollError'),
+        description: error.message,
         variant: 'destructive',
       });
     },
+  });
+
+  const { data: enrollments = [] } = useQuery({
+    queryKey: ['/api/enrollments'],
+    enabled: isAuthenticated,
+    retry: false,
   });
 
   const progressMutation = useMutation({
@@ -122,9 +108,7 @@ export default function CourseView() {
     );
   }
 
-  if (!isAuthenticated) {
-    return null; // Will redirect in useEffect
-  }
+  // Allow unauthenticated users to view course details
 
   if (!course) {
     return (
@@ -137,8 +121,8 @@ export default function CourseView() {
     );
   }
 
-  const enrollment = enrollments.find(e => e.course.id === courseId);
-  const isEnrolled = !!enrollment;
+  const courseEnrollment = enrollments.find(e => e.course.id === courseId);
+  const isEnrolled = !!courseEnrollment;
 
   const levelColors = {
     beginner: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
@@ -147,7 +131,11 @@ export default function CourseView() {
   };
 
   const handleEnroll = () => {
-    enrollmentMutation.mutate(courseId);
+    if (!isAuthenticated) {
+      window.location.href = '/register';
+      return;
+    }
+    enrollMutation.mutate();
   };
 
   const handleLessonClick = (lesson: any) => {
@@ -163,7 +151,7 @@ export default function CourseView() {
     progressMutation.mutate({ lessonId, ...progress });
   };
 
-  const defaultImage = 'https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400';
+  const defaultImage = courseImage;
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
@@ -215,10 +203,10 @@ export default function CourseView() {
                     Your Progress
                   </span>
                   <span className="text-sm text-blue-700 dark:text-blue-300">
-                    {Math.round(enrollment.progress)}% Complete
+                    {Math.round(courseEnrollment?.progress || 0)}% Complete
                   </span>
                 </div>
-                <ProgressBar progress={enrollment.progress} />
+                <ProgressBar progress={courseEnrollment?.progress || 0} />
               </div>
             ) : (
               <div className="flex items-center justify-between">
@@ -232,10 +220,10 @@ export default function CourseView() {
                 </div>
                 <Button
                   onClick={handleEnroll}
-                  disabled={enrollmentMutation.isPending}
+                  disabled={enrollMutation.isPending}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
                 >
-                  {enrollmentMutation.isPending ? 'Enrolling...' : t('courses.enroll')}
+                  {enrollMutation.isPending ? 'Enrolling...' : (isAuthenticated ? t('courses.enroll') : 'Sign Up to Enroll')}
                 </Button>
               </div>
             )}

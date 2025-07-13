@@ -40,9 +40,13 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
 
   const defaultImage = courseImage;
 
+  const handleCardClick = () => {
+    navigate(`/courses/${course.id}`);
+  };
+
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-      <div className="relative">
+    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+      <div className="relative" onClick={handleCardClick}>
         <img 
           src={defaultImage}
           alt={course.title}
@@ -55,7 +59,7 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
         </div>
       </div>
       
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-3" onClick={handleCardClick}>
         <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-2">
           <div className="flex items-center gap-1">
             <BookOpen className="h-4 w-4" />
@@ -94,7 +98,10 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
             </Button>
           ) : (
             <Button 
-              onClick={isAuthenticated ? onEnroll : () => navigate('/register')} 
+              onClick={(e) => {
+                e.stopPropagation();
+                isAuthenticated ? onEnroll() : navigate('/register');
+              }} 
               variant="outline" 
               className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
             >

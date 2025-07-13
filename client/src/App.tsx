@@ -32,6 +32,7 @@ function Router() {
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/courses" component={Courses} />
+          <Route path="/courses/:id" component={CourseView} />
         </>
       ) : (
         <>
