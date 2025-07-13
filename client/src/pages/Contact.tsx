@@ -166,10 +166,10 @@ export default function Contact() {
                     </h3>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
-                    support@kiswahilimastery.com
+                    support@hu-jambo.com
                   </p>
                   <p className="text-gray-600 dark:text-gray-400">
-                    info@kiswahilimastery.com
+                    info@hu-jambo.com
                   </p>
                 </CardContent>
               </Card>
