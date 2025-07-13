@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Play, BookOpen, Clock, Users, Award, BarChart3 } from 'lucide-react';
+import { Play, BookOpen, Clock, Users, Award, BarChart3, Sparkles, ArrowRight, Zap, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import heroImage from '@/assets/31488_1752418077282.jpg';
+import { Link } from 'wouter';
 
 export default function Landing() {
   const { t } = useLanguage();
@@ -75,10 +76,15 @@ export default function Landing() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 to-blue-800 text-white">
+      <section className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white overflow-hidden">
+        <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.03\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')" }}></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
+            <div className="animate-fade-in">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium mb-6">
+                <Sparkles className="h-4 w-4" />
+                {t('newLearningExperience')}
+              </div>
               <h1 className="text-4xl md:text-6xl font-bold mb-6">
                 {t('hero.title')}
               </h1>
@@ -88,8 +94,8 @@ export default function Landing() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Button 
                   size="lg"
-                  onClick={() => window.location.href = '/api/login'}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                  onClick={() => window.location.href = '/register'}
+                  className="bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg hover-lift"
                 >
                   <Play className="h-5 w-5 mr-2" />
                   {t('hero.start')}
@@ -97,19 +103,25 @@ export default function Landing() {
                 <Button 
                   size="lg" 
                   variant="outline"
-                  className="border-white hover:bg-white hover:text-blue-600 bg-[#000000] text-[#ffffff]"
+                  onClick={() => window.location.href = '/courses'}
+                  className="border-white hover:bg-white hover:text-blue-600 bg-black/20 text-white backdrop-blur-sm hover-lift"
                 >
                   <BookOpen className="h-5 w-5 mr-2" />
                   {t('hero.explore')}
                 </Button>
               </div>
             </div>
-            <div className="relative">
-              <img 
-                src={heroImage}
-                alt="Students learning together in East Africa"
-                className="rounded-xl shadow-2xl"
-              />
+            <div className="relative animate-float">
+              <div className="relative">
+                <img 
+                  src={heroImage}
+                  alt="Students learning together in East Africa"
+                  className="rounded-xl shadow-2xl"
+                />
+                <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-80 animate-pulse-slow"></div>
+                <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-br from-green-400 to-blue-500 rounded-full opacity-80 animate-pulse-slow"></div>
+                <div className="absolute top-1/2 -left-8 w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full opacity-60 animate-pulse-slow"></div>
+              </div>
             </div>
           </div>
         </div>
@@ -120,8 +132,8 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-blue-600 mb-2">{stat.value}</div>
+              <div key={index} className="text-center p-6 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-600 hover-lift animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="text-4xl font-bold text-gradient mb-2">{stat.value}</div>
                 <div className="text-gray-600 dark:text-gray-400">{stat.label}</div>
               </div>
             ))}
@@ -143,9 +155,9 @@ export default function Landing() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="bg-white dark:bg-gray-800 shadow-sm">
+              <Card key={index} className="bg-white dark:bg-gray-800 shadow-sm hover-lift animate-slide-up" style={{ animationDelay: `${index * 0.1}s` }}>
                 <CardContent className="p-6">
-                  <div className="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-900 dark:to-purple-900 rounded-lg flex items-center justify-center mb-4">
                     <feature.icon className="h-6 w-6 text-blue-600 dark:text-blue-400" />
                   </div>
                   <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">

@@ -45,7 +45,7 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
   };
 
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer">
+    <Card className="overflow-hidden hover-lift animate-slide-up cursor-pointer">
       <div className="relative" onClick={handleCardClick}>
         <img 
           src={defaultImage}
@@ -53,9 +53,14 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
           className="w-full h-48 object-cover"
         />
         <div className="absolute top-4 left-4">
-          <Badge className={levelColors[course.level] || levelColors.beginner}>
+          <Badge className={`${levelColors[course.level] || levelColors.beginner} backdrop-blur-sm`}>
             {t(`courses.${course.level}`)}
           </Badge>
+        </div>
+        <div className="absolute top-4 right-4">
+          <div className="w-8 h-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full flex items-center justify-center">
+            <ArrowRight className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+          </div>
         </div>
       </div>
       

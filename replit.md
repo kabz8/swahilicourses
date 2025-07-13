@@ -17,6 +17,13 @@ Preferred communication style: Simple, everyday language.
 - ✓ Cleaned up UI by removing unnecessary sections (team section from About page, values section from About page, FAQ section from Contact page, filters button from Courses page)
 - ✓ Enhanced CourseCard component to redirect unauthenticated users to login page when clicking "Enroll" button
 - ✓ Made "Enroll" button dynamic - shows "Sign In" for unauthenticated users, "Enroll" for authenticated users
+- ✓ Major UI/UX improvements with enhanced CSS animations and visual effects
+- ✓ Added custom animations: fade-in, slide-up, float, pulse-slow, and hover-lift effects
+- ✓ Implemented gradient backgrounds and text gradients for better visual appeal
+- ✓ Enhanced Landing page with modern gradient hero section and animated elements
+- ✓ Updated CourseCard with hover effects and visual indicators
+- ✓ Added glass-effect styling and backdrop blur for modern design
+- ✓ Implemented staggered animations for course cards and feature sections
 
 ## System Architecture
 
