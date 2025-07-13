@@ -5,7 +5,6 @@ import {
   timestamp,
   jsonb,
   index,
-  serial,
   integer,
   boolean,
   real,
@@ -25,12 +24,14 @@ export const sessions = pgTable(
   (table) => [index("IDX_session_expire").on(table.expire)],
 );
 
-// User storage table (mandatory for Replit Auth)
+// User storage table
 export const users = pgTable("users", {
-  id: varchar("id").primaryKey().notNull(),
-  email: varchar("email").unique(),
-  firstName: varchar("first_name"),
-  lastName: varchar("last_name"),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  email: varchar("email").notNull().unique(),
+  firstName: varchar("first_name").notNull(),
+  lastName: varchar("last_name").notNull(),
+  phoneNumber: varchar("phone_number"),
+  password: varchar("password").notNull(),
   profileImageUrl: varchar("profile_image_url"),
   preferredLanguage: varchar("preferred_language").default("en"),
   theme: varchar("theme").default("light"),
@@ -40,7 +41,7 @@ export const users = pgTable("users", {
 
 // Course categories
 export const categories = pgTable("categories", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   name: varchar("name").notNull(),
   description: text("description"),
   createdAt: timestamp("created_at").defaultNow(),
@@ -48,7 +49,7 @@ export const categories = pgTable("categories", {
 
 // Courses table
 export const courses = pgTable("courses", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   title: varchar("title").notNull(),
   description: text("description"),
   level: varchar("level").notNull(), // beginner, intermediate, advanced
@@ -65,7 +66,7 @@ export const courses = pgTable("courses", {
 
 // Lessons table
 export const lessons = pgTable("lessons", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   courseId: integer("course_id").references(() => courses.id),
   title: varchar("title").notNull(),
   description: text("description"),
@@ -81,8 +82,8 @@ export const lessons = pgTable("lessons", {
 
 // User course enrollments
 export const enrollments = pgTable("enrollments", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").references(() => users.id),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id").references(() => users.id),
   courseId: integer("course_id").references(() => courses.id),
   enrolledAt: timestamp("enrolled_at").defaultNow(),
   completedAt: timestamp("completed_at"),
@@ -92,8 +93,8 @@ export const enrollments = pgTable("enrollments", {
 
 // User lesson progress
 export const lessonProgress = pgTable("lesson_progress", {
-  id: serial("id").primaryKey(),
-  userId: varchar("user_id").references(() => users.id),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id").references(() => users.id),
   lessonId: integer("lesson_id").references(() => lessons.id),
   isCompleted: boolean("is_completed").default(false),
   watchTime: integer("watch_time").default(0), // in seconds
@@ -105,7 +106,7 @@ export const lessonProgress = pgTable("lesson_progress", {
 
 // Newsletter subscriptions
 export const newsletters = pgTable("newsletters", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   email: varchar("email").notNull().unique(),
   isSubscribed: boolean("is_subscribed").default(true),
   subscribedAt: timestamp("subscribed_at").defaultNow(),
@@ -114,7 +115,7 @@ export const newsletters = pgTable("newsletters", {
 
 // Contact form submissions
 export const contactSubmissions = pgTable("contact_submissions", {
-  id: serial("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   name: varchar("name").notNull(),
   email: varchar("email").notNull(),
   subject: varchar("subject").notNull(),
@@ -172,8 +173,8 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
 }));
 
 // Schema types
-export type UpsertUser = typeof users.$inferInsert;
 export type User = typeof users.$inferSelect;
+export type InsertUser = typeof users.$inferInsert;
 export type Course = typeof courses.$inferSelect;
 export type Lesson = typeof lessons.$inferSelect;
 export type Enrollment = typeof enrollments.$inferSelect;
@@ -192,7 +193,7 @@ export const insertCategorySchema = createInsertSchema(categories);
 export const insertNewsletterSchema = createInsertSchema(newsletters);
 export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions);
 
-export type InsertUser = z.infer<typeof insertUserSchema>;
+
 export type InsertCourse = z.infer<typeof insertCourseSchema>;
 export type InsertLesson = z.infer<typeof insertLessonSchema>;
 export type InsertEnrollment = z.infer<typeof insertEnrollmentSchema>;

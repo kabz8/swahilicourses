@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
+import { setupAuth, isAuthenticated } from "./auth";
 import { 
   insertNewsletterSchema,
   insertContactSubmissionSchema,
@@ -12,19 +12,7 @@ import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
-  await setupAuth(app);
-
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
-    try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
+  setupAuth(app);
 
   // Course routes
   app.get('/api/courses', async (req, res) => {
@@ -77,7 +65,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Enrollment routes
   app.get('/api/enrollments', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const enrollments = await storage.getUserEnrollments(userId);
       res.json(enrollments);
     } catch (error) {
@@ -88,7 +76,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/enrollments', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const enrollmentData = insertEnrollmentSchema.parse({
         ...req.body,
         userId,
@@ -105,7 +93,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Lesson progress routes
   app.get('/api/lessons/:id/progress', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const lessonId = parseInt(req.params.id);
       const progress = await storage.getUserLessonProgress(userId, lessonId);
       res.json(progress);
@@ -117,7 +105,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/lessons/:id/progress', isAuthenticated, async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
+      const userId = req.session.userId;
       const lessonId = parseInt(req.params.id);
       const progressData = insertLessonProgressSchema.parse({
         ...req.body,

@@ -8,7 +8,7 @@ import {
   newsletters,
   contactSubmissions,
   type User,
-  type UpsertUser,
+  type InsertUser,
   type Course,
   type Lesson,
   type Enrollment,
@@ -28,9 +28,10 @@ import { db } from "./db";
 import { eq, desc, and, sql } from "drizzle-orm";
 
 export interface IStorage {
-  // User operations (mandatory for Replit Auth)
-  getUser(id: string): Promise<User | undefined>;
-  upsertUser(user: UpsertUser): Promise<User>;
+  // User operations
+  getUser(id: number): Promise<User | undefined>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  createUser(user: InsertUser): Promise<User>;
   
   // Course operations
   getCourses(): Promise<Course[]>;
@@ -45,12 +46,12 @@ export interface IStorage {
   createLesson(lesson: InsertLesson): Promise<Lesson>;
   
   // Enrollment operations
-  getUserEnrollments(userId: string): Promise<(Enrollment & { course: Course })[]>;
+  getUserEnrollments(userId: number): Promise<(Enrollment & { course: Course })[]>;
   enrollUserInCourse(enrollment: InsertEnrollment): Promise<Enrollment>;
-  updateEnrollmentProgress(userId: string, courseId: number, progress: number): Promise<void>;
+  updateEnrollmentProgress(userId: number, courseId: number, progress: number): Promise<void>;
   
   // Lesson progress operations
-  getUserLessonProgress(userId: string, lessonId: number): Promise<LessonProgress | undefined>;
+  getUserLessonProgress(userId: number, lessonId: number): Promise<LessonProgress | undefined>;
   updateLessonProgress(progress: InsertLessonProgress): Promise<LessonProgress>;
   
   // Category operations
@@ -66,22 +67,20 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   // User operations
-  async getUser(id: string): Promise<User | undefined> {
+  async getUser(id: number): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
   }
 
-  async upsertUser(userData: UpsertUser): Promise<User> {
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user;
+  }
+
+  async createUser(userData: InsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
       .values(userData)
-      .onConflictDoUpdate({
-        target: users.id,
-        set: {
-          ...userData,
-          updatedAt: new Date(),
-        },
-      })
       .returning();
     return user;
   }
@@ -131,11 +130,22 @@ export class DatabaseStorage implements IStorage {
   }
 
   // Enrollment operations
-  async getUserEnrollments(userId: string): Promise<(Enrollment & { course: Course })[]> {
-    return await db.select().from(enrollments)
+  async getUserEnrollments(userId: number): Promise<(Enrollment & { course: Course })[]> {
+    const results = await db.select({
+      id: enrollments.id,
+      userId: enrollments.userId,
+      courseId: enrollments.courseId,
+      enrolledAt: enrollments.enrolledAt,
+      completedAt: enrollments.completedAt,
+      progress: enrollments.progress,
+      lastAccessedAt: enrollments.lastAccessedAt,
+      course: courses
+    }).from(enrollments)
       .innerJoin(courses, eq(enrollments.courseId, courses.id))
       .where(eq(enrollments.userId, userId))
       .orderBy(desc(enrollments.enrolledAt));
+    
+    return results;
   }
 
   async enrollUserInCourse(enrollment: InsertEnrollment): Promise<Enrollment> {
@@ -143,14 +153,14 @@ export class DatabaseStorage implements IStorage {
     return newEnrollment;
   }
 
-  async updateEnrollmentProgress(userId: string, courseId: number, progress: number): Promise<void> {
+  async updateEnrollmentProgress(userId: number, courseId: number, progress: number): Promise<void> {
     await db.update(enrollments)
       .set({ progress, lastAccessedAt: new Date() })
       .where(and(eq(enrollments.userId, userId), eq(enrollments.courseId, courseId)));
   }
 
   // Lesson progress operations
-  async getUserLessonProgress(userId: string, lessonId: number): Promise<LessonProgress | undefined> {
+  async getUserLessonProgress(userId: number, lessonId: number): Promise<LessonProgress | undefined> {
     const [progress] = await db.select().from(lessonProgress)
       .where(and(eq(lessonProgress.userId, userId), eq(lessonProgress.lessonId, lessonId)));
     return progress;

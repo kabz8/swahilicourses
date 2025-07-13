@@ -6,6 +6,7 @@ import { ThemeToggle } from './ThemeToggle';
 import { LanguageToggle } from './LanguageToggle';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
+import { apiRequest } from '@/lib/queryClient';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -70,27 +71,36 @@ export function Layout({ children }: LayoutProps) {
                   <Button 
                     variant="outline" 
                     size="sm"
-                    onClick={() => window.location.href = '/api/logout'}
+                    onClick={async () => {
+                      try {
+                        await apiRequest('POST', '/api/logout');
+                        window.location.href = '/';
+                      } catch (error) {
+                        console.error('Logout failed:', error);
+                      }
+                    }}
                   >
                     Logout
                   </Button>
                 </div>
               ) : (
                 <div className="flex items-center space-x-2">
-                  <Button 
-                    variant="ghost" 
-                    size="sm"
-                    onClick={() => window.location.href = '/api/login'}
-                  >
-                    {t('nav.signin')}
-                  </Button>
-                  <Button 
-                    size="sm"
-                    onClick={() => window.location.href = '/api/login'}
-                    className="bg-blue-600 hover:bg-blue-700"
-                  >
-                    {t('nav.register')}
-                  </Button>
+                  <Link href="/auth">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                    >
+                      {t('signIn')}
+                    </Button>
+                  </Link>
+                  <Link href="/auth">
+                    <Button 
+                      size="sm"
+                      className="bg-blue-600 hover:bg-blue-700"
+                    >
+                      {t('signUp')}
+                    </Button>
+                  </Link>
                 </div>
               )}
 

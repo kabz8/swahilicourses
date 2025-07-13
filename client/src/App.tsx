@@ -13,6 +13,7 @@ import Courses from "@/pages/Courses";
 import CourseView from "@/pages/CourseView";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
+import AuthPage from "@/pages/AuthPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -23,6 +24,7 @@ function Router() {
       {isLoading || !isAuthenticated ? (
         <>
           <Route path="/" component={Landing} />
+          <Route path="/auth" component={AuthPage} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/courses" component={Courses} />
