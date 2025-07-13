@@ -37,8 +37,8 @@ export default function Courses() {
   const handleEnroll = async (courseId: number) => {
     if (!isAuthenticated) {
       toast({
-        title: 'Authentication Required',
-        description: 'Please sign in to enroll in courses.',
+        title: t('authRequired'),
+        description: t('signInToEnroll'),
         variant: 'destructive',
       });
       window.location.href = '/api/login';
@@ -49,14 +49,14 @@ export default function Courses() {
       await apiRequest('POST', '/api/enrollments', { courseId });
       toast({
         title: 'Success!',
-        description: 'You have been enrolled in the course.',
+        description: t('enrollSuccess'),
       });
       // Refresh enrollments
       window.location.reload();
     } catch (error) {
       toast({
         title: 'Error',
-        description: 'Failed to enroll in course. Please try again.',
+        description: t('enrollError'),
         variant: 'destructive',
       });
     }
@@ -104,7 +104,7 @@ export default function Courses() {
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
               <Input
-                placeholder="Search courses..."
+                placeholder={t('searchCourses')}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="pl-10"
@@ -140,7 +140,7 @@ export default function Courses() {
                 <Search className="h-12 w-12 mx-auto" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                No courses found
+                {t('noCoursesFound')}
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
                 Try adjusting your search or filters to find what you're looking for.

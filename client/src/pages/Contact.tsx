@@ -26,14 +26,14 @@ export default function Contact() {
     try {
       await apiRequest('POST', '/api/contact', formData);
       toast({
-        title: 'Message Sent!',
-        description: 'Thank you for your message. We will get back to you soon.',
+        title: t('messageSent'),
+        description: t('messageSuccess'),
       });
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (error) {
       toast({
         title: 'Error',
-        description: 'Failed to send message. Please try again.',
+        description: t('messageError'),
         variant: 'destructive',
       });
     } finally {
@@ -58,7 +58,7 @@ export default function Contact() {
               {t('contact.title')}
             </h1>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+              {t('contactDescription')}
             </p>
           </div>
         </div>
@@ -73,7 +73,7 @@ export default function Contact() {
               <Card className="bg-white dark:bg-gray-800">
                 <CardHeader>
                   <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
-                    Send us a Message
+                    {t('sendMessage')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -81,7 +81,7 @@ export default function Contact() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                         <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Name *
+                          {t('fullName')} *
                         </label>
                         <Input
                           id="name"
@@ -95,7 +95,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          Email *
+                          {t('emailLabel')} *
                         </label>
                         <Input
                           id="email"
@@ -110,7 +110,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <label htmlFor="subject" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Subject *
+                        {t('subject')} *
                       </label>
                       <Input
                         id="subject"
@@ -124,7 +124,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                        Message *
+                        {t('message')} *
                       </label>
                       <Textarea
                         id="message"
@@ -142,11 +142,11 @@ export default function Contact() {
                       className="w-full bg-blue-600 hover:bg-blue-700"
                     >
                       {isSubmitting ? (
-                        'Sending...'
+                        t('sending')
                       ) : (
                         <>
                           <Send className="h-4 w-4 mr-2" />
-                          Send Message
+                          {t('sendButton')}
                         </>
                       )}
                     </Button>
@@ -162,7 +162,7 @@ export default function Contact() {
                   <div className="flex items-center mb-4">
                     <Mail className="h-6 w-6 text-blue-600 mr-3" />
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      Email Us
+                      {t('emailLabel')}
                     </h3>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
@@ -179,7 +179,7 @@ export default function Contact() {
                   <div className="flex items-center mb-4">
                     <MapPin className="h-6 w-6 text-blue-600 mr-3" />
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                      Our Office
+                      {t('address')}
                     </h3>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
