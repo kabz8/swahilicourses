@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ProgressBar } from './ProgressBar';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { useAuth } from '@/hooks/useAuth';
 
 interface CourseCardProps {
   course: {
@@ -26,6 +27,7 @@ interface CourseCardProps {
 
 export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseCardProps) {
   const { t } = useLanguage();
+  const { isAuthenticated } = useAuth();
   
   const levelColors = {
     beginner: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
@@ -88,8 +90,12 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
               {t('dashboard.continue')} <ArrowRight className="h-4 w-4 ml-1" />
             </Button>
           ) : (
-            <Button onClick={onEnroll} variant="outline" className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white">
-              {t('courses.enroll')} <ArrowRight className="h-4 w-4 ml-1" />
+            <Button 
+              onClick={isAuthenticated ? onEnroll : () => window.location.href = '/api/login'} 
+              variant="outline" 
+              className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+            >
+              {isAuthenticated ? t('courses.enroll') : t('signIn')} <ArrowRight className="h-4 w-4 ml-1" />
             </Button>
           )}
         </div>

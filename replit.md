@@ -8,6 +8,16 @@ This is a full-stack web application built for faith-based Kiswahili language le
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+**January 13, 2025**
+- ✓ Fixed comprehensive translation system - all pages now properly translate between English and Kiswahili
+- ✓ Added 5 sample published courses to database (Kiswahili Basics, Intermediate Conversations, Advanced Grammar, East African Culture, Business Kiswahili)
+- ✓ Updated button styling with custom black background (#000000) and white text (#ffffff)
+- ✓ Cleaned up UI by removing unnecessary sections (team section from About page, values section from About page, FAQ section from Contact page, filters button from Courses page)
+- ✓ Enhanced CourseCard component to redirect unauthenticated users to login page when clicking "Enroll" button
+- ✓ Made "Enroll" button dynamic - shows "Sign In" for unauthenticated users, "Enroll" for authenticated users
+
 ## System Architecture
 
 ### Frontend Architecture
