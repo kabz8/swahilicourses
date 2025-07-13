@@ -76,9 +76,12 @@ export const lessons = pgTable("lessons", {
   content: text("content"),
   videoUrl: varchar("video_url"),
   audioUrl: varchar("audio_url"),
+  attachmentUrl: varchar("attachment_url"),
   duration: integer("duration"), // in seconds
   order: integer("order").notNull(),
   isPublished: boolean("is_published").default(false),
+  isLocked: boolean("is_locked").default(false),
+  prerequisiteId: integer("prerequisite_id"),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });

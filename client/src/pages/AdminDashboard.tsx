@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/hooks/useAuth';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { AdminCourseManager } from '@/components/AdminCourseManager';
+import { ComprehensiveCourseManager } from '@/components/ComprehensiveCourseManager';
 import { AdminUserManager } from '@/components/AdminUserManager';
 import { AdminTaskManager } from '@/components/AdminTaskManager';
 import { AdminProgressTracker } from '@/components/AdminProgressTracker';
@@ -190,7 +190,7 @@ export default function AdminDashboard() {
           </TabsContent>
 
           <TabsContent value="courses">
-            <AdminCourseManager />
+            <ComprehensiveCourseManager />
           </TabsContent>
 
           <TabsContent value="users">

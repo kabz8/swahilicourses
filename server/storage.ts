@@ -51,11 +51,16 @@ export interface IStorage {
   getCoursesByCategory(categoryId: number): Promise<Course[]>;
   getCoursesByLevel(level: string): Promise<Course[]>;
   createCourse(course: InsertCourse): Promise<Course>;
+  updateCourse(id: number, course: Partial<InsertCourse>): Promise<Course>;
+  deleteCourse(id: number): Promise<void>;
   
   // Lesson operations
   getLessonsByCourse(courseId: number): Promise<Lesson[]>;
+  getAdminLessonsByCourse(courseId: number): Promise<Lesson[]>;
   getLesson(id: number): Promise<Lesson | undefined>;
   createLesson(lesson: InsertLesson): Promise<Lesson>;
+  updateLesson(id: number, lesson: Partial<InsertLesson>): Promise<Lesson>;
+  deleteLesson(id: number): Promise<void>;
   
   // Enrollment operations
   getUserEnrollments(userId: number): Promise<(Enrollment & { course: Course })[]>;
@@ -160,10 +165,29 @@ export class DatabaseStorage implements IStorage {
     return newCourse;
   }
 
+  async updateCourse(id: number, courseData: Partial<InsertCourse>): Promise<Course> {
+    const [updatedCourse] = await db
+      .update(courses)
+      .set({ ...courseData, updatedAt: new Date() })
+      .where(eq(courses.id, id))
+      .returning();
+    return updatedCourse;
+  }
+
+  async deleteCourse(id: number): Promise<void> {
+    await db.delete(courses).where(eq(courses.id, id));
+  }
+
   // Lesson operations
   async getLessonsByCourse(courseId: number): Promise<Lesson[]> {
     return await db.select().from(lessons)
       .where(and(eq(lessons.courseId, courseId), eq(lessons.isPublished, true)))
+      .orderBy(lessons.order);
+  }
+
+  async getAdminLessonsByCourse(courseId: number): Promise<Lesson[]> {
+    return await db.select().from(lessons)
+      .where(eq(lessons.courseId, courseId))
       .orderBy(lessons.order);
   }
 
@@ -175,6 +199,19 @@ export class DatabaseStorage implements IStorage {
   async createLesson(lesson: InsertLesson): Promise<Lesson> {
     const [newLesson] = await db.insert(lessons).values(lesson).returning();
     return newLesson;
+  }
+
+  async updateLesson(id: number, lessonData: Partial<InsertLesson>): Promise<Lesson> {
+    const [updatedLesson] = await db
+      .update(lessons)
+      .set({ ...lessonData, updatedAt: new Date() })
+      .where(eq(lessons.id, id))
+      .returning();
+    return updatedLesson;
+  }
+
+  async deleteLesson(id: number): Promise<void> {
+    await db.delete(lessons).where(eq(lessons.id, id));
   }
 
   // Enrollment operations

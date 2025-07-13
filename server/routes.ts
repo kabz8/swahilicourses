@@ -302,6 +302,108 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Admin course management routes
+  app.post("/api/admin/courses", requireAdmin, async (req, res) => {
+    try {
+      const course = await storage.createCourse(req.body);
+      res.json(course);
+    } catch (error) {
+      console.error("Error creating course:", error);
+      res.status(500).json({ error: "Failed to create course" });
+    }
+  });
+
+  app.put("/api/admin/courses/:id", requireAdmin, async (req, res) => {
+    try {
+      const courseId = parseInt(req.params.id);
+      const course = await storage.updateCourse(courseId, req.body);
+      res.json(course);
+    } catch (error) {
+      console.error("Error updating course:", error);
+      res.status(500).json({ error: "Failed to update course" });
+    }
+  });
+
+  app.delete("/api/admin/courses/:id", requireAdmin, async (req, res) => {
+    try {
+      const courseId = parseInt(req.params.id);
+      await storage.deleteCourse(courseId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting course:", error);
+      res.status(500).json({ error: "Failed to delete course" });
+    }
+  });
+
+  // Admin lesson management routes
+  app.get("/api/admin/lessons/:courseId", requireAdmin, async (req, res) => {
+    try {
+      const courseId = parseInt(req.params.courseId);
+      const lessons = await storage.getAdminLessonsByCourse(courseId);
+      res.json(lessons);
+    } catch (error) {
+      console.error("Error fetching lessons:", error);
+      res.status(500).json({ error: "Failed to fetch lessons" });
+    }
+  });
+
+  app.post("/api/admin/lessons", requireAdmin, async (req, res) => {
+    try {
+      const lesson = await storage.createLesson(req.body);
+      res.json(lesson);
+    } catch (error) {
+      console.error("Error creating lesson:", error);
+      res.status(500).json({ error: "Failed to create lesson" });
+    }
+  });
+
+  app.put("/api/admin/lessons/:id", requireAdmin, async (req, res) => {
+    try {
+      const lessonId = parseInt(req.params.id);
+      const lesson = await storage.updateLesson(lessonId, req.body);
+      res.json(lesson);
+    } catch (error) {
+      console.error("Error updating lesson:", error);
+      res.status(500).json({ error: "Failed to update lesson" });
+    }
+  });
+
+  app.delete("/api/admin/lessons/:id", requireAdmin, async (req, res) => {
+    try {
+      const lessonId = parseInt(req.params.id);
+      await storage.deleteLesson(lessonId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting lesson:", error);
+      res.status(500).json({ error: "Failed to delete lesson" });
+    }
+  });
+
+  app.put("/api/admin/lessons/:id/reorder", requireAdmin, async (req, res) => {
+    try {
+      const lessonId = parseInt(req.params.id);
+      const { order } = req.body;
+      const lesson = await storage.updateLesson(lessonId, { order });
+      res.json(lesson);
+    } catch (error) {
+      console.error("Error reordering lesson:", error);
+      res.status(500).json({ error: "Failed to reorder lesson" });
+    }
+  });
+
+  // Image upload route
+  app.post("/api/admin/upload-image", requireAdmin, async (req, res) => {
+    try {
+      // For now, return a placeholder. In production, you'd use a service like AWS S3 or Cloudinary
+      res.json({ 
+        imageUrl: "https://via.placeholder.com/400x300/6366f1/ffffff?text=Course+Image" 
+      });
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      res.status(500).json({ error: "Failed to upload image" });
+    }
+  });
+
   app.post("/api/admin/users", requireAdmin, async (req, res) => {
     try {
       const { firstName, lastName, email, phoneNumber, password, role } = req.body;
