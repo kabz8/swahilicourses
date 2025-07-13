@@ -16,6 +16,7 @@ import Contact from "@/pages/Contact";
 import AuthPage from "@/pages/AuthPage";
 import RegisterPage from "@/pages/RegisterPage";
 import LoginPage from "@/pages/LoginPage";
+import Checkout from "@/pages/Checkout";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -39,6 +40,7 @@ function Router() {
           <Route path="/" component={Dashboard} />
           <Route path="/courses" component={Courses} />
           <Route path="/courses/:id" component={CourseView} />
+          <Route path="/checkout/:courseId" component={Checkout} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/dashboard" component={Dashboard} />

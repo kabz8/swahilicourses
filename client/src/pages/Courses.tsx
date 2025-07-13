@@ -45,20 +45,29 @@ export default function Courses() {
       return;
     }
 
-    try {
-      await apiRequest('POST', '/api/enrollments', { courseId });
-      toast({
-        title: 'Success!',
-        description: t('enrollSuccess'),
-      });
-      // Refresh enrollments
-      window.location.reload();
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: t('enrollError'),
-        variant: 'destructive',
-      });
+    const course = courses.find(c => c.id === courseId);
+    if (!course) return;
+
+    // For free courses, enroll directly
+    if (course.isFree) {
+      try {
+        await apiRequest('POST', '/api/enrollments', { courseId });
+        toast({
+          title: 'Success!',
+          description: t('enrollSuccess'),
+        });
+        // Refresh enrollments
+        window.location.reload();
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: t('enrollError'),
+          variant: 'destructive',
+        });
+      }
+    } else {
+      // For paid courses, redirect to checkout page
+      window.location.href = `/checkout/${courseId}`;
     }
   };
 

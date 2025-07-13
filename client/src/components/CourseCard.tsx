@@ -19,6 +19,8 @@ interface CourseCardProps {
     reviewCount: number;
     lessonCount: number;
     duration: number;
+    price: number;
+    isFree: boolean;
   };
   enrollment?: {
     progress: number;
@@ -58,8 +60,10 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
           </Badge>
         </div>
         <div className="absolute top-3 right-3 sm:top-4 sm:right-4">
-          <div className="w-7 h-7 sm:w-8 sm:h-8 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full flex items-center justify-center">
-            <ArrowRight className="h-3 w-3 sm:h-4 sm:w-4 text-gray-600 dark:text-gray-400" />
+          <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-2 py-1 sm:px-3 sm:py-1">
+            <span className="text-xs sm:text-sm font-semibold text-gray-700 dark:text-gray-300">
+              {course.isFree ? 'FREE' : `$${course.price}`}
+            </span>
           </div>
         </div>
       </div>
@@ -110,7 +114,7 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
               variant="outline" 
               className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white w-full sm:w-auto min-h-[44px] touch-manipulation"
             >
-              {t('courses.enroll')} <ArrowRight className="h-4 w-4 ml-1" />
+              {course.isFree ? t('courses.enroll') : `${t('courses.enroll')} - $${course.price}`} <ArrowRight className="h-4 w-4 ml-1" />
             </Button>
           )}
         </div>

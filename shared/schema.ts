@@ -60,6 +60,8 @@ export const courses = pgTable("courses", {
   rating: real("rating").default(0),
   reviewCount: integer("review_count").default(0),
   isPublished: boolean("is_published").default(false),
+  price: real("price").default(10.00), // Course price in USD
+  isFree: boolean("is_free").default(false),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
@@ -123,6 +125,19 @@ export const contactSubmissions = pgTable("contact_submissions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Payments table
+export const payments = pgTable("payments", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  userId: integer("user_id").references(() => users.id),
+  courseId: integer("course_id").references(() => courses.id),
+  stripePaymentIntentId: varchar("stripe_payment_intent_id").unique(),
+  amount: real("amount").notNull(),
+  currency: varchar("currency").default("usd"),
+  status: varchar("status").notNull(), // pending, succeeded, failed
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   enrollments: many(enrollments),
@@ -172,6 +187,17 @@ export const categoriesRelations = relations(categories, ({ many }) => ({
   courses: many(courses),
 }));
 
+export const paymentsRelations = relations(payments, ({ one }) => ({
+  user: one(users, {
+    fields: [payments.userId],
+    references: [users.id],
+  }),
+  course: one(courses, {
+    fields: [payments.courseId],
+    references: [courses.id],
+  }),
+}));
+
 // Schema types
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
@@ -182,6 +208,7 @@ export type LessonProgress = typeof lessonProgress.$inferSelect;
 export type Category = typeof categories.$inferSelect;
 export type Newsletter = typeof newsletters.$inferSelect;
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+export type Payment = typeof payments.$inferSelect;
 
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users);
@@ -192,6 +219,7 @@ export const insertLessonProgressSchema = createInsertSchema(lessonProgress);
 export const insertCategorySchema = createInsertSchema(categories);
 export const insertNewsletterSchema = createInsertSchema(newsletters);
 export const insertContactSubmissionSchema = createInsertSchema(contactSubmissions);
+export const insertPaymentSchema = createInsertSchema(payments);
 
 
 export type InsertCourse = z.infer<typeof insertCourseSchema>;
@@ -201,3 +229,4 @@ export type InsertLessonProgress = z.infer<typeof insertLessonProgressSchema>;
 export type InsertCategory = z.infer<typeof insertCategorySchema>;
 export type InsertNewsletter = z.infer<typeof insertNewsletterSchema>;
 export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
+export type InsertPayment = z.infer<typeof insertPaymentSchema>;

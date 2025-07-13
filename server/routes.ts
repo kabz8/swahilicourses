@@ -156,6 +156,50 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Payment routes
+  app.post('/api/create-payment-intent', isAuthenticated, async (req: any, res) => {
+    try {
+      const { courseId, amount } = req.body;
+      
+      // Check if Stripe is configured
+      if (!process.env.STRIPE_SECRET_KEY) {
+        return res.status(503).json({ 
+          message: "Payment system not configured. Please add Stripe API keys." 
+        });
+      }
+
+      // TODO: Implement Stripe payment intent creation
+      // For now, return a placeholder response
+      res.json({ 
+        clientSecret: "placeholder_client_secret",
+        message: "Payment integration ready when Stripe keys are configured" 
+      });
+    } catch (error) {
+      console.error("Error creating payment intent:", error);
+      res.status(500).json({ message: "Failed to create payment intent" });
+    }
+  });
+
+  app.post('/api/payment-success', isAuthenticated, async (req: any, res) => {
+    try {
+      const { courseId, paymentIntentId } = req.body;
+      const userId = req.session.userId;
+      
+      // TODO: Verify payment with Stripe
+      // For now, just enroll the user in the course
+      const enrollment = await storage.enrollUserInCourse({
+        userId,
+        courseId,
+        enrolledAt: new Date()
+      });
+      
+      res.json({ enrollment });
+    } catch (error) {
+      console.error("Error processing payment success:", error);
+      res.status(500).json({ message: "Failed to process payment" });
+    }
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }

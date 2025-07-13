@@ -7,6 +7,7 @@ import {
   categories,
   newsletters,
   contactSubmissions,
+  payments,
   type User,
   type InsertUser,
   type Course,
@@ -16,6 +17,7 @@ import {
   type Category,
   type Newsletter,
   type ContactSubmission,
+  type Payment,
   type InsertCourse,
   type InsertLesson,
   type InsertEnrollment,
@@ -23,6 +25,7 @@ import {
   type InsertCategory,
   type InsertNewsletter,
   type InsertContactSubmission,
+  type InsertPayment,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, sql } from "drizzle-orm";
@@ -63,6 +66,12 @@ export interface IStorage {
   
   // Contact operations
   createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
+  
+  // Payment operations
+  createPayment(payment: InsertPayment): Promise<Payment>;
+  getPaymentsByUser(userId: number): Promise<Payment[]>;
+  getPaymentByStripeId(stripePaymentIntentId: string): Promise<Payment | undefined>;
+  updatePaymentStatus(id: number, status: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -213,6 +222,34 @@ export class DatabaseStorage implements IStorage {
   async createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission> {
     const [newSubmission] = await db.insert(contactSubmissions).values(submission).returning();
     return newSubmission;
+  }
+  
+  // Payment operations
+  async createPayment(payment: InsertPayment): Promise<Payment> {
+    const [newPayment] = await db
+      .insert(payments)
+      .values(payment)
+      .returning();
+    return newPayment;
+  }
+  
+  async getPaymentsByUser(userId: number): Promise<Payment[]> {
+    return await db.select().from(payments).where(eq(payments.userId, userId));
+  }
+  
+  async getPaymentByStripeId(stripePaymentIntentId: string): Promise<Payment | undefined> {
+    const [payment] = await db
+      .select()
+      .from(payments)
+      .where(eq(payments.stripePaymentIntentId, stripePaymentIntentId));
+    return payment;
+  }
+  
+  async updatePaymentStatus(id: number, status: string): Promise<void> {
+    await db
+      .update(payments)
+      .set({ status, updatedAt: new Date() })
+      .where(eq(payments.id, id));
   }
 }
 
