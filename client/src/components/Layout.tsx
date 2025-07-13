@@ -36,7 +36,7 @@ export function Layout({ children }: LayoutProps) {
               <Link href="/" className="flex items-center">
                 <GraduationCap className="h-8 w-8 text-blue-600 mr-3" />
                 <span className="text-xl font-bold text-gray-900 dark:text-white">
-                  Kiswahili Mastery
+                  Hu-jambo
                 </span>
               </Link>
             </div>
@@ -152,7 +152,7 @@ export function Layout({ children }: LayoutProps) {
             <div>
               <div className="flex items-center mb-4">
                 <GraduationCap className="h-8 w-8 text-blue-600 mr-3" />
-                <span className="text-xl font-bold">Kiswahili Mastery</span>
+                <span className="text-xl font-bold">Hu-jambo</span>
               </div>
               <p className="text-gray-400 mb-4">
                 Your gateway to mastering the beautiful Kiswahili language through modern, interactive learning.
@@ -186,7 +186,7 @@ export function Layout({ children }: LayoutProps) {
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Kiswahili Mastery. All rights reserved.</p>
+            <p>&copy; 2024 Hu-jambo. All rights reserved.</p>
           </div>
         </div>
       </footer>

@@ -1,4 +1,4 @@
-# Kiswahili Mastery - Faith-Based Learning Platform
+# Hu-jambo - Faith-Based Learning Platform
 
 ## Overview
 
