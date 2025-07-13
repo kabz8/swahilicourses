@@ -19,7 +19,7 @@ export default function Courses() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const { data: courses = [], isLoading } = useQuery({
-    queryKey: ['/api/courses', selectedLevel !== 'all' ? selectedLevel : null, selectedCategory !== 'all' ? selectedCategory : null],
+    queryKey: ['/api/courses'],
     retry: false,
   });
 
@@ -62,10 +62,19 @@ export default function Courses() {
     }
   };
 
-  const filteredCourses = courses.filter(course =>
-    course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredCourses = courses.filter(course => {
+    // Filter by search term
+    const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      course.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    // Filter by level
+    const matchesLevel = selectedLevel === 'all' || course.level === selectedLevel;
+    
+    // Filter by category (if we had category filtering)
+    const matchesCategory = selectedCategory === 'all' || course.categoryId === parseInt(selectedCategory);
+    
+    return matchesSearch && matchesLevel && matchesCategory;
+  });
 
   const levels = [
     { value: 'all', label: t('courses.all') },
