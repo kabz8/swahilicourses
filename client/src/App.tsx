@@ -18,6 +18,7 @@ import RegisterPage from "@/pages/RegisterPage";
 import LoginPage from "@/pages/LoginPage";
 import Checkout from "@/pages/Checkout";
 import NotFound from "@/pages/not-found";
+import AdminDashboard from "@/pages/AdminDashboard";
 
 function Router() {
   const { isAuthenticated, isLoading } = useAuth();
@@ -44,6 +45,7 @@ function Router() {
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/dashboard" component={Dashboard} />
+          <Route path="/admin" component={AdminDashboard} />
         </>
       )}
       <Route component={NotFound} />

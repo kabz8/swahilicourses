@@ -25,6 +25,11 @@ export function Layout({ children }: LayoutProps) {
     { name: t('nav.contact'), href: '/contact' },
   ];
 
+  // Add admin navigation for admin users
+  if (user?.role === 'admin' || user?.role === 'super_admin') {
+    navigation.push({ name: 'Admin', href: '/admin' });
+  }
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}

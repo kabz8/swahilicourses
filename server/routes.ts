@@ -2,13 +2,26 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./auth";
+import { scrypt, randomBytes, timingSafeEqual } from "crypto";
+import { promisify } from "util";
 import { 
   insertNewsletterSchema,
   insertContactSubmissionSchema,
   insertEnrollmentSchema,
-  insertLessonProgressSchema 
+  insertLessonProgressSchema,
+  User
 } from "@shared/schema";
 import { z } from "zod";
+
+const scryptAsync = promisify(scrypt);
+
+async function hashPassword(password: string) {
+  const salt = randomBytes(16).toString("hex");
+  const buf = (await scryptAsync(password, salt, 64)) as Buffer;
+  return `${buf.toString("hex")}.${salt}`;
+}
+
+// Admin type definition for type safety
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
@@ -197,6 +210,187 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error processing payment success:", error);
       res.status(500).json({ message: "Failed to process payment" });
+    }
+  });
+
+  // Admin middleware
+  const requireAdmin = async (req: any, res: any, next: any) => {
+    if (!req.session.userId) {
+      return res.status(401).json({ error: "Not authenticated" });
+    }
+    
+    const user = await storage.getUser(req.session.userId);
+    if (!user || (user.role !== 'admin' && user.role !== 'super_admin')) {
+      return res.status(403).json({ error: "Admin access required" });
+    }
+    
+    req.user = user as User;
+    next();
+  };
+
+  // Admin API routes
+  app.get("/api/admin/stats", requireAdmin, async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      const courses = await storage.getCourses();
+      
+      const stats = {
+        totalUsers: users.length,
+        newUsersThisMonth: users.filter(u => 
+          u.createdAt && new Date(u.createdAt).getMonth() === new Date().getMonth()
+        ).length,
+        totalCourses: courses.length,
+        publishedCourses: courses.filter(c => c.isPublished).length,
+        totalEnrollments: 0,
+        newEnrollmentsThisMonth: 0,
+        totalRevenue: 0,
+        revenueThisMonth: 0,
+        pendingGrading: 0,
+        overdueTasks: 0,
+        newSubmissions: 0,
+      };
+      
+      res.json(stats);
+    } catch (error) {
+      console.error("Error fetching admin stats:", error);
+      res.status(500).json({ error: "Failed to fetch statistics" });
+    }
+  });
+
+  app.get("/api/admin/users", requireAdmin, async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      res.json(users);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  app.post("/api/admin/users", requireAdmin, async (req, res) => {
+    try {
+      const { firstName, lastName, email, phoneNumber, password, role } = req.body;
+      
+      if (!firstName || !lastName || !email || !password) {
+        return res.status(400).json({ error: "All required fields must be provided" });
+      }
+
+      const existingUser = await storage.getUserByEmail(email);
+      if (existingUser) {
+        return res.status(400).json({ error: "Email already registered" });
+      }
+
+      const hashedPassword = await hashPassword(password);
+      const newUser = await storage.createUser({
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        password: hashedPassword,
+        role: role || 'learner',
+      });
+
+      res.json(newUser);
+    } catch (error) {
+      console.error("Error creating user:", error);
+      res.status(500).json({ error: "Failed to create user" });
+    }
+  });
+
+  app.put("/api/admin/users/:id", requireAdmin, async (req, res) => {
+    try {
+      const userId = parseInt(req.params.id);
+      const { firstName, lastName, email, phoneNumber, role } = req.body;
+      
+      const updatedUser = await storage.updateUser(userId, {
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        role,
+      });
+
+      res.json(updatedUser);
+    } catch (error) {
+      console.error("Error updating user:", error);
+      res.status(500).json({ error: "Failed to update user" });
+    }
+  });
+
+  app.delete("/api/admin/users/:id", requireAdmin, async (req, res) => {
+    try {
+      const userId = parseInt(req.params.id);
+      await storage.deleteUser(userId);
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      res.status(500).json({ error: "Failed to delete user" });
+    }
+  });
+
+  app.get("/api/admin/tasks", requireAdmin, async (req, res) => {
+    try {
+      const tasks = await storage.getAllTasks();
+      res.json(tasks);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+      res.status(500).json({ error: "Failed to fetch tasks" });
+    }
+  });
+
+  app.post("/api/admin/tasks", requireAdmin, async (req: any, res) => {
+    try {
+      const taskData = {
+        ...req.body,
+        assignedBy: req.user.id,
+      };
+      
+      const newTask = await storage.createTask(taskData);
+      res.json(newTask);
+    } catch (error) {
+      console.error("Error creating task:", error);
+      res.status(500).json({ error: "Failed to create task" });
+    }
+  });
+
+  app.put("/api/admin/tasks/:id", requireAdmin, async (req, res) => {
+    try {
+      const taskId = parseInt(req.params.id);
+      const updatedTask = await storage.updateTask(taskId, req.body);
+      res.json(updatedTask);
+    } catch (error) {
+      console.error("Error updating task:", error);
+      res.status(500).json({ error: "Failed to update task" });
+    }
+  });
+
+  app.get("/api/admin/task-submissions/:taskId", requireAdmin, async (req, res) => {
+    try {
+      const taskId = parseInt(req.params.taskId);
+      const submissions = await storage.getTaskSubmissions(taskId);
+      res.json(submissions);
+    } catch (error) {
+      console.error("Error fetching task submissions:", error);
+      res.status(500).json({ error: "Failed to fetch task submissions" });
+    }
+  });
+
+  app.put("/api/admin/task-submissions/:id/grade", requireAdmin, async (req: any, res) => {
+    try {
+      const submissionId = parseInt(req.params.id);
+      const { grade, feedback } = req.body;
+      
+      const gradedSubmission = await storage.gradeTaskSubmission(
+        submissionId,
+        grade,
+        feedback,
+        req.user.id
+      );
+      
+      res.json(gradedSubmission);
+    } catch (error) {
+      console.error("Error grading task submission:", error);
+      res.status(500).json({ error: "Failed to grade task submission" });
     }
   });
 

@@ -32,6 +32,7 @@ export const users = pgTable("users", {
   lastName: varchar("last_name").notNull(),
   phoneNumber: varchar("phone_number"),
   password: varchar("password").notNull(),
+  role: varchar("role").default("learner").notNull(), // learner, admin, super_admin
   profileImageUrl: varchar("profile_image_url"),
   preferredLanguage: varchar("preferred_language").default("en"),
   theme: varchar("theme").default("light"),
@@ -138,6 +139,38 @@ export const payments = pgTable("payments", {
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
+// Tasks table for admin assignments
+export const tasks = pgTable("tasks", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  title: varchar("title").notNull(),
+  description: text("description"),
+  courseId: integer("course_id").references(() => courses.id),
+  lessonId: integer("lesson_id").references(() => lessons.id),
+  assignedBy: integer("assigned_by").references(() => users.id), // admin who assigned
+  assignedTo: integer("assigned_to").references(() => users.id), // learner assigned to
+  type: varchar("type").default("assignment"), // assignment, quiz, project, reading
+  dueDate: timestamp("due_date"),
+  status: varchar("status").default("pending"), // pending, in_progress, completed, overdue
+  maxPoints: integer("max_points").default(100),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// Task submissions table
+export const taskSubmissions = pgTable("task_submissions", {
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
+  taskId: integer("task_id").references(() => tasks.id),
+  userId: integer("user_id").references(() => users.id),
+  content: text("content"),
+  attachmentUrl: varchar("attachment_url"),
+  submittedAt: timestamp("submitted_at").defaultNow(),
+  grade: integer("grade"),
+  feedback: text("feedback"),
+  gradedBy: integer("graded_by").references(() => users.id),
+  gradedAt: timestamp("graded_at"),
+  status: varchar("status").default("submitted"), // submitted, graded, returned
+});
+
 // Relations
 export const usersRelations = relations(users, ({ many }) => ({
   enrollments: many(enrollments),
@@ -198,6 +231,41 @@ export const paymentsRelations = relations(payments, ({ one }) => ({
   }),
 }));
 
+export const tasksRelations = relations(tasks, ({ one, many }) => ({
+  course: one(courses, {
+    fields: [tasks.courseId],
+    references: [courses.id],
+  }),
+  lesson: one(lessons, {
+    fields: [tasks.lessonId],
+    references: [lessons.id],
+  }),
+  assignedByUser: one(users, {
+    fields: [tasks.assignedBy],
+    references: [users.id],
+  }),
+  assignedToUser: one(users, {
+    fields: [tasks.assignedTo],
+    references: [users.id],
+  }),
+  submissions: many(taskSubmissions),
+}));
+
+export const taskSubmissionsRelations = relations(taskSubmissions, ({ one }) => ({
+  task: one(tasks, {
+    fields: [taskSubmissions.taskId],
+    references: [tasks.id],
+  }),
+  user: one(users, {
+    fields: [taskSubmissions.userId],
+    references: [users.id],
+  }),
+  gradedByUser: one(users, {
+    fields: [taskSubmissions.gradedBy],
+    references: [users.id],
+  }),
+}));
+
 // Schema types
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
@@ -230,3 +298,14 @@ export type InsertCategory = z.infer<typeof insertCategorySchema>;
 export type InsertNewsletter = z.infer<typeof insertNewsletterSchema>;
 export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
 export type InsertPayment = z.infer<typeof insertPaymentSchema>;
+
+export type Task = typeof tasks.$inferSelect;
+export type InsertTask = typeof tasks.$inferInsert;
+export type TaskSubmission = typeof taskSubmissions.$inferSelect;
+export type InsertTaskSubmission = typeof taskSubmissions.$inferInsert;
+
+export const insertTaskSchema = createInsertSchema(tasks);
+export const insertTaskSubmissionSchema = createInsertSchema(taskSubmissions);
+
+export type InsertTaskType = z.infer<typeof insertTaskSchema>;
+export type InsertTaskSubmissionType = z.infer<typeof insertTaskSubmissionSchema>;

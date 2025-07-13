@@ -8,6 +8,8 @@ import {
   newsletters,
   contactSubmissions,
   payments,
+  tasks,
+  taskSubmissions,
   type User,
   type InsertUser,
   type Course,
@@ -18,6 +20,8 @@ import {
   type Newsletter,
   type ContactSubmission,
   type Payment,
+  type Task,
+  type TaskSubmission,
   type InsertCourse,
   type InsertLesson,
   type InsertEnrollment,
@@ -26,6 +30,8 @@ import {
   type InsertNewsletter,
   type InsertContactSubmission,
   type InsertPayment,
+  type InsertTask,
+  type InsertTaskSubmission,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, sql } from "drizzle-orm";
@@ -35,6 +41,9 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUser(id: number, user: Partial<InsertUser>): Promise<User>;
+  deleteUser(id: number): Promise<void>;
+  getAllUsers(): Promise<User[]>;
   
   // Course operations
   getCourses(): Promise<Course[]>;
@@ -72,6 +81,19 @@ export interface IStorage {
   getPaymentsByUser(userId: number): Promise<Payment[]>;
   getPaymentByStripeId(stripePaymentIntentId: string): Promise<Payment | undefined>;
   updatePaymentStatus(id: number, status: string): Promise<void>;
+  
+  // Task operations
+  getAllTasks(): Promise<Task[]>;
+  getTasksByUser(userId: number): Promise<Task[]>;
+  createTask(task: InsertTask): Promise<Task>;
+  updateTask(id: number, task: Partial<InsertTask>): Promise<Task>;
+  deleteTask(id: number): Promise<void>;
+  
+  // Task submission operations
+  getTaskSubmissions(taskId: number): Promise<TaskSubmission[]>;
+  createTaskSubmission(submission: InsertTaskSubmission): Promise<TaskSubmission>;
+  updateTaskSubmission(id: number, submission: Partial<InsertTaskSubmission>): Promise<TaskSubmission>;
+  gradeTaskSubmission(id: number, grade: number, feedback: string, gradedBy: number): Promise<TaskSubmission>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -92,6 +114,23 @@ export class DatabaseStorage implements IStorage {
       .values(userData)
       .returning();
     return user;
+  }
+
+  async updateUser(id: number, userData: Partial<InsertUser>): Promise<User> {
+    const [user] = await db
+      .update(users)
+      .set(userData)
+      .where(eq(users.id, id))
+      .returning();
+    return user;
+  }
+
+  async deleteUser(id: number): Promise<void> {
+    await db.delete(users).where(eq(users.id, id));
+  }
+
+  async getAllUsers(): Promise<User[]> {
+    return await db.select().from(users).orderBy(desc(users.createdAt));
   }
 
   // Course operations
@@ -250,6 +289,78 @@ export class DatabaseStorage implements IStorage {
       .update(payments)
       .set({ status, updatedAt: new Date() })
       .where(eq(payments.id, id));
+  }
+
+  // Task operations
+  async getAllTasks(): Promise<Task[]> {
+    return await db.select().from(tasks)
+      .orderBy(desc(tasks.createdAt));
+  }
+
+  async getTasksByUser(userId: number): Promise<Task[]> {
+    return await db.select().from(tasks)
+      .where(eq(tasks.assignedTo, userId))
+      .orderBy(desc(tasks.createdAt));
+  }
+
+  async createTask(taskData: InsertTask): Promise<Task> {
+    const [task] = await db
+      .insert(tasks)
+      .values(taskData)
+      .returning();
+    return task;
+  }
+
+  async updateTask(id: number, taskData: Partial<InsertTask>): Promise<Task> {
+    const [task] = await db
+      .update(tasks)
+      .set(taskData)
+      .where(eq(tasks.id, id))
+      .returning();
+    return task;
+  }
+
+  async deleteTask(id: number): Promise<void> {
+    await db.delete(tasks).where(eq(tasks.id, id));
+  }
+
+  // Task submission operations
+  async getTaskSubmissions(taskId: number): Promise<TaskSubmission[]> {
+    return await db.select().from(taskSubmissions)
+      .where(eq(taskSubmissions.taskId, taskId))
+      .orderBy(desc(taskSubmissions.submittedAt));
+  }
+
+  async createTaskSubmission(submissionData: InsertTaskSubmission): Promise<TaskSubmission> {
+    const [submission] = await db
+      .insert(taskSubmissions)
+      .values(submissionData)
+      .returning();
+    return submission;
+  }
+
+  async updateTaskSubmission(id: number, submissionData: Partial<InsertTaskSubmission>): Promise<TaskSubmission> {
+    const [submission] = await db
+      .update(taskSubmissions)
+      .set(submissionData)
+      .where(eq(taskSubmissions.id, id))
+      .returning();
+    return submission;
+  }
+
+  async gradeTaskSubmission(id: number, grade: number, feedback: string, gradedBy: number): Promise<TaskSubmission> {
+    const [submission] = await db
+      .update(taskSubmissions)
+      .set({ 
+        grade, 
+        feedback, 
+        gradedBy, 
+        gradedAt: new Date(),
+        status: 'graded'
+      })
+      .where(eq(taskSubmissions.id, id))
+      .returning();
+    return submission;
   }
 }
 
