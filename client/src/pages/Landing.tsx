@@ -37,37 +37,37 @@ export default function Landing() {
   };
 
   const stats = [
-    { value: '10,000+', label: 'Active Learners' },
-    { value: '150+', label: 'Courses Available' },
-    { value: '50+', label: 'Expert Instructors' },
-    { value: '95%', label: 'Success Rate' },
+    { value: '10,000+', label: t('activeLearners') },
+    { value: '150+', label: t('coursesAvailable') },
+    { value: '50+', label: t('expertInstructorsCount') },
+    { value: '95%', label: t('successRate') },
   ];
 
   const features = [
     {
       icon: Clock,
-      title: '5-Minute Lessons',
-      description: 'Perfect bite-sized lessons that fit your busy schedule',
+      title: t('fiveMinuteLessons'),
+      description: t('fiveMinuteLessonsDesc'),
     },
     {
       icon: BookOpen,
-      title: 'Resume Anywhere',
-      description: 'Pick up exactly where you left off across all devices',
+      title: t('resumeAnywhere'),
+      description: t('resumeAnywhereDesc'),
     },
     {
       icon: Award,
-      title: 'Certificates',
-      description: 'Earn certificates as you complete courses and milestones',
+      title: t('certificates'),
+      description: t('certificatesDesc'),
     },
     {
       icon: Users,
-      title: 'Expert Instructors',
-      description: 'Learn from native speakers and language experts',
+      title: t('expertInstructors'),
+      description: t('expertInstructorsDesc'),
     },
     {
       icon: BarChart3,
-      title: 'Progress Tracking',
-      description: 'Monitor your improvement with detailed analytics',
+      title: t('progressTrackingTitle'),
+      description: t('progressTrackingDescFeature'),
     },
   ];
 
@@ -133,10 +133,10 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-              Why Choose Kiswahili Mastery?
+              {t('whyChooseTitle')}
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400">
-              Everything you need to master Kiswahili
+              {t('whyChooseSubtitle')}
             </p>
           </div>
 
@@ -164,12 +164,12 @@ export default function Landing() {
           <div className="bg-blue-600 rounded-2xl p-8 text-center text-white">
             <h2 className="text-3xl font-bold mb-4">{t('newsletter.title')}</h2>
             <p className="text-xl text-blue-100 mb-8">
-              Get the latest lessons, tips, and cultural insights delivered to your inbox
+              {t('newsletterDescription')}
             </p>
             <form onSubmit={handleNewsletterSubmit} className="max-w-md mx-auto flex gap-4">
               <Input
                 type="email"
-                placeholder="Enter your email"
+                placeholder={t('emailPlaceholderNewsletter')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="flex-1 bg-white text-gray-900 placeholder-gray-500"
@@ -180,7 +180,7 @@ export default function Landing() {
                 disabled={isSubscribing}
                 className="bg-emerald-600 hover:bg-emerald-700 text-white"
               >
-                {isSubscribing ? 'Subscribing...' : t('newsletter.subscribe')}
+                {isSubscribing ? t('subscribing') : t('newsletter.subscribe')}
               </Button>
             </form>
           </div>

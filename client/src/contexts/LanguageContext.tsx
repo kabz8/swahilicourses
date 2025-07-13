@@ -69,6 +69,45 @@ const translations = {
     'faithBasedDesc': 'Learn Kiswahili through Christian values and teachings',
     'progressTracking': 'Progress Tracking',
     'progressTrackingDesc': 'Track your learning progress and resume where you left off',
+    
+    // Landing page features
+    'whyChooseTitle': 'Why Choose Hu-jambo?',
+    'whyChooseSubtitle': 'Everything you need to master Kiswahili',
+    'fiveMinuteLessons': '5-Minute Lessons',
+    'fiveMinuteLessonsDesc': 'Perfect bite-sized lessons that fit your busy schedule',
+    'resumeAnywhere': 'Resume Anywhere',
+    'resumeAnywhereDesc': 'Pick up exactly where you left off across all devices',
+    'certificates': 'Certificates',
+    'certificatesDesc': 'Earn certificates as you complete courses and milestones',
+    'expertInstructors': 'Expert Instructors',
+    'expertInstructorsDesc': 'Learn from native speakers and language experts',
+    'progressTrackingTitle': 'Progress Tracking',
+    'progressTrackingDescFeature': 'Monitor your improvement with detailed analytics',
+    
+    // Stats
+    'activeLearners': 'Active Learners',
+    'coursesAvailable': 'Courses Available',
+    'expertInstructorsCount': 'Expert Instructors',
+    'successRate': 'Success Rate',
+    
+    // Newsletter
+    'newsletterDescription': 'Get the latest lessons, tips, and cultural insights delivered to your inbox',
+    'emailPlaceholderNewsletter': 'Enter your email',
+    'subscribing': 'Subscribing...',
+    
+    // Footer
+    'footerDescription': 'Your gateway to mastering the beautiful Kiswahili language through modern, interactive learning.',
+    'coursesFooter': 'Courses',
+    'beginnerLevel': 'Beginner Level',
+    'intermediateLevel': 'Intermediate Level',
+    'advancedLevel': 'Advanced Level',
+    'support': 'Support',
+    'contactUs': 'Contact Us',
+    'aboutUs': 'About Us',
+    'legal': 'Legal',
+    'privacyPolicy': 'Privacy Policy',
+    'termsOfService': 'Terms of Service',
+    'allRightsReserved': 'All rights reserved',
   },
   sw: {
     'nav.home': 'Nyumbani',
@@ -130,6 +169,45 @@ const translations = {
     'faithBasedDesc': 'Jifunze Kiswahili kupitia maadili na mafunzo ya Kikristo',
     'progressTracking': 'Kufuatilia Maendeleo',
     'progressTrackingDesc': 'Fuatilia maendeleo yako ya kujifunza na endelea mahali ulipo acha',
+    
+    // Landing page features
+    'whyChooseTitle': 'Kwa Nini Uchague Hu-jambo?',
+    'whyChooseSubtitle': 'Kila kitu unachohitaji kushinda Kiswahili',
+    'fiveMinuteLessons': 'Masomo ya Dakika 5',
+    'fiveMinuteLessonsDesc': 'Masomo mafupi yanayofaa wakati wako wa kila siku',
+    'resumeAnywhere': 'Endelea Popote',
+    'resumeAnywhereDesc': 'Endelea hasa mahali ulipo acha kwenye vifaa vyote',
+    'certificates': 'Vyeti',
+    'certificatesDesc': 'Pata vyeti unapomaliza masomo na mafanikio',
+    'expertInstructors': 'Walimu Wazoefu',
+    'expertInstructorsDesc': 'Jifunze kutoka kwa wazungumzaji asili na wataalam wa lugha',
+    'progressTrackingTitle': 'Kufuatilia Maendeleo',
+    'progressTrackingDescFeature': 'Fuatilia maendeleo yako kwa takwimu za kina',
+    
+    // Stats
+    'activeLearners': 'Wanafunzi Hai',
+    'coursesAvailable': 'Masomo Yaliyopo',
+    'expertInstructorsCount': 'Walimu Wazoefu',
+    'successRate': 'Kiwango cha Mafanikio',
+    
+    // Newsletter
+    'newsletterDescription': 'Pata masomo mapya, vidokezo, na maarifa ya kitamaduni sandukuni mwako',
+    'emailPlaceholderNewsletter': 'Ingiza barua pepe yako',
+    'subscribing': 'Inajisajili...',
+    
+    // Footer
+    'footerDescription': 'Mlango wako wa kushinda lugha nzuri ya Kiswahili kupitia ujifunzaji wa kisasa wa muingiliano.',
+    'coursesFooter': 'Masomo',
+    'beginnerLevel': 'Kiwango cha Mwanzo',
+    'intermediateLevel': 'Kiwango cha Kati',
+    'advancedLevel': 'Kiwango cha Juu',
+    'support': 'Msaada',
+    'contactUs': 'Wasiliana Nasi',
+    'aboutUs': 'Kuhusu Sisi',
+    'legal': 'Kiserikali',
+    'privacyPolicy': 'Sera ya Faragha',
+    'termsOfService': 'Masharti ya Huduma',
+    'allRightsReserved': 'Haki zote zimehifadhiwa',
   },
 };
 

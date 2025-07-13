@@ -155,38 +155,38 @@ export function Layout({ children }: LayoutProps) {
                 <span className="text-xl font-bold">Hu-jambo</span>
               </div>
               <p className="text-gray-400 mb-4">
-                Your gateway to mastering the beautiful Kiswahili language through modern, interactive learning.
+                {t('footerDescription')}
               </p>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4">Courses</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('coursesFooter')}</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="/courses?level=beginner" className="hover:text-white transition-colors">Beginner Level</a></li>
-                <li><a href="/courses?level=intermediate" className="hover:text-white transition-colors">Intermediate Level</a></li>
-                <li><a href="/courses?level=advanced" className="hover:text-white transition-colors">Advanced Level</a></li>
+                <li><a href="/courses?level=beginner" className="hover:text-white transition-colors">{t('beginnerLevel')}</a></li>
+                <li><a href="/courses?level=intermediate" className="hover:text-white transition-colors">{t('intermediateLevel')}</a></li>
+                <li><a href="/courses?level=advanced" className="hover:text-white transition-colors">{t('advancedLevel')}</a></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4">Support</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('support')}</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="/contact" className="hover:text-white transition-colors">Contact Us</a></li>
-                <li><a href="/about" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="/contact" className="hover:text-white transition-colors">{t('contactUs')}</a></li>
+                <li><a href="/about" className="hover:text-white transition-colors">{t('aboutUs')}</a></li>
               </ul>
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4">Legal</h3>
+              <h3 className="text-lg font-semibold mb-4">{t('legal')}</h3>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
-                <li><a href="/terms" className="hover:text-white transition-colors">Terms of Service</a></li>
+                <li><a href="/privacy" className="hover:text-white transition-colors">{t('privacyPolicy')}</a></li>
+                <li><a href="/terms" className="hover:text-white transition-colors">{t('termsOfService')}</a></li>
               </ul>
             </div>
           </div>
 
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 Hu-jambo. All rights reserved.</p>
+            <p>&copy; 2024 Hu-jambo. {t('allRightsReserved')}.</p>
           </div>
         </div>
       </footer>
