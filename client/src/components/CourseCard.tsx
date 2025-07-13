@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { ProgressBar } from './ProgressBar';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
+import { useLocation } from 'wouter';
 
 interface CourseCardProps {
   course: {
@@ -28,6 +29,7 @@ interface CourseCardProps {
 export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseCardProps) {
   const { t } = useLanguage();
   const { isAuthenticated } = useAuth();
+  const [, navigate] = useLocation();
   
   const levelColors = {
     beginner: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
@@ -91,11 +93,11 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
             </Button>
           ) : (
             <Button 
-              onClick={isAuthenticated ? onEnroll : () => window.location.href = '/api/login'} 
+              onClick={isAuthenticated ? onEnroll : () => navigate('/register')} 
               variant="outline" 
               className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
             >
-              {isAuthenticated ? t('courses.enroll') : t('signIn')} <ArrowRight className="h-4 w-4 ml-1" />
+              {t('courses.enroll')} <ArrowRight className="h-4 w-4 ml-1" />
             </Button>
           )}
         </div>

@@ -14,6 +14,8 @@ import CourseView from "@/pages/CourseView";
 import About from "@/pages/About";
 import Contact from "@/pages/Contact";
 import AuthPage from "@/pages/AuthPage";
+import RegisterPage from "@/pages/RegisterPage";
+import LoginPage from "@/pages/LoginPage";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -25,6 +27,8 @@ function Router() {
         <>
           <Route path="/" component={Landing} />
           <Route path="/auth" component={AuthPage} />
+          <Route path="/register" component={RegisterPage} />
+          <Route path="/login" component={LoginPage} />
           <Route path="/about" component={About} />
           <Route path="/contact" component={Contact} />
           <Route path="/courses" component={Courses} />
