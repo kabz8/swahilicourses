@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import heroImage from '@/assets/31488_1752418077282.jpg';
 
 export default function Landing() {
   const { t } = useLanguage();
@@ -105,7 +106,7 @@ export default function Landing() {
             </div>
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600"
+                src={heroImage}
                 alt="Students learning together in East Africa"
                 className="rounded-xl shadow-2xl"
               />
