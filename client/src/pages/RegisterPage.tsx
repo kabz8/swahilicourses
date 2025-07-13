@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Layout } from '@/components/Layout';
+
 import { useMutation } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
 import { useLocation } from 'wouter';
@@ -63,8 +63,7 @@ export default function RegisterPage() {
   };
 
   return (
-    <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-emerald-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
         <div className="w-full max-w-md">
           <Card className="bg-white dark:bg-gray-800 shadow-xl">
             <CardHeader className="space-y-1">
@@ -191,7 +190,6 @@ export default function RegisterPage() {
             </CardContent>
           </Card>
         </div>
-      </div>
-    </Layout>
+    </div>
   );
 }
