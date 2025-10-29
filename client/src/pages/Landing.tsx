@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { CourseCard } from '@/components/CourseCard';
-import { Play, BookOpen, Clock, Users, Award, BarChart3, Sparkles, ArrowRight, Zap, Target } from 'lucide-react';
+import { Play, PlayCircle, BookOpen, Clock, Users, Award, BarChart3, Sparkles, Globe, Trophy, Shield, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -134,6 +134,20 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* Logos / Social Proof */}
+      <section className="bg-white dark:bg-gray-900 py-8 sm:py-10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">Trusted by learners worldwide</div>
+          <div className="grid grid-cols-3 sm:grid-cols-5 gap-6 opacity-80">
+            <div className="h-8 bg-gray-100 dark:bg-gray-800 rounded-md"></div>
+            <div className="h-8 bg-gray-100 dark:bg-gray-800 rounded-md"></div>
+            <div className="h-8 bg-gray-100 dark:bg-gray-800 rounded-md"></div>
+            <div className="hidden sm:block h-8 bg-gray-100 dark:bg-gray-800 rounded-md"></div>
+            <div className="hidden sm:block h-8 bg-gray-100 dark:bg-gray-800 rounded-md"></div>
+          </div>
+        </div>
+      </section>
+
       {/* Stats Section */}
       <section className="py-12 sm:py-16 bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -178,6 +192,33 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* How it works */}
+      <section className="py-12 sm:py-16 bg-white dark:bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3">How it works</h2>
+            <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">Learn Kiswahili step-by-step with bite-sized lessons and practical exercises.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-gray-700 dark:to-gray-700 hover-lift">
+              <div className="w-12 h-12 rounded-lg bg-blue-600 text-white flex items-center justify-center mb-4"><Play className="h-5 w-5"/></div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Start with basics</h3>
+              <p className="text-gray-600 dark:text-gray-300">Master greetings, introductions, and essential vocabulary.</p>
+            </div>
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-gray-700 dark:to-gray-700 hover-lift">
+              <div className="w-12 h-12 rounded-lg bg-emerald-600 text-white flex items-center justify-center mb-4"><Trophy className="h-5 w-5"/></div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Practice daily</h3>
+              <p className="text-gray-600 dark:text-gray-300">Short interactive lessons with progress tracking.</p>
+            </div>
+            <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-700 dark:to-gray-700 hover-lift">
+              <div className="w-12 h-12 rounded-lg bg-purple-600 text-white flex items-center justify-center mb-4"><Globe className="h-5 w-5"/></div>
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">Speak with confidence</h3>
+              <p className="text-gray-600 dark:text-gray-300">Apply what you learn to real-life conversations.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Featured Courses */}
       <section className="py-12 sm:py-16 bg-white dark:bg-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -191,6 +232,73 @@ export default function Landing() {
                 <CourseCard course={course} />
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Video teaser */}
+      <section className="py-12 sm:py-16 bg-gray-50 dark:bg-gray-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3">See the learning experience</h2>
+              <p className="text-gray-600 dark:text-gray-400 mb-6">Get a glimpse of our lesson flow and practice format, designed for busy learners.</p>
+              <ul className="space-y-3 text-gray-700 dark:text-gray-300">
+                <li className="flex items-center gap-2"><Shield className="h-4 w-4 text-emerald-500"/> Structured, step-by-step lessons</li>
+                <li className="flex items-center gap-2"><Clock className="h-4 w-4 text-blue-500"/> 5–10 minute sessions</li>
+                <li className="flex items-center gap-2"><Star className="h-4 w-4 text-yellow-500"/> Real-world scenarios</li>
+              </ul>
+            </div>
+            <div className="relative">
+              <img src={heroImage} alt="Kiswahili preview" className="w-full rounded-xl shadow-2xl" />
+              <button onClick={() => (window.location.href = '/courses')} className="absolute inset-0 flex items-center justify-center">
+                <span className="inline-flex items-center gap-2 bg-white/90 dark:bg-gray-800/90 px-4 py-2 rounded-full shadow hover-lift">
+                  <PlayCircle className="h-6 w-6 text-blue-600"/> Watch preview
+                </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials */}
+      <section className="py-12 sm:py-16 bg-white dark:bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8 sm:mb-12">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-3">What learners say</h2>
+            <p className="text-gray-600 dark:text-gray-400">Motivating feedback from real students.</p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[{
+              name: 'Amina', text: 'I spoke basic Kiswahili within two weeks!', role: 'Traveler'
+            },{
+              name: 'Kevin', text: 'Short lessons fit my schedule and keep me consistent.', role: 'Student'
+            },{
+              name: 'Grace', text: 'Love the practical phrases and cultural notes.', role: 'NGO Volunteer'
+            }].map((t, i) => (
+              <div key={i} className="p-6 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 hover-lift">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-500 text-white flex items-center justify-center font-semibold">{t.name[0]}</div>
+                  <div>
+                    <div className="font-semibold text-gray-900 dark:text-white">{t.name}</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">{t.role}</div>
+                  </div>
+                </div>
+                <p className="text-gray-700 dark:text-gray-300">“{t.text}”</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Band */}
+      <section className="py-16 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold mb-3">Ready to start speaking Kiswahili?</h2>
+          <p className="text-blue-100 mb-6">Join now and learn with bite-sized lessons built for real life.</p>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Button size="lg" className="bg-white text-blue-700 hover:bg-gray-100" onClick={() => (window.location.href = '/register')}>Get Started</Button>
+            <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-blue-700" onClick={() => (window.location.href = '/courses')}>Browse Courses</Button>
           </div>
         </div>
       </section>
