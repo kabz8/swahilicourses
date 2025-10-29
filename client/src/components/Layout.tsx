@@ -33,32 +33,35 @@ export function Layout({ children }: LayoutProps) {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-50">
+      <header className="sticky top-0 z-50 backdrop-blur supports-[backdrop-filter]:bg-white/70 dark:supports-[backdrop-filter]:bg-gray-900/60 bg-white/90 dark:bg-gray-900/80 border-b border-gray-200/70 dark:border-gray-800/70">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <div className="flex items-center">
               <Link href="/" className="flex items-center">
                 <GraduationCap className="h-8 w-8 text-blue-600 mr-3" />
-                <span className="text-xl font-bold text-gray-900 dark:text-white">
+                <span className="text-xl font-bold text-gray-900 dark:text-white gradient-text">
                   Hu-jambo
                 </span>
               </Link>
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex space-x-8">
+            <nav className="hidden md:flex items-center gap-6">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`transition-colors ${
+                  className={`relative inline-flex items-center py-2 text-sm font-medium transition-colors ${
                     location === item.href
                       ? 'text-blue-600 dark:text-blue-400'
                       : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
                   }`}
                 >
                   {item.name}
+                  {location === item.href && (
+                    <span className="absolute -bottom-1 left-0 h-0.5 w-full bg-gradient-to-r from-blue-500 via-indigo-500 to-teal-500 rounded-full" />
+                  )}
                 </Link>
               ))}
             </nav>
@@ -91,7 +94,7 @@ export function Layout({ children }: LayoutProps) {
                   </Button>
                 </div>
               ) : (
-                <div className="flex items-center space-x-2">
+                <div className="hidden md:flex items-center space-x-2">
                   <Link href="/auth">
                     <Button 
                       variant="ghost" 
@@ -103,7 +106,7 @@ export function Layout({ children }: LayoutProps) {
                   <Link href="/auth">
                     <Button 
                       size="sm"
-                      className="bg-blue-600 hover:bg-blue-700"
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-sm"
                     >
                       {t('signUp')}
                     </Button>
@@ -126,7 +129,7 @@ export function Layout({ children }: LayoutProps) {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 shadow-lg">
+          <div className="md:hidden bg-white/95 dark:bg-gray-900/95 border-t border-gray-200/70 dark:border-gray-800/70 shadow-lg">
             <div className="px-4 py-6 space-y-6">
               {/* Mobile Navigation Links */}
               <div className="space-y-4">
@@ -200,7 +203,7 @@ export function Layout({ children }: LayoutProps) {
                     <Link href="/auth" className="block">
                       <Button 
                         size="sm"
-                        className="w-full bg-blue-600 hover:bg-blue-700"
+                        className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700"
                         onClick={() => setMobileMenuOpen(false)}
                       >
                         {t('signUp')}
@@ -220,13 +223,13 @@ export function Layout({ children }: LayoutProps) {
       </main>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-white">
+      <footer className="bg-gray-950 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
               <div className="flex items-center mb-4">
                 <GraduationCap className="h-8 w-8 text-blue-600 mr-3" />
-                <span className="text-xl font-bold">Hu-jambo</span>
+                <span className="text-xl font-bold gradient-text">Hu-jambo</span>
               </div>
               <p className="text-gray-400 mb-4">
                 {t('footerDescription')}
