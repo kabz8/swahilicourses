@@ -12,6 +12,7 @@ import {
   User
 } from "../shared/schema";
 import { z } from "zod";
+import { seedInitialData } from "./seedData";
 
 const scryptAsync = promisify(scrypt);
 
@@ -299,6 +300,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching users:", error);
       res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  // Seed endpoint protected by token to run on first deploy
+  app.post("/api/admin/seed", async (req, res) => {
+    try {
+      const provided = req.headers["x-seed-token"] as string | undefined;
+      const expected = process.env.SEED_TOKEN;
+      if (!expected || !provided || provided !== expected) {
+        return res.status(403).json({ error: "Invalid seed token" });
+      }
+
+      const result = await seedInitialData();
+      res.json({ success: true, ...result });
+    } catch (error) {
+      console.error("Error seeding data:", error);
+      res.status(500).json({ error: "Failed to seed data" });
     }
   });
 
