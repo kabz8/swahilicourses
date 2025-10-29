@@ -42,6 +42,26 @@ export async function registerRoutes(app: Express): Promise<Server> {
         courses = await storage.getCourses();
       }
       
+      // Auto-seed on first run if database is empty
+      if (!courses || courses.length === 0) {
+        try {
+          const { seedInitialData } = await import('./seedData');
+          const result = await seedInitialData();
+          if (result.seeded) {
+            // fetch again after seeding
+            if (level) {
+              courses = await storage.getCoursesByLevel(level as string);
+            } else if (category) {
+              courses = await storage.getCoursesByCategory(parseInt(category as string));
+            } else {
+              courses = await storage.getCourses();
+            }
+          }
+        } catch (seedErr) {
+          console.error('Auto-seed failed:', seedErr);
+        }
+      }
+
       res.json(courses);
     } catch (error) {
       console.error("Error fetching courses:", error);
