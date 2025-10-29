@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { CourseCard } from '@/components/CourseCard';
 import { Play, BookOpen, Clock, Users, Award, BarChart3, Sparkles, ArrowRight, Zap, Target } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -14,6 +16,11 @@ export default function Landing() {
   const { toast } = useToast();
   const [email, setEmail] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
+
+  const { data: courses = [] } = useQuery({
+    queryKey: ['/api/courses'],
+    retry: false,
+  });
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -166,6 +173,23 @@ export default function Landing() {
                   <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
                 </CardContent>
               </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Courses */}
+      <section className="py-12 sm:py-16 bg-white dark:bg-gray-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">Featured Courses</h2>
+            <Link href="/courses" className="text-blue-600 hover:underline text-sm sm:text-base">See all</Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+            {courses.slice(0, 6).map((course, index) => (
+              <div key={course.id} className="animate-slide-up" style={{ animationDelay: `${index * 0.05}s` }}>
+                <CourseCard course={course} />
+              </div>
             ))}
           </div>
         </div>

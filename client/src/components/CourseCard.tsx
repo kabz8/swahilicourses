@@ -40,7 +40,7 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
     advanced: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
   };
 
-  const defaultImage = courseImage;
+  const defaultImage = course.imageUrl || courseImage;
 
   const handleCardClick = () => {
     navigate(`/courses/${course.id}`);
@@ -52,7 +52,8 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
         <img 
           src={defaultImage}
           alt={course.title}
-          className="w-full h-40 sm:h-48 object-cover"
+          loading="lazy"
+          className="w-full h-44 sm:h-52 object-cover aspect-video"
         />
         <div className="absolute top-3 left-3 sm:top-4 sm:left-4">
           <Badge className={`${levelColors[course.level] || levelColors.beginner} backdrop-blur-sm text-xs sm:text-sm px-2 py-1`}>
