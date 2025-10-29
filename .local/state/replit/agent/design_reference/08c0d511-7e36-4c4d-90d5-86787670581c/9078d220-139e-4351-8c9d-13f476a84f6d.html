@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiswahili Mastery - Learn Kiswahili Online</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563eb',
+                        secondary: '#059669',
+                        accent: '#f59e0b'
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300">
+    <!-- Header -->
+    <header class="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50" alt="Kiswahili Mastery Logo" class="h-10 w-10 rounded-lg mr-3">
+                    <span class="text-xl font-bold text-primary">Kiswahili Mastery</span>
+                </div>
+
+                <!-- Website Banner -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <nav class="flex space-x-6">
+                        <a href="#" class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">Courses</a>
+                        <a href="#" class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">Progress</a>
+                        <a href="#" class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">About</a>
+                        <a href="#contact" class="text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">Contact</a>
+                    </nav>
+                </div>
+
+                <!-- Right Side Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Language Dropdown -->
+                    <div class="relative">
+                        <button class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-700 px-3 py-2 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+                            <i class="fas fa-globe text-sm"></i>
+                            <span class="text-sm">EN</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <!-- Dropdown content would be shown with JavaScript -->
+                    </div>
+
+                    <!-- Dark/Light Mode Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors">
+                        <i class="fas fa-moon dark:hidden"></i>
+                        <i class="fas fa-sun hidden dark:block"></i>
+                    </button>
+
+                    <!-- Sign In/Register -->
+                    <div class="hidden sm:flex items-center space-x-2">
+                        <button class="px-4 py-2 text-sm text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">Sign In</button>
+                        <button class="px-4 py-2 text-sm bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">Register</button>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button class="md:hidden p-2">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-primary to-blue-700 text-white py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Learn Kiswahili Online</h1>
+            <p class="text-xl md:text-2xl mb-8 text-blue-100">Master the beautiful language of East Africa with our interactive courses</p>
+            
+            <!-- Join Community Section -->
+            <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-8 max-w-2xl mx-auto">
+                <h2 class="text-2xl font-bold italic mb-4">Join our community for capacity building</h2>
+                <p class="text-blue-100 mb-6">Connect with fellow learners and build your language skills together</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-primary px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+                        Register / Sign Up
+                    </button>
+                    <button class="bg-secondary text-white px-8 py-3 rounded-lg font-semibold hover:bg-emerald-700 transition-colors">
+                        Explore Courses
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Catalog Section -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Choose Your Learning Path</h2>
+                <p class="text-slate-600 dark:text-slate-400">Structured courses designed for all skill levels</p>
+            </div>
+
+            <!-- Course Filters -->
+            <div class="flex flex-wrap gap-4 mb-8 justify-center">
+                <button class="px-6 py-2 bg-primary text-white rounded-full hover:bg-blue-700 transition-colors">All Levels</button>
+                <button class="px-6 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">Beginner</button>
+                <button class="px-6 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">Intermediate</button>
+                <button class="px-6 py-2 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 rounded-full hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">Advanced</button>
+            </div>
+
+            <!-- Course Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Course Card 1 -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- Course thumbnail showing traditional Tanzanian market scene -->
+                    <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200" alt="Kiswahili Basics Course" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 px-3 py-1 rounded-full text-sm">Beginner</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">24 lessons</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Kiswahili Basics</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-4">Learn essential greetings, numbers, and everyday phrases</p>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <span>Progress</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                                <div class="bg-secondary h-2 rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                Resume Learning
+                            </button>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">4 min left</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 2 -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- Course thumbnail showing East African cultural scene -->
+                    <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200" alt="Conversational Kiswahili" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full text-sm">Intermediate</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">18 lessons</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Conversational Kiswahili</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-4">Master everyday conversations and cultural expressions</p>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <span>Progress</span>
+                                <span>30%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                                <div class="bg-secondary h-2 rounded-full" style="width: 30%"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                Continue
+                            </button>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">2 min left</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 3 -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- Course thumbnail showing business setting in East Africa -->
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200" alt="Business Kiswahili" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 px-3 py-1 rounded-full text-sm">Advanced</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">15 lessons</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Business Kiswahili</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-4">Professional vocabulary and formal communication</p>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <span>Progress</span>
+                                <span>0%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                                <div class="bg-secondary h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                Start Course
+                            </button>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">5 min each</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 4 -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- Course thumbnail showing traditional Kiswahili literature -->
+                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200" alt="Kiswahili Literature" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full text-sm">Cultural</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">12 lessons</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Kiswahili Literature</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-4">Explore poetry, stories, and cultural heritage</p>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <span>Progress</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                                <div class="bg-secondary h-2 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                Resume
+                            </button>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">1 min left</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 5 -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- Course thumbnail showing children learning -->
+                    <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=200" alt="Kiswahili for Kids" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 px-3 py-1 rounded-full text-sm">Kids</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">20 lessons</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Kiswahili for Kids</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-4">Fun and interactive lessons for young learners</p>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <span>Progress</span>
+                                <span>45%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                                <div class="bg-secondary h-2 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                Continue
+                            </button>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">3 min left</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Card 6 -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden hover:shadow-md transition-shadow">
+                    <!-- Course thumbnail showing pronunciation and audio -->
+                    <img src="https://pixabay.com/get/g365a8a89ceb9385c7cd1e38133d5ac25f099335a8f5d25d9252556d57cb1157b154c406a0b17a16a486e9ecb085b021098c7cdd6246861771765a02bb5408c5d_1280.jpg" alt="Pronunciation Mastery" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 px-3 py-1 rounded-full text-sm">Audio</span>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">10 lessons</span>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Pronunciation Mastery</h3>
+                        <p class="text-slate-600 dark:text-slate-400 mb-4">Perfect your accent with native speaker guidance</p>
+                        
+                        <!-- Progress Bar -->
+                        <div class="mb-4">
+                            <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-1">
+                                <span>Progress</span>
+                                <span>20%</span>
+                            </div>
+                            <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                                <div class="bg-secondary h-2 rounded-full" style="width: 20%"></div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <button class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+                                Continue
+                            </button>
+                            <span class="text-sm text-slate-500 dark:text-slate-400">4 min left</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Course Player Modal (Hidden by default) -->
+    <div id="course-modal" class="fixed inset-0 z-50 hidden bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-800 rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-slate-200 dark:border-slate-700">
+                <div>
+                    <h3 class="text-lg font-semibold">Lesson 1: Basic Greetings</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400">Kiswahili Basics Course</p>
+                </div>
+                <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <!-- Video Player -->
+            <div class="aspect-video bg-slate-900 relative">
+                <video class="w-full h-full" controls>
+                    <source src="#" type="video/mp4">
+                    <!-- TODO: Implement video source -->
+                </video>
+                <!-- Resume from where you left off overlay -->
+                <div class="absolute inset-0 bg-black bg-opacity-75 flex items-center justify-center">
+                    <div class="text-center text-white">
+                        <h4 class="text-xl font-semibold mb-4">Resume from where you left off?</h4>
+                        <p class="mb-6">You were at 2:30 in this lesson</p>
+                        <div class="flex space-x-4">
+                            <button class="bg-primary px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                                Resume (2:30)
+                            </button>
+                            <button class="bg-slate-600 px-6 py-3 rounded-lg hover:bg-slate-700 transition-colors">
+                                Start from Beginning
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Progress and Controls -->
+            <div class="p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="flex items-center space-x-4">
+                        <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
+                            <i class="fas fa-step-backward"></i>
+                        </button>
+                        <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <button class="p-2 hover:bg-slate-100 dark:hover:bg-slate-700 rounded-lg">
+                            <i class="fas fa-step-forward"></i>
+                        </button>
+                    </div>
+                    <div class="text-sm text-slate-500 dark:text-slate-400">
+                        2:30 / 4:45
+                    </div>
+                </div>
+
+                <!-- Lesson Progress -->
+                <div class="mb-4">
+                    <div class="flex justify-between text-sm text-slate-600 dark:text-slate-400 mb-1">
+                        <span>Lesson Progress</span>
+                        <span>55%</span>
+                    </div>
+                    <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
+                        <div class="bg-primary h-2 rounded-full" style="width: 55%"></div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex justify-between">
+                    <button class="px-4 py-2 text-slate-600 dark:text-slate-400 hover:text-primary transition-colors">
+                        ← Previous Lesson
+                    </button>
+                    <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        Next Lesson →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-slate-100 dark:bg-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Why Choose Kiswahili Mastery?</h2>
+                <p class="text-slate-600 dark:text-slate-400">Learn effectively with our proven methodology</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-primary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-primary text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">5-Minute Lessons</h3>
+                    <p class="text-slate-600 dark:text-slate-400">Short, focused lessons that fit your busy schedule</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-secondary/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-chart-line text-secondary text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Progress Tracking</h3>
+                    <p class="text-slate-600 dark:text-slate-400">Monitor your learning journey with detailed analytics</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="bg-accent/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-accent text-xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Community Support</h3>
+                    <p class="text-slate-600 dark:text-slate-400">Learn with fellow students and native speakers</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section class="py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold mb-4">Stay Updated</h2>
+            <p class="text-slate-600 dark:text-slate-400 mb-8">Get the latest course updates and learning tips delivered to your inbox</p>
+            
+            <form class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <input type="email" placeholder="Enter your email" class="flex-1 px-4 py-3 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                <button type="submit" class="bg-primary text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                    Subscribe
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-slate-100 dark:bg-slate-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold mb-4">Get in Touch</h2>
+                <p class="text-slate-600 dark:text-slate-400">Have questions? We're here to help you on your language learning journey</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Contact Information -->
+                <div class="space-y-6">
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
+                            <i class="fas fa-envelope text-primary"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold">Email</h3>
+                            <p class="text-slate-600 dark:text-slate-400">support@kiswahilimastery.com</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
+                            <i class="fas fa-map-marker-alt text-primary"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold">Address</h3>
+                            <p class="text-slate-600 dark:text-slate-400">123 Language Center, Dar es Salaam, Tanzania</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center space-x-4">
+                        <div class="bg-primary/10 w-12 h-12 rounded-full flex items-center justify-center">
+                            <i class="fas fa-phone text-primary"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-semibold">Phone</h3>
+                            <p class="text-slate-600 dark:text-slate-400">+255 123 456 789</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Name</label>
+                        <input type="text" class="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Email</label>
+                        <input type="email" class="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-2">Message</label>
+                        <textarea rows="4" class="w-full px-4 py-3 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-4.0.3&auto=format&fit=crop&w=50&h=50" alt="Kiswahili Mastery" class="h-8 w-8 rounded mr-3">
+                        <span class="text-xl font-bold">Kiswahili Mastery</span>
+                    </div>
+                    <p class="text-slate-400">Learn Kiswahili the modern way with our interactive online platform.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Courses</h4>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Beginner</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Intermediate</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Advanced</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Business</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-slate-400">
+                        <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Community</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-slate-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="text-slate-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-slate-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-slate-400 hover:text-white transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-slate-800 mt-8 pt-8 text-center text-slate-400">
+                <p>&copy; 2024 Kiswahili Mastery. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dark mode toggle functionality
+        (function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const html = document.documentElement;
+            
+            // Check for saved theme preference or default to 'light'
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            
+            if (currentTheme === 'dark') {
+                html.classList.add('dark');
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                if (html.classList.contains('dark')) {
+                    html.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    html.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        })();
+
+        // Course card interactions
+        (function() {
+            const courseCards = document.querySelectorAll('.bg-white.dark\\:bg-slate-800');
+            const courseModal = document.getElementById('course-modal');
+            
+            courseCards.forEach(card => {
+                const resumeBtn = card.querySelector('button');
+                if (resumeBtn) {
+                    resumeBtn.addEventListener('click', function() {
+                        // TODO: Implement course modal opening logic
+                        console.log('Opening course modal');
+                    });
+                }
+            });
+        })();
+
+        // Form submissions
+        (function() {
+            const newsletterForm = document.querySelector('form');
+            const contactForm = document.querySelector('section#contact form');
+            
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // TODO: Implement newsletter subscription
+                    console.log('Newsletter subscription submitted');
+                });
+            }
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // TODO: Implement contact form submission
+                    console.log('Contact form submitted');
+                });
+            }
+        })();
+
+        // Language dropdown functionality
+        (function() {
+            const langButton = document.querySelector('button[class*="bg-slate-100"]');
+            
+            if (langButton) {
+                langButton.addEventListener('click', function() {
+                    // TODO: Implement language dropdown
+                    console.log('Language dropdown clicked');
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

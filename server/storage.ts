@@ -32,7 +32,7 @@ import {
   type InsertPayment,
   type InsertTask,
   type InsertTaskSubmission,
-} from "@shared/schema";
+} from "../shared/schema";
 import { db } from "./db";
 import { eq, desc, and, sql } from "drizzle-orm";
 

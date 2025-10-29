@@ -10,7 +10,7 @@ import {
   insertEnrollmentSchema,
   insertLessonProgressSchema,
   User
-} from "@shared/schema";
+} from "../shared/schema";
 import { z } from "zod";
 
 const scryptAsync = promisify(scrypt);
