@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
 import heroImage from '@/assets/31488_1752418077282.jpg';
 import { Link } from 'wouter';
+import { fallbackCourses as localFallback } from '@/lib/fallbackCourses';
 
 export default function Landing() {
   const { t } = useLanguage();
@@ -18,10 +19,11 @@ export default function Landing() {
   const [email, setEmail] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
 
-  const { data: courses = [] } = useQuery({
+  const { data: fetchedCourses, error: coursesError } = useQuery({
     queryKey: ['/api/courses'],
     retry: false,
   });
+  const courses = (coursesError ? localFallback : (fetchedCourses || []));
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

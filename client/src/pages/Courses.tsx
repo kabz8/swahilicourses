@@ -9,6 +9,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
+import { fallbackCourses as localFallback } from '@/lib/fallbackCourses';
 
 export default function Courses() {
   const { t } = useLanguage();
@@ -18,10 +19,12 @@ export default function Courses() {
   const [selectedLevel, setSelectedLevel] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
 
-  const { data: courses = [], isLoading } = useQuery({
+  const { data: fetchedCourses, isLoading, error } = useQuery({
     queryKey: ['/api/courses'],
     retry: false,
   });
+
+  const courses = (error ? localFallback : (fetchedCourses || []));
 
   const { data: enrollments = [] } = useQuery({
     queryKey: ['/api/enrollments'],
