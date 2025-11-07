@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { CourseCard } from '@/components/CourseCard';
-import { Play, PlayCircle, BookOpen, Clock, Users, Award, BarChart3, Sparkles, Globe, Trophy, Shield, Star } from 'lucide-react';
+import { Play, PlayCircle, BookOpen, Clock, Users, Award, BarChart3, Sparkles, Globe, Trophy, Shield, Star, Flame, Compass, MessageCircle, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
@@ -123,11 +124,29 @@ export default function Landing() {
                 <img 
                   src={heroImage}
                   alt="Students learning together in East Africa"
-                  className="rounded-xl shadow-2xl"
+                  className="rounded-[28px] shadow-[0_40px_70px_-30px_rgba(30,64,175,0.45)]"
                 />
                 <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-80 animate-pulse-slow"></div>
                 <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-br from-green-400 to-blue-500 rounded-full opacity-80 animate-pulse-slow"></div>
                 <div className="absolute top-1/2 -left-8 w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full opacity-60 animate-pulse-slow"></div>
+
+                <div className="absolute -bottom-10 right-6 w-60 rounded-2xl border border-white/60 bg-white/80 p-4 text-left shadow-xl backdrop-blur dark:border-white/10 dark:bg-gray-900/80">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">Live progress</span>
+                    <Badge className="bg-blue-600 text-white">83%</Badge>
+                  </div>
+                  <p className="text-sm font-semibold text-gray-900 dark:text-white">Conversational Kiswahili Sprint</p>
+                  <div className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                    <div className="flex items-center justify-between">
+                      <span>Daily streak</span>
+                      <span className="font-semibold text-blue-600 dark:text-blue-300">14 days</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Lesson pace</span>
+                      <span className="font-semibold text-emerald-600 dark:text-emerald-300">+22% faster</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -188,6 +207,79 @@ export default function Landing() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Modern Highlights */}
+      <section className="relative py-12 sm:py-16">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-blue-600/10 via-purple-500/10 to-white" />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
+            <div className="rounded-3xl border border-blue-100/40 bg-white p-6 shadow-xl backdrop-blur dark:border-blue-500/20 dark:bg-gray-900/80">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-600/10 text-blue-600 dark:bg-blue-500/20 dark:text-blue-200">
+                  <Compass className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Pick your path</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Level-matched pathways ensure every lesson feels just right.</p>
+                </div>
+              </div>
+              <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span> Adaptive placement quiz</li>
+                <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span> Flexible weekly goals</li>
+                <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-blue-500"></span> Curated conversation topics</li>
+              </ul>
+            </div>
+
+            <div className="rounded-3xl border border-emerald-100/40 bg-white p-6 shadow-xl backdrop-blur dark:border-emerald-500/20 dark:bg-gray-900/80">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-200">
+                  <Flame className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Stay motivated</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Micro-rewards and streaks keep your learning momentum high.</p>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <div className="rounded-2xl border border-gray-100 p-4 text-sm text-gray-700 shadow-sm dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200">
+                  <div className="flex items-center justify-between">
+                    <span>Community challenge</span>
+                    <span className="font-semibold text-emerald-600 dark:text-emerald-300">62% complete</span>
+                  </div>
+                  <div className="mt-3 h-2 rounded-full bg-gray-200 dark:bg-gray-700">
+                    <div className="h-2 rounded-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500" style={{ width: '62%' }} />
+                  </div>
+                </div>
+                <div className="flex items-center gap-3 rounded-2xl bg-emerald-50 p-4 text-sm text-emerald-700 dark:bg-emerald-500/10 dark:text-emerald-200">
+                  <Layers className="h-5 w-5" />
+                  <span>Unlock mastery badges as you advance through cultural modules.</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-3xl border border-purple-100/40 bg-white p-6 shadow-xl backdrop-blur dark:border-purple-500/20 dark:bg-gray-900/80">
+              <div className="flex items-center gap-3 mb-5">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-purple-500/10 text-purple-600 dark:bg-purple-500/20 dark:text-purple-200">
+                  <MessageCircle className="h-6 w-6" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Real conversation</h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">Practical audio and dialogue exercises build confident speech.</p>
+                </div>
+              </div>
+              <div className="space-y-4 text-sm text-gray-600 dark:text-gray-300">
+                <div className="rounded-2xl bg-purple-50 p-4 dark:bg-purple-500/10">
+                  <p className="font-medium text-purple-700 dark:text-purple-200">"Habari za asubuhi"</p>
+                  <p className="mt-1 text-gray-500 dark:text-gray-400">Practice greeting someone in the morning with cultural context.</p>
+                </div>
+                <div className="rounded-2xl border border-gray-100 p-4 dark:border-gray-700 dark:bg-gray-800">
+                  <p>🥇 Weekly speaking league: <span className="font-semibold text-purple-600 dark:text-purple-300">Top 10%</span></p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
