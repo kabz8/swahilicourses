@@ -13,6 +13,7 @@ import {
 } from "../shared/schema";
 import { z } from "zod";
 import { seedInitialData } from "./seedData";
+import { fallbackCourses, fallbackLessons, fallbackCategories } from "./fallbackData";
 
 const scryptAsync = promisify(scrypt);
 
@@ -27,6 +28,23 @@ async function hashPassword(password: string) {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   setupAuth(app);
+
+  const filterFallbackCourses = (level?: string, category?: string) => {
+    let data = fallbackCourses.filter((course) => course.isPublished);
+
+    if (level) {
+      data = data.filter((course) => course.level === level);
+    }
+
+    if (category) {
+      const categoryId = parseInt(category);
+      if (!Number.isNaN(categoryId)) {
+        data = data.filter((course) => course.categoryId === categoryId);
+      }
+    }
+
+    return data;
+  };
 
   // Course routes
   app.get('/api/courses', async (req, res) => {
@@ -65,7 +83,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(courses);
     } catch (error) {
       console.error("Error fetching courses:", error);
-      res.status(500).json({ message: "Failed to fetch courses" });
+      const { level, category } = req.query;
+      const data = filterFallbackCourses(level as string | undefined, category as string | undefined);
+      res.json(data);
     }
   });
 
@@ -75,12 +95,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const course = await storage.getCourse(courseId);
       
       if (!course) {
+        const fallbackCourse = fallbackCourses.find((item) => item.id === courseId);
+        if (fallbackCourse) {
+          return res.json(fallbackCourse);
+        }
         return res.status(404).json({ message: "Course not found" });
       }
       
       res.json(course);
     } catch (error) {
       console.error("Error fetching course:", error);
+      const courseId = parseInt(req.params.id);
+      const fallbackCourse = fallbackCourses.find((item) => item.id === courseId);
+      if (fallbackCourse) {
+        return res.json(fallbackCourse);
+      }
       res.status(500).json({ message: "Failed to fetch course" });
     }
   });
@@ -92,7 +121,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(lessons);
     } catch (error) {
       console.error("Error fetching lessons:", error);
-      res.status(500).json({ message: "Failed to fetch lessons" });
+      const courseId = parseInt(req.params.id);
+      const lessons = fallbackLessons.filter((lesson) => lesson.courseId === courseId);
+      res.json(lessons);
     }
   });
 
@@ -162,7 +193,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(categories);
     } catch (error) {
       console.error("Error fetching categories:", error);
-      res.status(500).json({ message: "Failed to fetch categories" });
+      res.json(fallbackCategories);
     }
   });
 
