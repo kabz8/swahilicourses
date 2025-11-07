@@ -180,12 +180,19 @@ export async function seedInitialData(): Promise<{ seeded: boolean }> {
       categoryId,
     };
 
-    const [upsertedCourse] = await db
-      .insert(courses)
-      .values(insertPayload)
-      .onConflictDoUpdate({
-        target: courses.title,
-        set: {
+    const existingCourse = await db
+      .select()
+      .from(courses)
+      .where(eq(courses.title, insertPayload.title))
+      .limit(1);
+
+    let courseId: number | undefined;
+
+    if (existingCourse.length > 0) {
+      courseId = existingCourse[0].id;
+      await db
+        .update(courses)
+        .set({
           description: insertPayload.description,
           level: insertPayload.level,
           categoryId: insertPayload.categoryId,
@@ -197,34 +204,41 @@ export async function seedInitialData(): Promise<{ seeded: boolean }> {
           isPublished: insertPayload.isPublished,
           price: insertPayload.price,
           isFree: insertPayload.isFree,
-        },
-      })
-      .returning();
+          updatedAt: new Date(),
+        })
+        .where(eq(courses.id, courseId));
+    } else {
+      const [createdCourse] = await db.insert(courses).values(insertPayload).returning();
+      courseId = createdCourse?.id;
+      if (courseId) {
+        seededAny = true;
+      }
+    }
 
-    if (upsertedCourse) {
-      seededAny = true;
+    if (!courseId) {
+      continue;
+    }
 
-      const existingLesson = await db
-        .select({ id: lessons.id })
-        .from(lessons)
-        .where(eq(lessons.courseId, upsertedCourse.id))
-        .limit(1);
+    const existingLesson = await db
+      .select({ id: lessons.id })
+      .from(lessons)
+      .where(eq(lessons.courseId, courseId))
+      .limit(1);
 
-      if (existingLesson.length === 0) {
-        const lessonsForCourse: InsertLesson[] = Array.from({ length: upsertedCourse.lessonCount ?? 3 }).map((_, idx) => ({
-          courseId: upsertedCourse.id,
-          title: `Lesson ${idx + 1}`,
-          description: "Practice vocabulary and simple dialogues.",
-          content: "",
-          duration: 180 + idx * 60,
-          order: idx + 1,
-          isPublished: true,
-          isLocked: false,
-        }));
+    if (existingLesson.length === 0) {
+      const lessonsForCourse: InsertLesson[] = Array.from({ length: insertPayload.lessonCount ?? 3 }).map((_, idx) => ({
+        courseId,
+        title: `Lesson ${idx + 1}`,
+        description: "Practice vocabulary and simple dialogues.",
+        content: "",
+        duration: 180 + idx * 60,
+        order: idx + 1,
+        isPublished: true,
+        isLocked: false,
+      }));
 
-        if (lessonsForCourse.length > 0) {
-          await db.insert(lessons).values(lessonsForCourse);
-        }
+      if (lessonsForCourse.length > 0) {
+        await db.insert(lessons).values(lessonsForCourse);
       }
     }
   }
