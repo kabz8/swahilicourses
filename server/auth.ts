@@ -5,6 +5,7 @@ import { promisify } from "util";
 import { storage } from "./storage";
 import { User } from "../shared/schema";
 import connectPg from "connect-pg-simple";
+import { isDatabaseAvailable } from "./db";
 
 declare global {
   namespace Express {
@@ -34,11 +35,17 @@ async function comparePasswords(supplied: string, stored: string) {
 
 export function setupAuth(app: Express) {
   const PostgresSessionStore = connectPg(session);
-  const sessionStore = new PostgresSessionStore({
-    conString: process.env.DATABASE_URL,
-    createTableIfMissing: false, // Set to false to avoid index conflicts
-    tableName: 'sessions',
-  });
+  const sessionStore = isDatabaseAvailable
+    ? new PostgresSessionStore({
+        conString: process.env.DATABASE_URL,
+        createTableIfMissing: false, // Set to false to avoid index conflicts
+        tableName: 'sessions',
+      })
+    : new session.MemoryStore();
+
+  if (!isDatabaseAvailable) {
+    console.warn("DATABASE_URL is not set. Using in-memory sessions.");
+  }
 
   const sessionSettings: session.SessionOptions = {
     secret: process.env.SESSION_SECRET || "default-secret-key",
