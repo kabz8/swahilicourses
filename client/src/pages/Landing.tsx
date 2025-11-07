@@ -53,6 +53,12 @@ export default function Landing() {
     { value: '95%', label: t('successRate') },
   ];
 
+  const heroHighlights = [
+    { value: '10k+', label: t('activeLearners'), icon: Users },
+    { value: '4.8/5', label: 'Learner rating', icon: Star },
+    { value: '7 min', label: 'Average lesson time', icon: Clock },
+  ];
+
   const features = [
     {
       icon: Clock,
@@ -84,19 +90,20 @@ export default function Landing() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white overflow-hidden">
+      <section className="relative flex items-center overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white lg:min-h-[88vh]">
         <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.03\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')" }}></div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+        <div className="absolute bottom-0 left-1/2 h-48 w-[120%] -translate-x-1/2 rounded-t-[80%] bg-white/10 blur-3xl" />
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-18 lg:py-32">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
             <div className="animate-fade-in text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm font-medium mb-4 sm:mb-6">
                 <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
                 {t('newLearningExperience')}
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-5 sm:mb-6 leading-tight">
                 {t('hero.title')}
               </h1>
-              <p className="text-lg sm:text-xl mb-6 sm:mb-8 text-blue-100 leading-relaxed">
+              <p className="text-lg sm:text-xl lg:text-2xl mb-6 sm:mb-8 text-blue-100 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 {t('hero.subtitle')}
               </p>
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
@@ -118,25 +125,43 @@ export default function Landing() {
                   {t('hero.explore')}
                 </Button>
               </div>
+              <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-4 text-left">
+                {heroHighlights.map((highlight, index) => (
+                  <div
+                    key={index}
+                    className="rounded-2xl bg-white/10 px-5 py-4 text-left shadow-lg backdrop-blur transition hover:bg-white/15"
+                  >
+                    <div className="flex items-center gap-3">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 text-white">
+                        <highlight.icon className="h-5 w-5" />
+                      </span>
+                      <div>
+                        <p className="text-2xl font-semibold">{highlight.value}</p>
+                        <p className="text-xs uppercase tracking-[0.2em] text-white/70">{highlight.label}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="relative animate-float">
               <div className="relative">
                 <img 
                   src={heroImage}
                   alt="Students learning together in East Africa"
-                  className="rounded-[28px] shadow-[0_40px_70px_-30px_rgba(30,64,175,0.45)]"
+                  className="rounded-[32px] shadow-[0_45px_90px_-35px_rgba(15,23,42,0.65)]"
                 />
                 <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-80 animate-pulse-slow"></div>
                 <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-br from-green-400 to-blue-500 rounded-full opacity-80 animate-pulse-slow"></div>
                 <div className="absolute top-1/2 -left-8 w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full opacity-60 animate-pulse-slow"></div>
 
-                <div className="absolute -bottom-10 right-6 w-60 rounded-2xl border border-white/60 bg-white/80 p-4 text-left shadow-xl backdrop-blur dark:border-white/10 dark:bg-gray-900/80">
-                  <div className="flex items-center justify-between mb-2">
+                <div className="absolute -bottom-12 right-6 w-64 rounded-3xl border border-white/50 bg-white/85 p-5 text-left shadow-2xl backdrop-blur-md dark:border-white/10 dark:bg-gray-900/85">
+                  <div className="flex items-center justify-between mb-3">
                     <span className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">Live progress</span>
                     <Badge className="bg-blue-600 text-white">83%</Badge>
                   </div>
-                  <p className="text-sm font-semibold text-gray-900 dark:text-white">Conversational Kiswahili Sprint</p>
-                  <div className="mt-3 space-y-2 text-sm text-gray-600 dark:text-gray-300">
+                  <p className="text-base font-semibold text-gray-900 dark:text-white">Conversational Kiswahili Sprint</p>
+                  <div className="mt-4 space-y-2 text-sm text-gray-600 dark:text-gray-300">
                     <div className="flex items-center justify-between">
                       <span>Daily streak</span>
                       <span className="font-semibold text-blue-600 dark:text-blue-300">14 days</span>
@@ -144,6 +169,10 @@ export default function Landing() {
                     <div className="flex items-center justify-between">
                       <span>Lesson pace</span>
                       <span className="font-semibold text-emerald-600 dark:text-emerald-300">+22% faster</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Confidence boost</span>
+                      <span className="font-semibold text-purple-600 dark:text-purple-300">92%</span>
                     </div>
                   </div>
                 </div>
