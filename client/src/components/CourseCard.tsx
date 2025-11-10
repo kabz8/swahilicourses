@@ -40,7 +40,7 @@ export function CourseCard({ course, enrollment, onEnroll, onContinue }: CourseC
     advanced: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
   };
 
-  const defaultImage = course.imageUrl || courseImage;
+  const defaultImage = courseImage;
 
   const handleCardClick = () => {
     navigate(`/courses/${course.id}`);

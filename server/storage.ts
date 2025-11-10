@@ -33,8 +33,9 @@ import {
   type InsertTask,
   type InsertTaskSubmission,
 } from "../shared/schema";
-import { db } from "./db";
+import { db, isDatabaseAvailable } from "./db";
 import { eq, desc, and, sql } from "drizzle-orm";
+import { fallbackCourses, fallbackLessons, fallbackCategories } from "./fallbackData";
 
 export interface IStorage {
   // User operations
@@ -401,4 +402,159 @@ export class DatabaseStorage implements IStorage {
   }
 }
 
-export const storage = new DatabaseStorage();
+class MemoryStorage implements IStorage {
+  private memUsers: User[] = [];
+  private memEnrollments: Enrollment[] = [];
+  private memProgress: LessonProgress[] = [];
+  private memNewsletters: Newsletter[] = [];
+  private memContact: ContactSubmission[] = [];
+  private idCounters = { user: 1, enrollment: 1, progress: 1, newsletter: 1, contact: 1 };
+
+  async getUser(id: number): Promise<User | undefined> {
+    return this.memUsers.find(u => u.id === id);
+  }
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    return this.memUsers.find(u => u.email === email);
+  }
+  async createUser(userData: InsertUser): Promise<User> {
+    const user: User = {
+      id: this.idCounters.user++,
+      role: "learner",
+      preferredLanguage: "en",
+      theme: "light",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      ...userData,
+    };
+    this.memUsers.push(user);
+    return user;
+  }
+  async updateUser(id: number, userData: Partial<InsertUser>): Promise<User> {
+    const existing = await this.getUser(id);
+    if (!existing) throw new Error("User not found");
+    const updated = { ...existing, ...userData, updatedAt: new Date() } as User;
+    this.memUsers = this.memUsers.map(u => (u.id === id ? updated : u));
+    return updated;
+  }
+  async deleteUser(id: number): Promise<void> {
+    this.memUsers = this.memUsers.filter(u => u.id !== id);
+  }
+  async getAllUsers(): Promise<User[]> {
+    return [...this.memUsers];
+  }
+
+  async getCourses(): Promise<Course[]> {
+    return fallbackCourses.filter(c => c.isPublished) as unknown as Course[];
+  }
+  async getCourse(id: number): Promise<Course | undefined> {
+    return fallbackCourses.find(c => c.id === id) as unknown as Course | undefined;
+  }
+  async getCoursesByCategory(categoryId: number): Promise<Course[]> {
+    return fallbackCourses.filter(c => c.categoryId === categoryId && c.isPublished) as unknown as Course[];
+  }
+  async getCoursesByLevel(level: string): Promise<Course[]> {
+    return fallbackCourses.filter(c => c.level === level && c.isPublished) as unknown as Course[];
+  }
+  async createCourse(_course: InsertCourse): Promise<Course> { throw new Error("Not supported in memory mode"); }
+  async updateCourse(_id: number, _course: Partial<InsertCourse>): Promise<Course> { throw new Error("Not supported in memory mode"); }
+  async deleteCourse(_id: number): Promise<void> { throw new Error("Not supported in memory mode"); }
+
+  async getLessonsByCourse(courseId: number): Promise<Lesson[]> {
+    return fallbackLessons.filter(l => l.courseId === courseId) as unknown as Lesson[];
+  }
+  async getAdminLessonsByCourse(courseId: number): Promise<Lesson[]> {
+    return this.getLessonsByCourse(courseId);
+  }
+  async getLesson(id: number): Promise<Lesson | undefined> {
+    return fallbackLessons.find(l => l.id === id) as unknown as Lesson | undefined;
+  }
+  async createLesson(_lesson: InsertLesson): Promise<Lesson> { throw new Error("Not supported in memory mode"); }
+  async updateLesson(_id: number, _lesson: Partial<InsertLesson>): Promise<Lesson> { throw new Error("Not supported in memory mode"); }
+  async deleteLesson(_id: number): Promise<void> { throw new Error("Not supported in memory mode"); }
+
+  async getUserEnrollments(userId: number): Promise<(Enrollment & { course: Course })[]> {
+    const items = this.memEnrollments.filter(e => e.userId === userId);
+    return items.map(e => ({
+      ...e,
+      course: (fallbackCourses.find(c => c.id === e.courseId) as unknown) as Course,
+    }));
+  }
+  async enrollUserInCourse(enrollment: InsertEnrollment): Promise<Enrollment> {
+    const rec: Enrollment = {
+      id: this.idCounters.enrollment++,
+      enrolledAt: new Date(),
+      progress: 0,
+      ...enrollment,
+    };
+    this.memEnrollments.push(rec);
+    return rec;
+  }
+  async updateEnrollmentProgress(userId: number, courseId: number, progress: number): Promise<void> {
+    this.memEnrollments = this.memEnrollments.map(e =>
+      e.userId === userId && e.courseId === courseId ? { ...e, progress, lastAccessedAt: new Date() } : e,
+    );
+  }
+
+  async getUserLessonProgress(userId: number, lessonId: number): Promise<LessonProgress | undefined> {
+    return this.memProgress.find(p => p.userId === userId && p.lessonId === lessonId);
+  }
+  async updateLessonProgress(progressData: InsertLessonProgress): Promise<LessonProgress> {
+    const existing = await this.getUserLessonProgress(progressData.userId, progressData.lessonId);
+    if (existing) {
+      const updated: LessonProgress = { ...existing, ...progressData, updatedAt: new Date() } as LessonProgress;
+      this.memProgress = this.memProgress.map(p => (p.id === existing.id ? updated : p));
+      return updated;
+    }
+    const rec: LessonProgress = {
+      id: this.idCounters.progress++,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      ...progressData,
+    } as LessonProgress;
+    this.memProgress.push(rec);
+    return rec;
+  }
+
+  async getCategories(): Promise<Category[]> {
+    return fallbackCategories as unknown as Category[];
+  }
+  async createCategory(_category: InsertCategory): Promise<Category> { throw new Error("Not supported in memory mode"); }
+
+  async subscribeToNewsletter(newsletter: InsertNewsletter): Promise<Newsletter> {
+    const rec: Newsletter = {
+      id: this.idCounters.newsletter++,
+      isSubscribed: true,
+      subscribedAt: new Date(),
+      ...newsletter,
+    } as Newsletter;
+    this.memNewsletters.push(rec);
+    return rec;
+  }
+
+  async createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission> {
+    const rec: ContactSubmission = {
+      id: this.idCounters.contact++,
+      createdAt: new Date(),
+      ...submission,
+    } as ContactSubmission;
+    this.memContact.push(rec);
+    return rec;
+  }
+
+  async createPayment(_payment: InsertPayment): Promise<Payment> { throw new Error("Not supported in memory mode"); }
+  async getPaymentsByUser(_userId: number): Promise<Payment[]> { return []; }
+  async getPaymentByStripeId(_id: string): Promise<Payment | undefined> { return undefined; }
+  async updatePaymentStatus(_id: number, _status: string): Promise<void> { return; }
+
+  async getAllTasks(): Promise<Task[]> { return []; }
+  async getTasksByUser(_userId: number): Promise<Task[]> { return []; }
+  async createTask(_task: InsertTask): Promise<Task> { throw new Error("Not supported in memory mode"); }
+  async updateTask(_id: number, _task: Partial<InsertTask>): Promise<Task> { throw new Error("Not supported in memory mode"); }
+  async deleteTask(_id: number): Promise<void> { return; }
+  async getTaskSubmissions(_taskId: number): Promise<TaskSubmission[]> { return []; }
+  async createTaskSubmission(_submission: InsertTaskSubmission): Promise<TaskSubmission> { throw new Error("Not supported in memory mode"); }
+  async updateTaskSubmission(_id: number, _submission: Partial<InsertTaskSubmission>): Promise<TaskSubmission> { throw new Error("Not supported in memory mode"); }
+  async gradeTaskSubmission(_id: number, _grade: number, _feedback: string, _gradedBy: number): Promise<TaskSubmission> { throw new Error("Not supported in memory mode"); }
+}
+
+export const storage: IStorage = isDatabaseAvailable ? new DatabaseStorage() : new MemoryStorage();
