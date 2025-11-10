@@ -14,6 +14,7 @@ import { useMutation } from "@tanstack/react-query";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
 import { BookOpen, Users, Clock } from "lucide-react";
+import { loginLocalUser, registerLocalUser } from "@/lib/localAuth";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -59,11 +60,15 @@ export default function AuthPage() {
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginData) => {
-      const response = await apiRequest("POST", "/api/login", data);
-      return response.json();
+      try {
+        const response = await apiRequest("POST", "/api/login", data);
+        return response.json();
+      } catch {
+        return loginLocalUser(data.email, data.password);
+      }
     },
     onSuccess: (user) => {
-      queryClient.setQueryData(["/api/user"], user);
+      queryClient.setQueryData(["auth:user"], user);
       toast({
         title: t("loginSuccess"),
         description: t("welcomeBack"),
@@ -81,11 +86,15 @@ export default function AuthPage() {
 
   const registerMutation = useMutation({
     mutationFn: async (data: RegisterData) => {
-      const response = await apiRequest("POST", "/api/register", data);
-      return response.json();
+      try {
+        const response = await apiRequest("POST", "/api/register", data);
+        return response.json();
+      } catch {
+        return registerLocalUser(data);
+      }
     },
     onSuccess: (user) => {
-      queryClient.setQueryData(["/api/user"], user);
+      queryClient.setQueryData(["auth:user"], user);
       toast({
         title: t("registrationSuccess"),
         description: t("welcomeToHujambo"),

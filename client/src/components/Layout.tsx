@@ -7,6 +7,8 @@ import { LanguageToggle } from './LanguageToggle';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useAuth } from '@/hooks/useAuth';
 import { apiRequest } from '@/lib/queryClient';
+import { logoutLocalUser } from '@/lib/localAuth';
+import { useQueryClient } from '@tanstack/react-query';
 import { BackgroundGlow } from './BackgroundGlow';
 
 interface LayoutProps {
@@ -18,6 +20,7 @@ export function Layout({ children }: LayoutProps) {
   const { t } = useLanguage();
   const { user, isAuthenticated } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const queryClient = useQueryClient();
 
   const navigation = [
     { name: t('nav.home'), href: '/' },
@@ -104,13 +107,16 @@ export function Layout({ children }: LayoutProps) {
                       size="sm"
                       className="rounded-full"
                       onClick={async () => {
-                        try {
-                          await apiRequest('POST', '/api/logout');
-                          window.location.href = '/';
-                        } catch (error) {
-                          console.error('Logout failed:', error);
-                        }
-                      }}
+                    try {
+                      await apiRequest('POST', '/api/logout');
+                    } catch (error) {
+                      console.error('Logout failed:', error);
+                    } finally {
+                      logoutLocalUser();
+                      queryClient.setQueryData(['auth:user'], null);
+                      window.location.href = '/';
+                    }
+                  }}
                     >
                       Logout
                     </Button>
@@ -197,9 +203,12 @@ export function Layout({ children }: LayoutProps) {
                       onClick={async () => {
                         try {
                           await apiRequest('POST', '/api/logout');
-                          window.location.href = '/';
                         } catch (error) {
                           console.error('Logout failed:', error);
+                        } finally {
+                          logoutLocalUser();
+                          queryClient.setQueryData(['auth:user'], null);
+                          window.location.href = '/';
                         }
                       }}
                     >
