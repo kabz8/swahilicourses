@@ -13,6 +13,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { apiRequest } from '@/lib/queryClient';
 import { isUnauthorizedError } from '@/lib/authUtils';
 import courseImage from '@assets/27054_1752419386434.jpg';
+import { fallbackCourses as localFallback } from '@/lib/fallbackCourses';
 
 export default function CourseView() {
   const { id } = useParams<{ id: string }>();
@@ -27,11 +28,12 @@ export default function CourseView() {
 
   // Allow unauthenticated users to view course details
 
-  const { data: course, isLoading: courseLoading } = useQuery({
+  const { data: fetchedCourse, isLoading: courseLoading, error: courseError } = useQuery({
     queryKey: ['/api/courses', courseId],
     enabled: !!courseId,
     retry: false,
   });
+  const course = (courseError ? localFallback.find(c => c.id === courseId) : fetchedCourse) as any;
 
   const { data: enrollment } = useQuery({
     queryKey: ['/api/enrollments', courseId],
@@ -39,11 +41,23 @@ export default function CourseView() {
     retry: false,
   });
 
-  const { data: lessons = [], isLoading: lessonsLoading } = useQuery({
+  const { data: fetchedLessons = [], isLoading: lessonsLoading, error: lessonsError } = useQuery({
     queryKey: ['/api/courses', courseId, 'lessons'],
     enabled: !!courseId,
     retry: false,
   });
+  const lessons = (lessonsError && course)
+    ? Array.from({ length: course.lessonCount ?? 3 }).map((_, idx) => ({
+        id: course.id * 100 + (idx + 1),
+        courseId: course.id,
+        title: `Lesson ${idx + 1}`,
+        description: 'Practice vocabulary and simple dialogues.',
+        duration: 180 + idx * 60,
+        order: idx + 1,
+        isPublished: true,
+        isLocked: false,
+      }))
+    : fetchedLessons as any[];
 
   const enrollMutation = useMutation({
     mutationFn: async () => {
