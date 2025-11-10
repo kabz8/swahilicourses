@@ -360,17 +360,17 @@ export default function CourseView() {
               <CardContent>
                 <div className="flex items-center mb-3">
                   <img
-                    src="https://images.unsplash.com/photo-1494790108755-2616b2d10bb6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100"
-                    alt="Instructor"
+                    src="https://avatar.vercel.sh/hujambo?size=100&text=HJ"
+                    alt="Hu-jambo Instructor"
                     className="w-12 h-12 rounded-full object-cover mr-3"
                   />
                   <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white">Dr. Amina Hassan</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Kiswahili Expert</p>
+                    <h4 className="font-medium text-gray-900 dark:text-white">Hu-jambo Instructor</h4>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">Instructor</p>
                   </div>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  PhD in Linguistics with 15 years of teaching experience. Native Kiswahili speaker from Tanzania.
+                  Learn with our Hu-jambo teaching team focused on practical, conversational Kiswahili for everyday life.
                 </p>
               </CardContent>
             </Card>
