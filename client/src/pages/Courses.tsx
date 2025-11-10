@@ -44,7 +44,7 @@ export default function Courses() {
         description: t('signInToEnroll'),
         variant: 'destructive',
       });
-      window.location.href = '/api/login';
+      window.location.href = '/auth';
       return;
     }
 
