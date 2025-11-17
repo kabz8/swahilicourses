@@ -9,7 +9,6 @@ import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
-<<<<<<< HEAD
 import previewImage from '@/assets/31488_1752418077282.jpg';
 import heroBanner from '@/assets/capacity-building-hero.jpg';
 import { Link } from 'wouter';
