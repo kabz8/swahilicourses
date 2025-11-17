@@ -9,7 +9,8 @@ import { Input } from '@/components/ui/input';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
-import heroImage from '@/assets/31488_1752418077282.jpg';
+import previewImage from '@/assets/31488_1752418077282.jpg';
+import heroBanner from '@/assets/hero-capacity-building.jpg';
 import { Link } from 'wouter';
 import { fallbackCourses as localFallback } from '@/lib/fallbackCourses';
 
@@ -92,38 +93,45 @@ export default function Landing() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative flex items-center overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white lg:min-h-[88vh]">
-        <div className="absolute inset-0 opacity-40" style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg width=\"60\" height=\"60\" viewBox=\"0 0 60 60\" xmlns=\"http://www.w3.org/2000/svg\"%3E%3Cg fill=\"none\" fill-rule=\"evenodd\"%3E%3Cg fill=\"%23ffffff\" fill-opacity=\"0.03\"%3E%3Ccircle cx=\"30\" cy=\"30\" r=\"2\"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')" }}></div>
-        <div className="absolute bottom-0 left-1/2 h-48 w-[120%] -translate-x-1/2 rounded-t-[80%] bg-white/10 blur-3xl" />
-        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-18 lg:py-32">
-          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.1fr_1fr] lg:gap-16">
-            <div className="animate-fade-in text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-xs sm:text-sm font-medium mb-4 sm:mb-6">
-                <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+      <section className="relative overflow-hidden text-white lg:min-h-[88vh]">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#3AB0FF] via-[#4CAF50] to-[#0060AA]" />
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage:
+              'repeating-linear-gradient(90deg, rgba(255,255,255,0.25) 0, rgba(255,255,255,0.25) 4px, transparent 4px, transparent 80px)',
+          }}
+        />
+        <div className="absolute -bottom-40 right-0 h-80 w-80 rounded-full bg-[#FCD34D] blur-[160px] opacity-70" />
+        <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 sm:py-18 lg:py-32">
+          <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-[1.1fr_1fr]">
+            <div className="animate-fade-in text-center lg:text-left space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/15 text-xs sm:text-sm font-semibold uppercase tracking-wider">
+                <Sparkles className="h-4 w-4 text-[#FCD34D]" />
                 {t('newLearningExperience')}
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-5 sm:mb-6 leading-tight">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight text-white drop-shadow-lg">
                 {t('hero.title')}
               </h1>
-              <p className="text-lg sm:text-xl lg:text-2xl mb-6 sm:mb-8 text-blue-100 leading-relaxed max-w-2xl mx-auto lg:mx-0">
+              <p className="text-lg sm:text-xl lg:text-2xl text-white/90 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 {t('hero.subtitle')}
               </p>
               <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                <Button 
+                <Button
                   size="lg"
                   onClick={() => window.location.href = '/register'}
-                  className="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white shadow-lg hover-lift px-6 py-4 text-base font-semibold rounded-xl min-h-[48px]"
+                  className="w-full sm:w-auto bg-[#4CAF50] hover:bg-[#3b8b41] text-white shadow-[0_20px_60px_rgba(0,96,170,0.35)] px-6 py-4 text-base font-semibold rounded-2xl min-h-[52px] border-none"
                 >
-                  <Play className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                  <Play className="h-5 w-5 mr-2" />
                   {t('hero.start')}
                 </Button>
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   variant="outline"
                   onClick={() => window.location.href = '/courses'}
-                  className="w-full sm:w-auto border-white hover:bg-white hover:text-blue-600 bg-black/20 text-white backdrop-blur-sm hover-lift px-6 py-4 text-base font-semibold rounded-xl min-h-[48px]"
+                  className="w-full sm:w-auto border-white/70 hover:bg-white/10 bg-white/10 text-white backdrop-blur-sm hover-lift px-6 py-4 text-base font-semibold rounded-2xl min-h-[52px]"
                 >
-                  <BookOpen className="h-4 w-4 sm:h-5 sm:w-5 mr-2" />
+                  <BookOpen className="h-5 w-5 mr-2" />
                   {t('hero.explore')}
                 </Button>
               </div>
@@ -131,14 +139,14 @@ export default function Landing() {
                 {heroHighlights.map((highlight, index) => (
                   <div
                     key={index}
-                    className="rounded-2xl bg-white/10 px-5 py-4 text-left shadow-lg backdrop-blur transition hover:bg-white/15"
+                    className="rounded-2xl border border-white/20 bg-white/15 px-5 py-4 text-left shadow-lg backdrop-blur transition hover:bg-white/25"
                   >
                     <div className="flex items-center gap-3">
-                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/20 text-white">
+                      <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#F15A29] to-[#FCD34D] text-[#1F2933] font-semibold">
                         <highlight.icon className="h-5 w-5" />
                       </span>
                       <div>
-                        <p className="text-2xl font-semibold">{highlight.value}</p>
+                        <p className="text-2xl font-semibold text-white">{highlight.value}</p>
                         <p className="text-xs uppercase tracking-[0.2em] text-white/70">{highlight.label}</p>
                       </div>
                     </div>
@@ -147,35 +155,34 @@ export default function Landing() {
               </div>
             </div>
             <div className="relative animate-float">
-              <div className="relative">
-                <img 
-                  src={heroImage}
-                  alt="Students learning together in East Africa"
-                  className="rounded-[32px] shadow-[0_45px_90px_-35px_rgba(15,23,42,0.65)]"
+              <div className="relative rounded-[36px] overflow-hidden shadow-[0_45px_90px_-35px_rgba(0,40,70,0.9)] border-4 border-white/40">
+                <img
+                  src={heroBanner}
+                  alt="Capacity building classroom illustration"
+                  className="w-full h-full object-cover"
                 />
-                <div className="absolute -top-6 -right-6 w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-80 animate-pulse-slow"></div>
-                <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-br from-green-400 to-blue-500 rounded-full opacity-80 animate-pulse-slow"></div>
-                <div className="absolute top-1/2 -left-8 w-12 h-12 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full opacity-60 animate-pulse-slow"></div>
-
-                <div className="absolute -bottom-12 right-6 w-64 rounded-3xl border border-white/50 bg-white/85 p-5 text-left shadow-2xl backdrop-blur-md dark:border-white/10 dark:bg-gray-900/85">
-                  <div className="flex items-center justify-between mb-3">
-                    <span className="text-xs uppercase tracking-wider text-gray-500 dark:text-gray-400">Live progress</span>
-                    <Badge className="bg-blue-600 text-white">83%</Badge>
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#1F2933]/70 to-transparent h-32" />
+              </div>
+              <div className="absolute -top-7 -right-8 w-24 h-24 rounded-full bg-[#F15A29] opacity-80 blur-2xl" />
+              <div className="absolute -bottom-10 -left-6 w-28 h-28 rounded-full bg-[#4CAF50] opacity-70 blur-2xl" />
+              <div className="absolute -bottom-12 right-6 w-64 rounded-3xl border border-white/40 bg-white/90 p-5 text-left shadow-2xl backdrop-blur">
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-xs uppercase tracking-wider text-gray-500">Live progress</span>
+                  <Badge className="bg-[#0060AA] text-white">83%</Badge>
+                </div>
+                <p className="text-base font-semibold text-gray-900">Conversational Kiswahili Sprint</p>
+                <div className="mt-4 space-y-2 text-sm text-gray-600">
+                  <div className="flex items-center justify-between">
+                    <span>Daily streak</span>
+                    <span className="font-semibold text-[#0060AA]">14 days</span>
                   </div>
-                  <p className="text-base font-semibold text-gray-900 dark:text-white">Conversational Kiswahili Sprint</p>
-                  <div className="mt-4 space-y-2 text-sm text-gray-600 dark:text-gray-300">
-                    <div className="flex items-center justify-between">
-                      <span>Daily streak</span>
-                      <span className="font-semibold text-blue-600 dark:text-blue-300">14 days</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Lesson pace</span>
-                      <span className="font-semibold text-emerald-600 dark:text-emerald-300">+22% faster</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>Confidence boost</span>
-                      <span className="font-semibold text-purple-600 dark:text-purple-300">92%</span>
-                    </div>
+                  <div className="flex items-center justify-between">
+                    <span>Lesson pace</span>
+                    <span className="font-semibold text-[#4CAF50]">+22% faster</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Confidence boost</span>
+                    <span className="font-semibold text-[#F15A29]">92%</span>
                   </div>
                 </div>
               </div>
@@ -373,7 +380,7 @@ export default function Landing() {
               </ul>
             </div>
             <div className="relative">
-              <img src={heroImage} alt="Kiswahili preview" className="w-full rounded-xl shadow-2xl" />
+              <img src={previewImage} alt="Kiswahili preview" className="w-full rounded-xl shadow-2xl" />
               <button onClick={() => (window.location.href = '/courses')} className="absolute inset-0 flex items-center justify-center">
                 <span className="inline-flex items-center gap-2 bg-white/90 dark:bg-gray-800/90 px-4 py-2 rounded-full shadow hover-lift">
                   <PlayCircle className="h-6 w-6 text-blue-600"/> Watch preview
