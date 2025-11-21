@@ -166,10 +166,10 @@ export default function Contact() {
                     </h3>
                   </div>
                   <p className="text-gray-600 dark:text-gray-400">
-                    support@hu-jambo.com
+                    support@biblicalfinancialcourses.com
                   </p>
                   <p className="text-gray-600 dark:text-gray-400">
-                    info@hu-jambo.com
+                    hello@biblicalfinancialcourses.com
                   </p>
                 </CardContent>
               </Card>

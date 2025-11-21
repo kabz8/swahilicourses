@@ -93,9 +93,9 @@ export default function Landing() {
   ];
 
   const testimonials = [
-    { name: 'Amina', role: 'NGO Coordinator', quote: 'We onboard every East Africa field team through Hu-jambo. The cultural briefings are gold.' },
-    { name: 'Kevin', role: 'Student', quote: 'The dashboard streaks and live circles kept me consistent during finals week.' },
-    { name: 'Grace', role: 'Mission Worker', quote: 'Pronunciation studio finally helped me sound natural during prayer meetings.' },
+    { label: 'Global NGO Cohort', role: 'Field teams & volunteers', quote: 'We onboard every mission partner here before deployments. The stewardship checklists are gold.' },
+    { label: 'University Collective', role: 'Student leaders', quote: 'Dashboard streaks and live accountability circles kept us consistent during finals week.' },
+    { label: 'Marketplace Coaches', role: 'Advisory group', quote: 'The coaching studio finally gave us a repeatable way to discuss biblical money habits with clients.' },
   ];
 
   const handleNewsletterSubmit = async (e: React.FormEvent) => {
@@ -125,7 +125,7 @@ export default function Landing() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Hero */}
       <section className="relative overflow-hidden bg-slate-900 text-white">
-        <img src={heroBanner} alt="Hu-jambo cohort" className="absolute inset-0 h-full w-full object-cover opacity-60" />
+        <img src={heroBanner} alt="Global stewardship cohort" className="absolute inset-0 h-full w-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-slate-950/80" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
@@ -136,10 +136,10 @@ export default function Landing() {
               </Badge>
               <div className="space-y-4">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight">
-                  {t('hero.title')} <span className="text-emerald-300">for teams & independent learners.</span>
+                  {t('hero.title')} <span className="text-emerald-300">for ministries, families, and advisors.</span>
                 </h1>
                 <p className="text-lg lg:text-xl text-white/80 max-w-2xl">
-                  {t('hero.subtitle')} Structured tracks, live pronunciation studios, analytics and downloadable kits in a single learning operating system.
+                  {t('hero.subtitle')} Cohort coaching, stewardship templates, and certifications all live inside one platform.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
@@ -166,7 +166,7 @@ export default function Landing() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">Active sprint</p>
-                      <p className="text-xl font-semibold">Conversational Kiswahili</p>
+                      <p className="text-xl font-semibold">Stewardship Intensive</p>
                     </div>
                     <Badge className="rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-400/20 dark:text-emerald-200">83% complete</Badge>
                   </div>
@@ -192,16 +192,16 @@ export default function Landing() {
                     <CalendarDays className="h-10 w-10 rounded-2xl bg-blue-100 p-2 text-blue-600 dark:bg-blue-500/20 dark:text-blue-200" />
                     <div>
                       <p className="text-sm uppercase tracking-[0.3em] text-slate-500 dark:text-white/60">Next live session</p>
-                      <p className="text-xl font-semibold">Pronunciation Lab</p>
+                      <p className="text-xl font-semibold">Budget Reset Lab</p>
                     </div>
                   </div>
                   <div className="flex justify-between text-sm text-slate-500 dark:text-slate-300">
                     <span>Coach</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">Grace N.</span>
+                    <span className="font-semibold text-slate-900 dark:text-white">Lead facilitator</span>
                   </div>
                   <div className="flex justify-between text-sm text-slate-500 dark:text-slate-300">
                     <span>Starts</span>
-                    <span className="font-semibold text-slate-900 dark:text-white">Thursday · 18:00 EAT</span>
+                    <span className="font-semibold text-slate-900 dark:text-white">Thursday · 18:00 GMT</span>
                   </div>
                   <Button className="rounded-full" onClick={() => (window.location.href = '/dashboard')}>
                     Manage schedule
@@ -233,8 +233,8 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
           <div className="max-w-2xl">
             <Badge className="rounded-full bg-white/20 text-white">Platform</Badge>
-            <h2 className="mt-4 text-3xl font-semibold">Everything you expect from a modern LMS, tuned for Kiswahili.</h2>
-            <p className="text-white/70">Cohort coordination, facilitator tooling and self-paced resources all live together.</p>
+            <h2 className="mt-4 text-3xl font-semibold">Everything you expect from a modern LMS, tuned for biblical financial formation.</h2>
+                <p className="text-white/70">Cohort coordination, facilitator tooling and self-paced resources all live together.</p>
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {modernHighlights.map((item) => (
@@ -314,7 +314,7 @@ export default function Landing() {
           <div className="space-y-6">
             <p className="text-sm uppercase tracking-[0.4em] text-slate-500">Curriculum preview</p>
             <h2 className="text-3xl font-semibold text-slate-900 dark:text-white">Modules shaped around real-life use cases.</h2>
-            <p className="text-slate-600 dark:text-slate-300">Each sprint blends vocabulary, drills, cultural context and live labs so you can show up confidently in East African conversations.</p>
+            <p className="text-slate-600 dark:text-slate-300">Each sprint blends Scripture, financial planning drills, accountability prompts, and live labs so you can lead conversations anywhere in the world.</p>
             <div className="space-y-4">
               {curriculumPreview.map((lesson) => (
                 <div key={lesson.module} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
@@ -376,13 +376,13 @@ export default function Landing() {
           </div>
           <div className="grid gap-6 md:grid-cols-3">
             {testimonials.map((testimonial) => (
-              <Card key={testimonial.name} className="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+              <Card key={testimonial.label} className="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
                 <div className="flex items-center gap-3">
-                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-emerald-400 text-white flex items-center justify-center font-semibold">
-                    {testimonial.name[0]}
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-emerald-400 text-white flex items-center justify-center">
+                    <Shield className="h-6 w-6" />
                   </div>
                   <div>
-                    <p className="font-semibold text-slate-900 dark:text-white">{testimonial.name}</p>
+                    <p className="font-semibold text-slate-900 dark:text-white">{testimonial.label}</p>
                     <p className="text-sm text-slate-500 dark:text-slate-400">{testimonial.role}</p>
                   </div>
                 </div>
