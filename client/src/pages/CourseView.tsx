@@ -287,9 +287,9 @@ export default function CourseView() {
               </CardHeader>
               <CardContent className="p-0 space-y-3">
                 <div className="flex items-center gap-3">
-                  <img src="https://avatar.vercel.sh/hujambo?size=100&text=HJ" alt="Hu-jambo Instructor" className="h-12 w-12 rounded-full object-cover" />
+                  <img src="https://avatar.vercel.sh/bfc?size=100&text=BF" alt="Biblical Financial Courses Instructor" className="h-12 w-12 rounded-full object-cover" />
                   <div>
-                    <p className="text-base font-semibold text-slate-900 dark:text-white">Hu-jambo Faculty</p>
+                    <p className="text-base font-semibold text-slate-900 dark:text-white">Biblical Financial Courses Faculty</p>
                     <p className="text-sm text-slate-500 dark:text-slate-300">Lead coach</p>
                   </div>
                 </div>

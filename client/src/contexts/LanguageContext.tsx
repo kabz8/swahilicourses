@@ -30,7 +30,7 @@ const translations = {
     'dashboard.title': 'Your Learning Dashboard',
     'dashboard.continue': 'Continue Learning',
     'dashboard.resume': 'Resume',
-    'about.title': 'About Hu-jambo',
+    'about.title': 'About Biblical Financial Courses',
     'contact.title': 'Get in Touch',
     'newsletter.title': 'Stay Updated',
     'newsletter.subscribe': 'Subscribe',
@@ -57,7 +57,7 @@ const translations = {
     'loginSuccess': 'Login successful',
     'registrationSuccess': 'Registration successful',
     'welcomeBack': 'Welcome back!',
-    'welcomeToHujambo': 'Welcome to Hu-jambo!',
+    'welcomeToHujambo': 'Welcome to Biblical Financial Courses!',
     'loginFailed': 'Login failed',
     'registrationFailed': 'Registration failed',
     'invalidCredentials': 'Invalid email or password',
@@ -71,7 +71,7 @@ const translations = {
     'progressTrackingDesc': 'Track your learning progress and resume where you left off',
     
     // Landing page features
-    'whyChooseTitle': 'Why Choose Hu-jambo?',
+    'whyChooseTitle': 'Why Choose Biblical Financial Courses?',
     'whyChooseSubtitle': 'Everything you need to master Kiswahili',
     'fiveMinuteLessons': '5-Minute Lessons',
     'fiveMinuteLessonsDesc': 'Perfect bite-sized lessons that fit your busy schedule',
@@ -175,7 +175,7 @@ const translations = {
     'dashboard.title': 'Dashibodi Yako ya Kujifunza',
     'dashboard.continue': 'Endelea Kujifunza',
     'dashboard.resume': 'Endelea',
-    'about.title': 'Kuhusu Hu-jambo',
+    'about.title': 'Kuhusu Biblical Financial Courses',
     'contact.title': 'Wasiliana Nasi',
     'newsletter.title': 'Baki Umejua',
     'newsletter.subscribe': 'Jisajili',
@@ -202,7 +202,7 @@ const translations = {
     'loginSuccess': 'Kuingia kumefaulu',
     'registrationSuccess': 'Usajili umefaulu',
     'welcomeBack': 'Karibu tena!',
-    'welcomeToHujambo': 'Karibu Hu-jambo!',
+    'welcomeToHujambo': 'Karibu Biblical Financial Courses!',
     'loginFailed': 'Kuingia kumeshindwa',
     'registrationFailed': 'Usajili umeshindwa',
     'invalidCredentials': 'Barua pepe au nywila si sahihi',
@@ -216,7 +216,7 @@ const translations = {
     'progressTrackingDesc': 'Fuatilia maendeleo yako ya kujifunza na endelea mahali ulipo acha',
     
     // Landing page features
-    'whyChooseTitle': 'Kwa Nini Uchague Hu-jambo?',
+    'whyChooseTitle': 'Kwa Nini Uchague Biblical Financial Courses?',
     'whyChooseSubtitle': 'Kila kitu unachohitaji kushinda Kiswahili',
     'fiveMinuteLessons': 'Masomo ya Dakika 5',
     'fiveMinuteLessonsDesc': 'Masomo mafupi yanayofaa wakati wako wa kila siku',

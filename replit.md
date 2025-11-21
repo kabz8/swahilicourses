@@ -1,4 +1,4 @@
-# Hu-jambo - Faith-Based Learning Platform
+# Biblical Financial Courses - Faith-Based Learning Platform
 
 ## Overview
 

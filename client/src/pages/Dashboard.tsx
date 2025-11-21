@@ -11,6 +11,30 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Link } from 'wouter';
 import { isUnauthorizedError } from '@/lib/authUtils';
 
+type CourseRecord = {
+  id: number;
+  title: string;
+  description: string;
+  level: string;
+  duration: number;
+  lessonCount: number;
+  imageUrl?: string;
+  rating: number;
+  reviewCount: number;
+  price: number;
+  isFree: boolean;
+};
+
+type EnrollmentRecord = {
+  id: number;
+  userId: number;
+  courseId: number;
+  progress: number;
+  course: CourseRecord;
+  enrolledAt?: string;
+  completedAt?: string | null;
+};
+
 export default function Dashboard() {
   const { user, isAuthenticated, isLoading } = useAuth();
   const { toast } = useToast();
@@ -31,13 +55,13 @@ export default function Dashboard() {
     }
   }, [isAuthenticated, isLoading, toast]);
 
-  const { data: enrollments = [], isLoading: enrollmentsLoading } = useQuery({
+  const { data: enrollments = [], isLoading: enrollmentsLoading } = useQuery<EnrollmentRecord[]>({
     queryKey: ['/api/enrollments'],
     enabled: isAuthenticated,
     retry: false,
   });
 
-  const { data: courses = [], isLoading: coursesLoading } = useQuery({
+  const { data: courses = [], isLoading: coursesLoading } = useQuery<CourseRecord[]>({
     queryKey: ['/api/courses'],
     enabled: isAuthenticated,
     retry: false,
@@ -240,7 +264,7 @@ export default function Dashboard() {
               <CardContent className="p-0 space-y-3">
                 <p className="text-sm uppercase tracking-[0.4em] text-white/60">Need help?</p>
                 <h3 className="text-2xl font-semibold">Your coach is one tap away.</h3>
-                <p className="text-white/70">Chat with the Hu-jambo success team for schedule changes, lesson blockers or cultural questions.</p>
+                <p className="text-white/70">Chat with the Biblical Financial Courses success team for schedule changes, lesson blockers or cultural questions.</p>
                 <Button className="rounded-full bg-white text-slate-900 hover:bg-slate-100" onClick={() => (window.location.href = '/contact')}>
                   Message support
                 </Button>

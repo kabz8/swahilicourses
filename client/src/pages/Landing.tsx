@@ -93,7 +93,7 @@ export default function Landing() {
   ];
 
   const testimonials = [
-    { name: 'Amina', role: 'NGO Coordinator', quote: 'We onboard every East Africa field team through Hu-jambo. The cultural briefings are gold.' },
+    { name: 'Amina', role: 'NGO Coordinator', quote: 'We onboard every global field team through Biblical Financial Courses. The cultural briefings are gold.' },
     { name: 'Kevin', role: 'Student', quote: 'The dashboard streaks and live circles kept me consistent during finals week.' },
     { name: 'Grace', role: 'Mission Worker', quote: 'Pronunciation studio finally helped me sound natural during prayer meetings.' },
   ];
@@ -125,7 +125,7 @@ export default function Landing() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Hero */}
       <section className="relative overflow-hidden bg-slate-900 text-white">
-        <img src={heroBanner} alt="Hu-jambo cohort" className="absolute inset-0 h-full w-full object-cover opacity-60" />
+        <img src={heroBanner} alt="Biblical Financial Courses cohort" className="absolute inset-0 h-full w-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-slate-950/80" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
