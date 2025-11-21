@@ -164,7 +164,7 @@ export default function Dashboard() {
                   <CardContent className="p-0 space-y-4">
                     <BookOpen className="h-12 w-12 text-slate-400 mx-auto" />
                     <h3 className="text-xl font-semibold text-slate-900 dark:text-white">No courses enrolled yet</h3>
-                    <p className="text-slate-500 dark:text-slate-400">Start your Biblical financial learning journey today!</p>
+                    <p className="text-slate-500 dark:text-slate-400">Start your Kiswahili learning journey today!</p>
                     <Button onClick={() => (window.location.href = '/courses')}>Browse Courses</Button>
                   </CardContent>
                 </Card>
@@ -240,7 +240,7 @@ export default function Dashboard() {
               <CardContent className="p-0 space-y-3">
                 <p className="text-sm uppercase tracking-[0.4em] text-white/60">Need help?</p>
                 <h3 className="text-2xl font-semibold">Your coach is one tap away.</h3>
-                <p className="text-white/70">Chat with the BiblicalFinancialCourses support team for schedule changes, lesson blockers, or coaching questions.</p>
+                <p className="text-white/70">Chat with the Hu-jambo success team for schedule changes, lesson blockers or cultural questions.</p>
                 <Button className="rounded-full bg-white text-slate-900 hover:bg-slate-100" onClick={() => (window.location.href = '/contact')}>
                   Message support
                 </Button>

@@ -55,8 +55,8 @@ export default function About() {
             </div>
             <div className="order-1 lg:order-2">
               <img
-                src="https://images.unsplash.com/photo-1454165205744-3b78555e5572?w=1200"
-                alt="Global faith-based financial learning community"
+                src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600"
+                alt="East African cultural diversity and community"
                 className="rounded-xl shadow-lg w-full h-48 sm:h-64 lg:h-auto object-cover"
               />
             </div>

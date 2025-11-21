@@ -11,7 +11,7 @@ export function LanguageToggle() {
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="en">English</SelectItem>
-        <SelectItem value="sw">Global</SelectItem>
+        <SelectItem value="sw">Kiswahili</SelectItem>
       </SelectContent>
     </Select>
   );

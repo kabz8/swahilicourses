@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'wouter';
 import {
+  GraduationCap,
   Menu,
   X,
   ArrowUpRight,
@@ -9,7 +10,6 @@ import {
   Bell,
   PlayCircle,
   UserRound,
-  CircleDollarSign,
 } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -34,10 +34,33 @@ export function Layout({ children }: LayoutProps) {
   const queryClient = useQueryClient();
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'Programs', href: '/courses' },
-    { name: 'Resources', href: '/about' },
-    { name: 'Support', href: '/contact' },
+    { name: 'Platform', href: '/#platform' },
+    { name: 'Catalog', href: '/courses' },
+    { name: 'Solutions', href: '/about' },
+    { name: 'Pricing', href: '/contact' },
+  ];
+
+  const learningShortcuts = [
+    {
+      title: 'Dashboard',
+      description: 'Track your goals and streaks',
+      href: '/dashboard',
+    },
+    {
+      title: 'Course Catalog',
+      description: '150+ lessons & live labs',
+      href: '/courses',
+    },
+    {
+      title: 'Community',
+      description: 'Weekly practice squads',
+      href: '/about',
+    },
+    {
+      title: 'Support',
+      description: 'Guides, docs & chat',
+      href: '/contact',
+    },
   ];
 
   if (user?.role === 'admin' || user?.role === 'super_admin') {
@@ -52,10 +75,10 @@ export function Layout({ children }: LayoutProps) {
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-6 px-6 py-2 text-sm">
             <div className="flex items-center gap-3 text-white/80">
               <Sparkles className="h-4 w-4 text-amber-300" />
-              <p>BiblicalFinancialCourses.com · Faith-first financial learning for a global audience</p>
+              <p>Hu-jambo LMS · Cohort-based Kiswahili with live practice rooms</p>
             </div>
             <Link href="/courses" className="inline-flex items-center gap-1 font-semibold hover:text-white">
-              Explore programs
+              Explore catalog
               <ArrowUpRight className="h-4 w-4" />
             </Link>
           </div>
@@ -66,16 +89,11 @@ export function Layout({ children }: LayoutProps) {
             <div className="flex h-20 items-center justify-between gap-4">
               <div className="flex items-center">
                 <Link href="/" className="flex items-center">
-                  <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-amber-400 via-rose-500 to-indigo-600 shadow-lg">
-                    <CircleDollarSign className="h-6 w-6 text-white" />
-                    <span className="absolute inset-0 rounded-2xl border border-white/30" />
+                  <div className="relative flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-500 to-cyan-400 shadow-lg">
+                    <GraduationCap className="h-6 w-6 text-white" />
+                    <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-white"></span>
                   </div>
-                  <div className="ml-3 leading-tight">
-                    <span className="block text-xl font-semibold text-gray-900 dark:text-white">BiblicalFinancialCourses</span>
-                    <span className="text-xs uppercase tracking-[0.3em] text-gray-500 dark:text-gray-400">
-                      Stewardship learning network
-                    </span>
-                  </div>
+                  <span className="ml-3 text-xl font-semibold text-gray-900 dark:text-white">Hu-jambo LMS</span>
                 </Link>
               </div>
 
@@ -158,7 +176,7 @@ export function Layout({ children }: LayoutProps) {
                         size="sm"
                         className="rounded-full bg-gradient-to-r from-blue-500 via-indigo-500 to-cyan-500 text-white shadow-md"
                       >
-                        Get started
+                        Start free trial
                       </Button>
                     </Link>
                   </div>
@@ -257,24 +275,41 @@ export function Layout({ children }: LayoutProps) {
           )}
         </header>
 
+        <section className="border-b border-gray-100 bg-white/90 py-3 dark:border-white/5 dark:bg-gray-950/80">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex overflow-x-auto gap-3 scrollbar-none">
+              {learningShortcuts.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.href}
+                  className="min-w-[180px] rounded-2xl border border-gray-100 bg-white/80 px-4 py-3 text-sm text-gray-600 shadow-sm transition hover:border-blue-200 hover:bg-blue-50/70 dark:border-white/5 dark:bg-gray-900/70 dark:text-gray-300 dark:hover:border-blue-400 dark:hover:bg-gray-900"
+                >
+                  <p className="font-medium text-gray-900 dark:text-white">{item.title}</p>
+                  <p className="text-xs">{item.description}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <main className="relative z-10 flex-1 pb-20">{children}</main>
 
         <footer className="relative z-10 bg-slate-950 text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
             <div className="grid gap-6 rounded-3xl border border-white/10 bg-gradient-to-r from-blue-600/80 to-slate-900/90 p-6 shadow-2xl md:grid-cols-[2fr_1fr] md:p-10">
               <div>
-                <p className="text-sm uppercase tracking-[0.4em] text-blue-100">BiblicalFinancialCourses.com</p>
-                <h2 className="mt-4 text-3xl font-semibold leading-tight">Faith-fueled financial literacy for households, ministries, and teams everywhere.</h2>
+                <p className="text-sm uppercase tracking-[0.4em] text-blue-100">Hu-jambo LMS</p>
+                <h2 className="mt-4 text-3xl font-semibold leading-tight">African language mastery for modern teams & independent learners.</h2>
                 <p className="mt-2 text-blue-100">
-                  Blend on-demand lessons, live cohort coaching, stewardship templates, and certifications inside one LMS.
+                  Structured learning paths, live facilitator hours, downloadable lesson kits and certificates in a single operating system.
                 </p>
               </div>
               <div className="flex flex-col justify-center gap-3">
                 <Button className="rounded-full bg-white text-slate-900 hover:bg-slate-100" onClick={() => (window.location.href = '/courses')}>
-                  Browse programs
+                  Browse Catalog
                 </Button>
                 <Button variant="outline" className="rounded-full border-white/40 text-white hover:bg-white/10" onClick={() => (window.location.href = '/auth')}>
-                  Start free trial
+                  Start Free Trial
                 </Button>
               </div>
             </div>
@@ -283,25 +318,25 @@ export function Layout({ children }: LayoutProps) {
               <div>
                 <div className="flex items-center gap-3">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10">
-                    <CircleDollarSign className="h-6 w-6 text-white" />
+                    <GraduationCap className="h-6 w-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-sm uppercase tracking-[0.3em] text-white/70">Biblical Financial Courses</p>
+                    <p className="text-sm uppercase tracking-[0.3em] text-white/70">Hu-jambo</p>
                     <p className="text-lg font-semibold">Learning OS</p>
                   </div>
                 </div>
                 <p className="mt-4 text-sm text-gray-300">{t('footerDescription')}</p>
                 <div className="mt-4 flex items-center gap-3 text-xs uppercase tracking-[0.2em] text-white/60">
                   <ShieldCheck className="h-4 w-4" />
-                  Global data standards
+                  ISO-ready data handling
                 </div>
               </div>
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">Programs</p>
+                <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/60">Catalog</p>
                 <ul className="mt-4 space-y-2 text-sm text-gray-300">
-                  <li><a href="/courses?level=beginner" className="hover:text-white">Foundations Track</a></li>
-                  <li><a href="/courses?level=intermediate" className="hover:text-white">Leaders Cohort</a></li>
-                  <li><a href="/courses?level=advanced" className="hover:text-white">Advisor Certification</a></li>
+                  <li><a href="/courses?level=beginner" className="hover:text-white">Beginner track</a></li>
+                  <li><a href="/courses?level=intermediate" className="hover:text-white">Intermediate labs</a></li>
+                  <li><a href="/courses?level=advanced" className="hover:text-white">Professional fluency</a></li>
                 </ul>
               </div>
               <div>
@@ -309,7 +344,7 @@ export function Layout({ children }: LayoutProps) {
                 <ul className="mt-4 space-y-2 text-sm text-gray-300">
                   <li><a href="/about" className="hover:text-white">{t('aboutUs')}</a></li>
                   <li><a href="/contact" className="hover:text-white">{t('contactUs')}</a></li>
-                  <li><a href="/courses" className="hover:text-white">Success stories</a></li>
+                  <li><a href="/courses" className="hover:text-white">Live cohorts</a></li>
                 </ul>
               </div>
               <div>
@@ -317,15 +352,23 @@ export function Layout({ children }: LayoutProps) {
                 <ul className="mt-4 space-y-2 text-sm text-gray-300">
                   <li><a href="/privacy" className="hover:text-white">{t('privacyPolicy')}</a></li>
                   <li><a href="/terms" className="hover:text-white">{t('termsOfService')}</a></li>
-                  <li><a href="/contact" className="hover:text-white">Book a walkthrough</a></li>
+                  <li><a href="/contact" className="hover:text-white">Schedule a demo</a></li>
                 </ul>
               </div>
             </div>
 
             <div className="flex flex-col gap-4 border-t border-white/10 pt-6 text-center text-sm text-white/60 md:flex-row md:items-center md:justify-between">
-              <p>&copy; 2025 BiblicalFinancialCourses.com. {t('allRightsReserved')}.</p>
+              <div className="space-y-1">
+                <p>&copy; 2025 Hu-jambo. {t('allRightsReserved')}.</p>
+                <p>
+                  Designed and developed by{' '}
+                  <a href="https://milespace.co.ke" target="_blank" rel="noreferrer" className="text-blue-200 hover:text-white underline-offset-2">
+                    Milespace Group
+                  </a>
+                </p>
+              </div>
               <div className="flex items-center justify-center gap-4">
-                <span className="flex items-center gap-2"><UserRound className="h-4 w-4" /> Stewardship support 24/7</span>
+                <span className="flex items-center gap-2"><UserRound className="h-4 w-4" /> Cohort support 24/7</span>
                 <span className="flex items-center gap-2"><CircleHelp className="h-4 w-4" /> Knowledge base</span>
               </div>
             </div>

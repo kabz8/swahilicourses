@@ -248,7 +248,7 @@ export default function CourseView() {
                         <div>
                           <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Lesson {index + 1}</p>
                           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{lesson.title}</h3>
-                          <p className="text-sm text-slate-500 dark:text-slate-300">{lesson.description || 'Hands-on financial discipleship drill'}</p>
+                          <p className="text-sm text-slate-500 dark:text-slate-300">{lesson.description || 'Practical Kiswahili drill'}</p>
                         </div>
                       </div>
                       <div className="text-sm text-slate-500 dark:text-slate-300">
@@ -287,14 +287,14 @@ export default function CourseView() {
               </CardHeader>
               <CardContent className="p-0 space-y-3">
                 <div className="flex items-center gap-3">
-                  <img src="https://avatar.vercel.sh/bfc?size=100&text=BFC" alt="Biblical Financial Courses Instructor" className="h-12 w-12 rounded-full object-cover" />
+                  <img src="https://avatar.vercel.sh/hujambo?size=100&text=HJ" alt="Hu-jambo Instructor" className="h-12 w-12 rounded-full object-cover" />
                   <div>
-                    <p className="text-base font-semibold text-slate-900 dark:text-white">BFC Faculty Team</p>
+                    <p className="text-base font-semibold text-slate-900 dark:text-white">Hu-jambo Faculty</p>
                     <p className="text-sm text-slate-500 dark:text-slate-300">Lead coach</p>
                   </div>
                 </div>
                 <p className="text-sm text-slate-500 dark:text-slate-300">
-                  Learn with our teaching team focused on practical, Bible-centered money conversations for families, ministries, and advisory contexts.
+                  Learn with our teaching team focused on practical, conversational Kiswahili for field work, ministry and professional contexts.
                 </p>
               </CardContent>
             </Card>

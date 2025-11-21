@@ -250,7 +250,7 @@ export default function Courses() {
             <div>
               <h3 className="text-2xl font-semibold text-slate-900 dark:text-white">Need a custom track for your team?</h3>
               <p className="mt-2 text-slate-500 dark:text-slate-300">
-                We help ministries, nonprofits, and enterprises launch bespoke faith-driven financial programs with live facilitators, reporting, and certification.
+                We help NGOs, ministries and enterprises launch bespoke Kiswahili programs with live facilitators, reporting and certificates.
               </p>
               <div className="mt-4 flex flex-wrap gap-3">
                 <Button className="rounded-full" onClick={() => (window.location.href = '/contact')}>

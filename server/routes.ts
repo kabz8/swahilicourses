@@ -4,12 +4,14 @@ import { storage } from "./storage";
 import { setupAuth, isAuthenticated } from "./auth";
 import { scrypt, randomBytes, timingSafeEqual } from "crypto";
 import { promisify } from "util";
+import Stripe from "stripe";
 import { 
   insertNewsletterSchema,
   insertContactSubmissionSchema,
-  insertEnrollmentSchema,
   insertLessonProgressSchema,
-  User
+  User,
+  type InsertEnrollment,
+  type InsertPayment,
 } from "../shared/schema";
 import { z } from "zod";
 import { seedInitialData } from "./seedData";
@@ -17,10 +19,49 @@ import { fallbackCourses, fallbackLessons, fallbackCategories } from "./fallback
 
 const scryptAsync = promisify(scrypt);
 
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+const stripeCurrency = process.env.STRIPE_CURRENCY ?? "usd";
+const stripeClient = stripeSecretKey
+  ? new Stripe(stripeSecretKey, { apiVersion: "2024-06-20" })
+  : null;
+const stripeTestMode = !stripeClient;
+
+const paypalClientId = process.env.PAYPAL_CLIENT_ID;
+const paypalClientSecret = process.env.PAYPAL_CLIENT_SECRET;
+const paypalApiBase = process.env.PAYPAL_API_BASE ?? "https://api-m.sandbox.paypal.com";
+const paypalTestMode = !paypalClientId || !paypalClientSecret;
+
 async function hashPassword(password: string) {
   const salt = randomBytes(16).toString("hex");
   const buf = (await scryptAsync(password, salt, 64)) as Buffer;
   return `${buf.toString("hex")}.${salt}`;
+}
+
+const generateTestReference = (prefix: string) =>
+  `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2, 10)}`;
+
+async function getPaypalAccessToken() {
+  if (!paypalClientId || !paypalClientSecret) {
+    throw new Error("PayPal credentials missing");
+  }
+
+  const auth = Buffer.from(`${paypalClientId}:${paypalClientSecret}`).toString("base64");
+  const response = await fetch(`${paypalApiBase}/v1/oauth2/token`, {
+    method: "POST",
+    headers: {
+      Authorization: `Basic ${auth}`,
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: "grant_type=client_credentials",
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`Failed to obtain PayPal token: ${text}`);
+  }
+
+  const data = await response.json() as { access_token: string };
+  return data.access_token;
 }
 
 // Admin type definition for type safety
@@ -28,6 +69,53 @@ async function hashPassword(password: string) {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   setupAuth(app);
+
+  const findCourseById = async (courseId: number) => {
+    try {
+      const course = await storage.getCourse(courseId);
+      if (course) {
+        return course;
+      }
+    } catch (error) {
+      console.error("Database course lookup failed:", error);
+    }
+    return fallbackCourses.find((course) => course.id === courseId);
+  };
+
+  const ensureEnrollment = async (userId: number, courseId: number) => {
+    const existing = await storage.getUserEnrollments(userId);
+    const found = existing.find((enrollment) => enrollment.courseId === courseId);
+    if (found) {
+      return found;
+    }
+    const enrollmentPayload: InsertEnrollment = {
+      userId,
+      courseId,
+      enrolledAt: new Date(),
+      progress: 0,
+    };
+    return storage.enrollUserInCourse(enrollmentPayload);
+  };
+
+  const recordPayment = async (paymentData: InsertPayment) => {
+    try {
+      await storage.createPayment(paymentData);
+    } catch (error) {
+      console.warn("Skipping payment persistence:", error);
+    }
+  };
+
+  const updatePaymentRecord = async (reference: string | undefined, status: string) => {
+    if (!reference) return;
+    try {
+      const payment = await storage.getPaymentByStripeId(reference);
+      if (payment) {
+        await storage.updatePaymentStatus(payment.id, status);
+      }
+    } catch (error) {
+      console.warn("Unable to update payment status:", error);
+    }
+  };
 
   const filterFallbackCourses = (level?: string, category?: string) => {
     let data = fallbackCourses.filter((course) => course.isPublished);
@@ -142,12 +230,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/enrollments', isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.session.userId;
-      const enrollmentData = insertEnrollmentSchema.parse({
-        ...req.body,
-        userId,
-      });
-      
-      const enrollment = await storage.enrollUserInCourse(enrollmentData);
+      const courseId = parseInt(req.body.courseId);
+
+      if (Number.isNaN(courseId)) {
+        return res.status(400).json({ message: "Invalid course selection" });
+      }
+
+      const course = await findCourseById(courseId);
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+
+      const enrollment = await ensureEnrollment(userId, courseId);
       res.json(enrollment);
     } catch (error) {
       console.error("Error creating enrollment:", error);
@@ -224,20 +318,140 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Payment routes
   app.post('/api/create-payment-intent', isAuthenticated, async (req: any, res) => {
     try {
-      const { courseId, amount } = req.body;
-      
-      // Check if Stripe is configured
-      if (!process.env.STRIPE_SECRET_KEY) {
-        return res.status(503).json({ 
-          message: "Payment system not configured. Please add Stripe API keys." 
+      const userId = req.session.userId;
+      const courseId = parseInt(req.body.courseId);
+      const provider = (req.body.provider ?? 'stripe') as 'stripe' | 'paypal';
+
+      if (Number.isNaN(courseId)) {
+        return res.status(400).json({ message: "Invalid course selection" });
+      }
+
+      const course = await findCourseById(courseId);
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+
+      if (course.isFree) {
+        return res.status(400).json({ message: "This course is free. No payment required." });
+      }
+
+      const price = typeof course.price === "number" ? course.price : 0;
+      const centsAmount = Math.max(0, Math.round(price * 100));
+
+      if (provider === 'paypal') {
+        if (paypalTestMode) {
+          const testOrderId = generateTestReference("paypal");
+          await recordPayment({
+            userId,
+            courseId,
+            amount: price,
+            currency: "usd",
+            status: "pending",
+            stripePaymentIntentId: testOrderId,
+          });
+
+          return res.json({
+            provider: 'paypal',
+            orderId: testOrderId,
+            approvalUrl: 'https://example.com/paypal-test-approval',
+            testMode: true,
+          });
+        }
+
+        const accessToken = await getPaypalAccessToken();
+        const orderResponse = await fetch(`${paypalApiBase}/v2/checkout/orders`, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            intent: "CAPTURE",
+            purchase_units: [
+              {
+                reference_id: `${courseId}`,
+                amount: {
+                  currency_code: "USD",
+                  value: price.toFixed(2),
+                },
+              },
+            ],
+          }),
+        });
+
+        if (!orderResponse.ok) {
+          const text = await orderResponse.text();
+          return res.status(400).json({ message: `Failed to create PayPal order: ${text}` });
+        }
+
+        const orderData = await orderResponse.json();
+        const approvalLink =
+          orderData.links?.find((link: { rel: string }) => link.rel === "approve")?.href ?? null;
+
+        await recordPayment({
+          userId,
+          courseId,
+          amount: price,
+          currency: "usd",
+          status: orderData.status ?? "CREATED",
+          stripePaymentIntentId: orderData.id,
+        });
+
+        return res.json({
+          provider: 'paypal',
+          orderId: orderData.id,
+          approvalUrl: approvalLink,
+          testMode: false,
         });
       }
 
-      // TODO: Implement Stripe payment intent creation
-      // For now, return a placeholder response
-      res.json({ 
-        clientSecret: "placeholder_client_secret",
-        message: "Payment integration ready when Stripe keys are configured" 
+      if (stripeTestMode) {
+        const testIntentId = generateTestReference("pi_test");
+        await recordPayment({
+          userId,
+          courseId,
+          amount: price,
+          currency: stripeCurrency,
+          status: "requires_confirmation",
+          stripePaymentIntentId: testIntentId,
+        });
+
+        return res.json({
+          provider: 'stripe',
+          paymentIntentId: testIntentId,
+          clientSecret: `cs_test_${testIntentId}`,
+          testMode: true,
+        });
+      }
+
+      if (!stripeClient) {
+        return res.status(503).json({ message: "Stripe configuration missing" });
+      }
+
+      const intent = await stripeClient.paymentIntents.create({
+        amount: centsAmount,
+        currency: stripeCurrency,
+        metadata: {
+          userId: String(userId),
+          courseId: String(courseId),
+        },
+        automatic_payment_methods: { enabled: true },
+      });
+
+      await recordPayment({
+        userId,
+        courseId,
+        amount: price,
+        currency: intent.currency ?? stripeCurrency,
+        status: intent.status,
+        stripePaymentIntentId: intent.id,
+      });
+
+      res.json({
+        provider: 'stripe',
+        paymentIntentId: intent.id,
+        clientSecret: intent.client_secret,
+        testMode: false,
       });
     } catch (error) {
       console.error("Error creating payment intent:", error);
@@ -247,17 +461,68 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/payment-success', isAuthenticated, async (req: any, res) => {
     try {
-      const { courseId, paymentIntentId } = req.body;
       const userId = req.session.userId;
-      
-      // TODO: Verify payment with Stripe
-      // For now, just enroll the user in the course
-      const enrollment = await storage.enrollUserInCourse({
-        userId,
-        courseId,
-        enrolledAt: new Date()
-      });
-      
+      const courseId = parseInt(req.body.courseId);
+      const provider = (req.body.provider ?? 'stripe') as 'stripe' | 'paypal';
+      const paymentIntentId = req.body.paymentIntentId as string | undefined;
+      const paypalOrderId = req.body.paypalOrderId as string | undefined;
+
+      if (Number.isNaN(courseId)) {
+        return res.status(400).json({ message: "Invalid course selection" });
+      }
+
+      const course = await findCourseById(courseId);
+      if (!course) {
+        return res.status(404).json({ message: "Course not found" });
+      }
+
+      if (provider === 'paypal') {
+        const reference = paypalOrderId ?? paymentIntentId;
+        if (!reference) {
+          return res.status(400).json({ message: "Missing PayPal order reference" });
+        }
+
+        if (!paypalTestMode) {
+          const token = await getPaypalAccessToken();
+          const captureResponse = await fetch(`${paypalApiBase}/v2/checkout/orders/${reference}/capture`, {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!captureResponse.ok) {
+            const text = await captureResponse.text();
+            return res.status(400).json({ message: `Unable to capture PayPal order: ${text}` });
+          }
+        }
+
+        await updatePaymentRecord(reference, "succeeded");
+        const enrollment = await ensureEnrollment(userId, courseId);
+        return res.json({ enrollment });
+      }
+
+      if (!stripeTestMode) {
+        if (!stripeClient) {
+          return res.status(503).json({ message: "Stripe configuration missing" });
+        }
+
+        if (!paymentIntentId) {
+          return res.status(400).json({ message: "Payment intent missing" });
+        }
+
+        const intent = await stripeClient.paymentIntents.retrieve(paymentIntentId);
+        if (intent.status !== "succeeded") {
+          return res.status(400).json({ message: "Payment not completed" });
+        }
+      }
+
+      if (paymentIntentId) {
+        await updatePaymentRecord(paymentIntentId, "succeeded");
+      }
+
+      const enrollment = await ensureEnrollment(userId, courseId);
       res.json({ enrollment });
     } catch (error) {
       console.error("Error processing payment success:", error);
