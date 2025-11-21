@@ -168,223 +168,154 @@ export default function CourseView() {
   const defaultImage = courseImage;
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Course Header */}
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden mb-8">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-10">
+        <section className="rounded-3xl border border-slate-200 bg-white shadow-2xl overflow-hidden dark:border-slate-800 dark:bg-slate-900">
           <div className="relative">
-            <img 
-              src={course.imageUrl || defaultImage}
-              alt={course.title}
-              className="w-full h-64 object-cover"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6">
-              <div className="flex items-center gap-2 mb-2">
-                <Badge className={levelColors[course.level] || levelColors.beginner}>
-                  {t(`courses.${course.level}`)}
-                </Badge>
-                <div className="flex items-center text-white">
+            <img src={course.imageUrl || defaultImage} alt={course.title} className="w-full h-64 object-cover" />
+            <div className="absolute inset-0 bg-gradient-to-r from-slate-950/90 via-slate-900/70 to-transparent" />
+            <div className="relative z-10 px-6 py-10 space-y-4 text-white max-w-3xl">
+              <div className="flex flex-wrap items-center gap-3">
+                <Badge className={levelColors[course.level] || levelColors.beginner}>{t(`courses.${course.level}`)}</Badge>
+                <div className="flex items-center text-white/80">
                   <Star className="h-4 w-4 fill-yellow-400 text-yellow-400 mr-1" />
-                  <span className="text-sm">{course.rating} ({course.reviewCount} reviews)</span>
+                  <span>{course.rating} ({course.reviewCount} reviews)</span>
                 </div>
               </div>
-              <h1 className="text-3xl font-bold text-white mb-2">{course.title}</h1>
-              <p className="text-gray-200 text-lg">{course.description}</p>
+              <h1 className="text-4xl font-semibold">{course.title}</h1>
+              <p className="text-white/80 text-lg">{course.description}</p>
             </div>
           </div>
-          
-          <div className="p-6">
-            <div className="flex flex-wrap items-center gap-6 mb-6">
-              <div className="flex items-center text-gray-600 dark:text-gray-400">
-                <BookOpen className="h-5 w-5 mr-2" />
-                <span>{course.lessonCount} lessons</span>
-              </div>
-              <div className="flex items-center text-gray-600 dark:text-gray-400">
-                <Clock className="h-5 w-5 mr-2" />
-                <span>{course.duration} minutes</span>
-              </div>
-              <div className="flex items-center text-gray-600 dark:text-gray-400">
-                <Users className="h-5 w-5 mr-2" />
-                <span>All levels</span>
-              </div>
+          <div className="p-6 space-y-6">
+            <div className="flex flex-wrap gap-4 text-slate-500 dark:text-slate-300">
+              <span className="flex items-center gap-2 text-sm font-medium">
+                <BookOpen className="h-4 w-4 text-blue-500" />
+                {course.lessonCount} lessons
+              </span>
+              <span className="flex items-center gap-2 text-sm font-medium">
+                <Clock className="h-4 w-4 text-emerald-500" />
+                {course.duration} minutes total
+              </span>
+              <span className="flex items-center gap-2 text-sm font-medium">
+                <Users className="h-4 w-4 text-purple-500" />
+                Live labs + downloadable kits
+              </span>
             </div>
-
             {isEnrolled ? (
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-blue-900 dark:text-blue-200">
-                    Your Progress
-                  </span>
-                  <span className="text-sm text-blue-700 dark:text-blue-300">
-                    {Math.round(courseEnrollment?.progress || 0)}% Complete
-                  </span>
+              <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-4 dark:border-emerald-400/30 dark:bg-emerald-500/10">
+                <div className="flex items-center justify-between text-sm font-semibold text-emerald-700 dark:text-emerald-200">
+                  <span>Your progress</span>
+                  <span>{Math.round(courseEnrollment?.progress || 0)}% complete</span>
                 </div>
-                <ProgressBar progress={courseEnrollment?.progress || 0} />
+                <div className="mt-2 h-2 rounded-full bg-emerald-100 dark:bg-emerald-900">
+                  <div className="h-2 rounded-full bg-emerald-500 dark:bg-emerald-300" style={{ width: `${courseEnrollment?.progress || 0}%` }} />
+                </div>
               </div>
             ) : (
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                  <p className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
-                    Ready to start learning?
-                  </p>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    Enroll now to access all lessons and track your progress
-                  </p>
+                  <p className="text-xl font-semibold text-slate-900 dark:text-white">Ready to start learning?</p>
+                  <p className="text-slate-500 dark:text-slate-300">Enroll to unlock lessons, live labs and certification tracking.</p>
                 </div>
-                <Button
-                  onClick={handleEnroll}
-                  disabled={enrollMutation.isPending}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3"
-                >
-                  {enrollMutation.isPending ? 'Enrolling...' : (isAuthenticated ? t('courses.enroll') : 'Sign Up to Enroll')}
+                <Button className="rounded-full px-8" onClick={handleEnroll} disabled={enrollMutation.isPending}>
+                  {enrollMutation.isPending ? 'Enrolling...' : (isAuthenticated ? t('courses.enroll') : 'Sign up to enroll')}
                 </Button>
               </div>
             )}
           </div>
-        </div>
+        </section>
 
-        {/* Course Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Lessons List */}
-          <div className="lg:col-span-2">
-            <Card>
+        <section className="grid gap-8 lg:grid-cols-[1.7fr_0.9fr]">
+          <div className="space-y-5">
+            <Card className="rounded-3xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900">
               <CardHeader>
-                <CardTitle className="text-xl font-bold text-gray-900 dark:text-white">
-                  Course Lessons
-                </CardTitle>
+                <CardTitle className="text-xl">Lesson journey</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {lessons.map((lesson, index) => (
-                    <div
-                      key={lesson.id}
-                      className={`flex items-center p-4 rounded-lg border transition-colors cursor-pointer ${
-                        isEnrolled
-                          ? 'hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-600'
-                          : 'border-gray-200 dark:border-gray-600 opacity-75'
-                      }`}
-                      onClick={() => handleLessonClick(lesson)}
-                    >
-                      <div className="flex-shrink-0 mr-4">
-                        {isEnrolled ? (
-                          <div className="w-10 h-10 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
-                            <Play className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-                          </div>
-                        ) : (
-                          <div className="w-10 h-10 bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                            <Lock className="h-5 w-5 text-gray-400" />
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-1">
-                          <h3 className="text-lg font-medium text-gray-900 dark:text-white">
-                            {index + 1}. {lesson.title}
-                          </h3>
-                          <span className="text-sm text-gray-500 dark:text-gray-400">
-                            {Math.floor(lesson.duration / 60)}:{(lesson.duration % 60).toString().padStart(2, '0')}
-                          </span>
+              <CardContent className="space-y-4">
+                {lessons.map((lesson, index) => (
+                  <button
+                    key={lesson.id}
+                    onClick={() => handleLessonClick(lesson)}
+                    className={`w-full rounded-2xl border p-4 text-left transition ${
+                      isEnrolled ? 'border-slate-200 hover:border-slate-400 dark:border-slate-800 dark:hover:border-slate-600' : 'border-dashed border-slate-200 opacity-70 dark:border-slate-800'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <span className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-white">
+                          {isEnrolled ? <Play className="h-4 w-4" /> : <Lock className="h-4 w-4" />}
+                        </span>
+                        <div>
+                          <p className="text-sm uppercase tracking-[0.3em] text-slate-400">Lesson {index + 1}</p>
+                          <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{lesson.title}</h3>
+                          <p className="text-sm text-slate-500 dark:text-slate-300">{lesson.description || 'Practical Kiswahili drill'}</p>
                         </div>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
-                          {lesson.description || 'Learn essential Kiswahili concepts and vocabulary'}
-                        </p>
                       </div>
-                      
-                      {isEnrolled && (
-                        <div className="flex-shrink-0 ml-4">
-                          <CheckCircle className="h-5 w-5 text-green-500" />
-                        </div>
-                      )}
+                      <div className="text-sm text-slate-500 dark:text-slate-300">
+                        {Math.floor(lesson.duration / 60)}:{(lesson.duration % 60).toString().padStart(2, '0')}
+                      </div>
                     </div>
-                  ))}
-                </div>
+                  </button>
+                ))}
               </CardContent>
             </Card>
           </div>
 
-          {/* Course Info Sidebar */}
           <div className="space-y-6">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg font-bold text-gray-900 dark:text-white">
-                  Course Information
-                </CardTitle>
+            <Card className="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+              <CardHeader className="p-0 mb-4">
+                <CardTitle className="text-lg">What you'll practice</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white mb-2">What you'll learn</h4>
-                  <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
-                    <li className="flex items-start">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      Basic Kiswahili greetings and expressions
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      Essential vocabulary for daily conversations
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      Proper pronunciation and intonation
-                    </li>
-                    <li className="flex items-start">
-                      <CheckCircle className="h-4 w-4 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
-                      Cultural context and usage
-                    </li>
-                  </ul>
-                </div>
-
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white mb-2">Prerequisites</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    No prior experience required. Perfect for beginners!
-                  </p>
-                </div>
-
-                <div>
-                  <h4 className="font-medium text-gray-900 dark:text-white mb-2">Certificate</h4>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    Earn a certificate upon completion of all lessons
-                  </p>
-                </div>
+              <CardContent className="p-0 space-y-3">
+                {[
+                  'Conversational openings & greetings',
+                  'Essential vocabulary for daily interactions',
+                  'Pronunciation, tone and emphasis drills',
+                  'Cultural context, idioms and etiquette',
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-3 text-sm text-slate-600 dark:text-slate-300">
+                    <CheckCircle className="h-4 w-4 text-emerald-500 mt-1" />
+                    {item}
+                  </div>
+                ))}
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg font-bold text-gray-900 dark:text-white">
-                  Instructor
-                </CardTitle>
+            <Card className="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+              <CardHeader className="p-0 mb-4">
+                <CardTitle className="text-lg">Instructor</CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="flex items-center mb-3">
-                  <img
-                    src="https://avatar.vercel.sh/hujambo?size=100&text=HJ"
-                    alt="Hu-jambo Instructor"
-                    className="w-12 h-12 rounded-full object-cover mr-3"
-                  />
+              <CardContent className="p-0 space-y-3">
+                <div className="flex items-center gap-3">
+                  <img src="https://avatar.vercel.sh/hujambo?size=100&text=HJ" alt="Hu-jambo Instructor" className="h-12 w-12 rounded-full object-cover" />
                   <div>
-                    <h4 className="font-medium text-gray-900 dark:text-white">Hu-jambo Instructor</h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">Instructor</p>
+                    <p className="text-base font-semibold text-slate-900 dark:text-white">Hu-jambo Faculty</p>
+                    <p className="text-sm text-slate-500 dark:text-slate-300">Lead coach</p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Learn with our Hu-jambo teaching team focused on practical, conversational Kiswahili for everyday life.
+                <p className="text-sm text-slate-500 dark:text-slate-300">
+                  Learn with our teaching team focused on practical, conversational Kiswahili for field work, ministry and professional contexts.
                 </p>
               </CardContent>
             </Card>
+
+            <Card className="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
+              <CardHeader className="p-0 mb-4">
+                <CardTitle className="text-lg">Included resources</CardTitle>
+              </CardHeader>
+              <CardContent className="p-0 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+                <p>• PDF lesson kit & pronunciation cheat sheet</p>
+                <p>• Audio drills for offline practice</p>
+                <p>• Live facilitator hours + community forum</p>
+                <p>• Completion certificate + badge</p>
+              </CardContent>
+            </Card>
           </div>
-        </div>
+        </section>
       </div>
 
-      {/* Course Player Modal */}
       {isPlayerOpen && selectedLesson && (
-        <CoursePlayer
-          lesson={selectedLesson}
-          onClose={() => setIsPlayerOpen(false)}
-          onProgressUpdate={(progress) => handleProgressUpdate(selectedLesson.id, progress)}
-        />
+        <CoursePlayer lesson={selectedLesson} onClose={() => setIsPlayerOpen(false)} onProgressUpdate={(progress) => handleProgressUpdate(selectedLesson.id, progress)} />
       )}
     </div>
   );
