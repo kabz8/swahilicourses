@@ -35,7 +35,7 @@ export function Layout({ children }: LayoutProps) {
 
   const navLinks = [
     { name: 'Platform', href: '/#platform' },
-    { name: 'Catalog', href: '/courses' },
+    { name: 'Courses', href: '/courses' },
     { name: 'Solutions', href: '/about' },
     { name: 'Pricing', href: '/contact' },
   ];
