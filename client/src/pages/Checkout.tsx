@@ -68,7 +68,7 @@ function StripePaymentForm({ course, isProcessing, setIsProcessing, onSuccess, t
         payment_method: {
           card: cardElement,
           billing_details: {
-            name: userName || 'Biblical Financial Courses learner',
+            name: userName || 'Hu-jambo.com learner',
           },
         },
       });

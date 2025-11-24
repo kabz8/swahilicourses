@@ -75,7 +75,7 @@ export function Layout({ children }: LayoutProps) {
           <div className="max-w-7xl mx-auto flex items-center justify-between gap-6 px-6 py-2 text-sm">
             <div className="flex items-center gap-3 text-white/80">
               <Sparkles className="h-4 w-4 text-amber-300" />
-              <p>Biblical Financial Courses · Cohort-based Kiswahili with live practice rooms</p>
+              <p>Hu-jambo.com · Cohort-based Kiswahili with live practice rooms</p>
             </div>
             <Link href="/courses" className="inline-flex items-center gap-1 font-semibold hover:text-white">
               Explore catalog
@@ -93,7 +93,7 @@ export function Layout({ children }: LayoutProps) {
                     <GraduationCap className="h-6 w-6 text-white" />
                     <span className="absolute -right-1 -top-1 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-white"></span>
                   </div>
-                  <span className="ml-3 text-xl font-semibold text-gray-900 dark:text-white">Biblical Financial Courses</span>
+                  <span className="ml-3 text-xl font-semibold text-gray-900 dark:text-white">Hu-jambo.com</span>
                 </Link>
               </div>
 
@@ -298,7 +298,7 @@ export function Layout({ children }: LayoutProps) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-10">
             <div className="grid gap-6 rounded-3xl border border-white/10 bg-gradient-to-r from-blue-600/80 to-slate-900/90 p-6 shadow-2xl md:grid-cols-[2fr_1fr] md:p-10">
               <div>
-                <p className="text-sm uppercase tracking-[0.4em] text-blue-100">Biblical Financial Courses</p>
+                <p className="text-sm uppercase tracking-[0.4em] text-blue-100">Hu-jambo.com</p>
                 <h2 className="mt-4 text-3xl font-semibold leading-tight">Immersive Kiswahili mastery for modern teams & independent learners.</h2>
                 <p className="mt-2 text-blue-100">
                   Structured learning paths, live facilitator hours, downloadable lesson kits and certificates in a single operating system.
@@ -321,7 +321,7 @@ export function Layout({ children }: LayoutProps) {
                       <GraduationCap className="h-6 w-6 text-white" />
                     </div>
                     <div>
-                      <p className="text-sm uppercase tracking-[0.3em] text-white/70">Biblical Financial Courses</p>
+                      <p className="text-sm uppercase tracking-[0.3em] text-white/70">Hu-jambo.com</p>
                       <p className="text-lg font-semibold">Learning OS</p>
                     </div>
                   </div>
@@ -358,15 +358,7 @@ export function Layout({ children }: LayoutProps) {
             </div>
 
             <div className="flex flex-col gap-4 border-t border-white/10 pt-6 text-center text-sm text-white/60 md:flex-row md:items-center md:justify-between">
-              <div className="space-y-1">
-                <p>&copy; 2025 Biblical Financial Courses. {t('allRightsReserved')}.</p>
-                <p>
-                  Designed and developed by{' '}
-                  <a href="https://milespace.co.ke" target="_blank" rel="noreferrer" className="text-blue-200 hover:text-white underline-offset-2">
-                    Milespace Group
-                  </a>
-                </p>
-              </div>
+              <p>&copy; 2025 Hu-jambo.com. {t('allRightsReserved')}.</p>
               <div className="flex items-center justify-center gap-4">
                 <span className="flex items-center gap-2"><UserRound className="h-4 w-4" /> Cohort support 24/7</span>
                 <span className="flex items-center gap-2"><CircleHelp className="h-4 w-4" /> Knowledge base</span>

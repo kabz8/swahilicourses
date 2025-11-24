@@ -93,7 +93,7 @@ export default function Landing() {
   ];
 
   const testimonials = [
-    { name: 'Amina', role: 'NGO Coordinator', quote: 'We onboard every global field team through Biblical Financial Courses. The cultural briefings are gold.' },
+    { name: 'Amina', role: 'NGO Coordinator', quote: 'We onboard every global field team through Hu-jambo.com. The cultural briefings are gold.' },
     { name: 'Kevin', role: 'Student', quote: 'The dashboard streaks and live circles kept me consistent during finals week.' },
     { name: 'Grace', role: 'Mission Worker', quote: 'Pronunciation studio finally helped me sound natural during prayer meetings.' },
   ];
@@ -125,7 +125,7 @@ export default function Landing() {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950">
       {/* Hero */}
       <section className="relative overflow-hidden bg-slate-900 text-white">
-        <img src={heroBanner} alt="Biblical Financial Courses cohort" className="absolute inset-0 h-full w-full object-cover opacity-60" />
+            <img src={heroBanner} alt="Hu-jambo.com cohort" className="absolute inset-0 h-full w-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-slate-950/80" />
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr]">
@@ -172,7 +172,7 @@ export default function Landing() {
                   </div>
                   <div className="space-y-3 text-sm text-slate-500 dark:text-slate-300">
                     <div className="flex justify-between">
-                      <span>Daily streak</span>
+                    <span>Daily streak</span>
                       <span className="font-medium text-slate-900 dark:text-white">14 days</span>
                     </div>
                     <div className="flex justify-between">
@@ -202,7 +202,7 @@ export default function Landing() {
                   <div className="flex justify-between text-sm text-slate-500 dark:text-slate-300">
                     <span>Starts</span>
                     <span className="font-semibold text-slate-900 dark:text-white">Thursday · 18:00 EAT</span>
-                  </div>
+                </div>
                   <Button className="rounded-full" onClick={() => (window.location.href = '/dashboard')}>
                     Manage schedule
                   </Button>
@@ -261,7 +261,7 @@ export default function Landing() {
       <section className="py-12 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div>
+                <div>
               <p className="text-sm uppercase tracking-[0.4em] text-slate-500">How it works</p>
               <h2 className="mt-2 text-3xl font-semibold text-slate-900 dark:text-white">From placement to certificate in four guided stages.</h2>
             </div>
@@ -273,7 +273,7 @@ export default function Landing() {
                 Join next cohort
               </Button>
             </div>
-          </div>
+                </div>
           <div className="grid gap-4 md:grid-cols-4">
             {journeySteps.map((step, index) => (
               <div key={step.title} className="rounded-3xl border border-slate-200 bg-white p-6 dark:border-slate-800 dark:bg-slate-900">
@@ -347,22 +347,22 @@ export default function Landing() {
       {/* Video teaser */}
       <section className="py-12 sm:py-16 bg-white dark:bg-slate-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-10 lg:grid-cols-2 items-center">
-          <div>
+            <div>
             <h2 className="text-3xl font-semibold text-slate-900 dark:text-white">See the learning experience.</h2>
             <p className="mt-3 text-slate-600 dark:text-slate-300">Preview how our micro lessons, drills and labs flow together for busy learners.</p>
             <ul className="mt-4 space-y-3 text-slate-600 dark:text-slate-300">
               <li className="flex items-center gap-2"><Shield className="h-4 w-4 text-emerald-500" /> Structured, step-by-step lessons</li>
               <li className="flex items-center gap-2"><Clock className="h-4 w-4 text-blue-500" /> 5–10 minute sessions</li>
               <li className="flex items-center gap-2"><Star className="h-4 w-4 text-yellow-500" /> Real-world scenarios</li>
-            </ul>
-          </div>
-          <div className="relative">
+              </ul>
+            </div>
+            <div className="relative">
             <img src={previewImage} alt="Video preview" className="w-full rounded-2xl shadow-2xl" />
-            <button onClick={() => (window.location.href = '/courses')} className="absolute inset-0 flex items-center justify-center">
+              <button onClick={() => (window.location.href = '/courses')} className="absolute inset-0 flex items-center justify-center">
               <span className="inline-flex items-center gap-2 rounded-full bg-white/90 px-4 py-2 text-slate-900 shadow hover-lift dark:bg-slate-900/80 dark:text-white">
                 <PlayCircle className="h-6 w-6 text-blue-600" /> Watch preview
-              </span>
-            </button>
+                </span>
+              </button>
           </div>
         </div>
       </section>
@@ -409,8 +409,8 @@ export default function Landing() {
                 onChange={(e) => setEmail(e.target.value)}
                 className="h-12 flex-1 rounded-full border-slate-200 bg-slate-50 text-slate-900 placeholder:text-slate-400 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
               />
-              <Button
-                type="submit"
+              <Button 
+                type="submit" 
                 disabled={isSubscribing}
                 className="h-12 rounded-full bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900"
               >
